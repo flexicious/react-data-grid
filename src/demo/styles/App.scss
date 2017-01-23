@@ -1,0 +1,1066 @@
+/* Base Application Styles */
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
+
+/* ==========  Select Field Variables ========== */
+$color-black: "0,0,0";
+$select-background-color: transparent;
+$select-border-color: unquote("rgba(#{$color-black}, 0.12)") !default;
+$select-font-size: 16px;
+$select-color: unquote("rgba(#{$color-black}, 0.26)") !default;
+$select-padding: 4px;
+$color: #cccccc;
+
+
+   
+.flexiciousGrid input::-webkit-input-placeholder, button {
+  font-family: 'roboto', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+.flexiciousGrid input, select {
+  border: none;
+  border-bottom: solid 1px $color;
+  transition: all 0.3s cubic-bezier(.64,.09,.08,1);
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 96%, $color 4%);
+  background-position: -200px 0;
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  &:focus{
+    box-shadow: none;
+    outline: none;
+    background-position: 0 0;
+    &::-webkit-input-placeholder {
+      color: $color;
+      font-size: 11px;
+      transform: translateY(-20px);
+      visibility: visible !important;
+    }
+  }
+}
+.flexiciousGrid .editor{
+    background: #FFF;
+}
+/* Remove focus */
+.flexiciousGrid select:focus {
+  outline: none}
+
+/* Hide label */
+.flexiciousGrid .mdl-selectfield label {display: none;}
+/* Use custom arrow */
+.flexiciousGrid .mdl-selectfield {
+  font-family: 'Roboto','Helvetica','Arial',sans-serif;
+  position: relative;
+    &:after {
+        position: absolute;
+        top: 0.75em;
+        right: 0.5em;
+        /* Styling the down arrow */
+        width: 0;
+        height: 0;
+        padding: 0;
+        content: '';
+        border-left: .25em solid transparent;
+        border-right: .25em solid transparent;
+        border-top: .375em solid $select-border-color;
+        pointer-events: none;
+    }
+}
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #eeeeee;
+}
+
+.nav-link {
+  text-decoration: underline;
+}
+
+.page-content {
+  padding: 20px 40px;
+}
+
+.page-title {
+  max-width: 1400px;
+}
+
+
+
+
+
+.flexiciousGrid{
+    font-family: 'Roboto', 'Noto', sans-serif;
+}
+.flexiciousGrid .flexDataGrid{
+    position: relative;
+}
+.flexiciousGrid .selectedCell{
+    /*font-weight: bold;*/
+}
+
+/*.flexiciousGridPager .pagerDiv  {
+    vertical-align: top;
+}*/
+.flexiciousGridPager .toolbarButtonIconCell {
+    cursor: pointer;
+}
+.flexiciousGridPager .iconCell{
+    margin: 2px;
+    padding: 2px;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+    height:36px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+
+    cursor: default;
+    box-sizing : content-box;
+    -moz-box-sizing : content-box;
+    -webkit-box-sizing : content-box;
+    -ms-box-sizing : content-box;
+}
+.flexiciousGridPager .iconCell:hover {
+    background: #afafaf;
+    border: solid 1px #2A4D77;
+    text-decoration: none;
+    cursor: default;
+}
+.flexiciousGridPager .iconCell:active {
+    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    background: #afafaf;
+    border: solid 1px #213E5F;
+    cursor: default;
+}
+.flexiciousGridPager .disabled{
+    cursor: not-allowed;
+
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+.flexiciousGridPager .iconCell img{
+     border: solid 1px transparent;
+}
+.flexiciousGridPager .iconCell {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.flexiciousGridPager .pageInfo {
+    width: 220px;
+    display:inline-block;
+   /* padding-top:0.5%;*/
+   /* vertical-align: middle;*/
+    height:100%;
+}
+.flexiciousGridPager .lineSep {
+
+
+    border-left:thin solid #cccccc;
+    width:1px;
+    display:inline-block;
+   /* margin-top:4px;*/
+    height:70%;
+    margin-left:3px;
+    margin-right:3px;
+    vertical-align: middle;
+}
+
+.flexiciousGridPager .gotoPage {
+    display:inline-block;
+    /*padding-top:0.5%;*/
+}
+.flexiciousGrid .normalWhiteSpace{
+    white-space: normal;
+}
+
+.flexiciousGrid .pagerTable{
+    padding-left: 2px;
+
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+.flexiciousGrid td{
+    cursor:default;
+}
+.flexiciousGrid input{
+    overflow: hidden;
+    white-space: nowrap;
+    cursor:default;
+}
+
+.flexiciousGrid .TextInput{
+
+    position:relative;
+}
+
+.flexiciousGrid .disclosureIcon{
+    position: absolute;
+    cursor: pointer;
+}
+.flexiciousGrid .columnIcon{
+    position: absolute;
+    cursor: pointer;
+}
+
+
+.flexiciousGrid .matchStick{
+    position:absolute;top:0px;left:0px;width:1px;height:1px;
+}
+.flexiciousGrid .editor{
+    position:absolute;
+}
+.flexiciousGrid .multiColumnSortNumberStyle{
+    font-size: 10pt;
+}
+
+
+
+/*=============controls===================*/
+.flexiciousGrid .iconTextInput span {
+    position: relative;
+}
+.flexiciousGrid .watermarkStyle{
+    color:#bbbbbb;
+    font-style:italic;
+}
+
+.flexiciousGrid .inputIcon{
+    position: absolute;
+    display: block;
+    cursor: pointer;
+}
+.flexiciousGrid .unSelectableText {
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.flexiciousUnSelectableText {
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor:default;
+}
+
+/*=============checkbox icons===================*/
+.flexiciousGrid .checkBox{
+    background: url('images/checkboxicons/unchecked_checkbox.png')  no-repeat ;
+    padding-left: 20px;
+    display: block;
+    height: 25px;
+}
+.flexiciousGrid .checkBoxDisabled{
+    background: url('images/checkboxicons/unchecked_checkbox.png')  no-repeat ;
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+    padding-left: 20px;
+    display: block;
+    height: 25px;
+}
+.flexiciousGrid .checkBoxSelected{
+    background: url('images/checkboxicons/checked_checkbox.png')  no-repeat ;
+    padding-left: 20px;
+    display: block;
+    height: 25px;
+}
+.flexiciousGrid .checkBoxSelectedDisabled{
+    background: url('images/checkboxicons/checked_checkbox.png')  no-repeat ;
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+    padding-left: 20px;
+    display: block;
+    height: 25px;
+}
+
+.flexiciousGrid .checkBoxMiddle{
+    background: url('images/checkboxicons/partially_selected_checkbox.png')  no-repeat ;
+    padding-left: 20px;
+    display: block;
+    height: 25px;
+}
+
+.flexiciousGrid .checkBoxMiddleDisabled{
+    background: url('images/checkboxicons/partially_selected_checkbox.png')  no-repeat ;
+    padding-left: 20px;
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+    display: block;
+    height: 25px;
+}
+.flexiciousGrid .radio{
+    background: url('images/checkboxicons/radio_button_unselected.png')  no-repeat ;
+}
+.flexiciousGrid .radioDisabled{
+    background: url('images/checkboxicons/radio_button_unselected.png')  no-repeat ;
+    padding-left: 20px;
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+.flexiciousGrid .radioSelected{
+    background: url('images/checkboxicons/radio_button_selected.png')  no-repeat ;
+    padding-left: 20px;
+}
+.flexiciousGrid .radioSelectedDisabled{
+    background: url('images/checkboxicons/radio_button_selected.png')  no-repeat ;
+    padding-left: 20px;
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+
+/*=============sort icons===================*/
+.flexiciousGrid .sortIcon {
+    position:absolute;
+}
+.flexiciousGrid .sortLabel {
+    position:absolute;
+    pointer-events:none;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    color: rgb(158, 158, 158);
+}
+
+.flexiciousGrid .descendingSort {
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: flipv; /*IE*/
+}
+
+.flexiciousGrid .sortSeparator {
+    position:absolute;
+    
+}
+
+.flexiciousGrid .textHolder{
+    position:absolute;
+}
+.flexiciousGrid .resizeGraphic{
+    border-right:1px solid #222222;
+    position: absolute;
+}
+.flexiciousGrid .movingGlyph{
+    background: #6495ed;
+    position: absolute;
+    opacity:0.7;
+    filter:alpha(opacity=70); /*IE*/
+}
+
+.fg-menu-container{
+    z-index: 1003;
+}
+
+
+/*=============multi column sort popup===================*/
+
+.flexiciousSortPopupMenuItem .separator{
+    border-bottom:  solid 1px #a9a9a9;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.flexiciousSortPopup {
+ }
+.flexiciousSortPopup input {
+    margin:4px;
+}
+.flexiciousSortPopup  .sortPopupHeader{
+    font-size: 12pt;
+    padding:5px;
+}
+
+.flexiciousSortPopup .sortPopupRow{
+    padding-left:50px;
+    clear:both;
+    padding:4px;
+}
+.flexiciousSortPopup .sortPopupLabel{
+    width:100px;
+    float:left;
+}
+.flexiciousSortPopup .sortPopupDropdown{
+    width:200px;
+    position:relative;
+    float:left;
+    padding-right:20px;
+}
+.flexiciousSortPopup .sortPopupDownArrow{
+    position:absolute;
+    top:2px;
+    right:2px;
+}
+.flexiciousSortPopup .sortPopupButton{
+    float:right;
+    margin-left: 10px;
+}
+.flexiciousSortPopup .sortPopupButtonBar{
+    padding-top: 25px;
+    margin-bottom: 25px;
+    margin-right: 10px;
+}
+.flexiciousSortPopup .disabledLabel{
+    color: #bbbbbb;
+}
+
+
+/*=============date picker popup===================*/
+.flexiciousDatePickerPopup .datePickerButton{
+    float:right;
+    margin-left: 10px;
+}
+.flexiciousDatePickerPopup .datePickerButtonBar{
+    padding-top: 25px;
+    margin-bottom: 25px;
+    margin-right: 10px;
+}
+
+.flexiciousDatePickerPopup .datePickerBar{
+    padding-top: 25px;
+    margin-bottom: 25px;
+    margin-right: 10px;
+}
+
+.flexiciousDatePickerPopup .datePickerStartDate{
+    float:left;
+}
+.flexiciousDatePickerPopup .datePickerEndDate{
+    float:right;
+}
+
+
+/*=============multiselect combobox ===================*/
+.flexiciousGrid .multiSelectComboBox {
+    display:inline-block;
+}
+.flexiciousGrid .multiSelectComboBox .textBox{
+    top:2px;
+        height: 100%;
+}
+.flexiciousGrid .editor .textBox{
+    top:2px;
+        height: 100%;
+        width: 100%;
+}
+.flexiciousGrid .multiSelectComboBox img{
+    top:2px;
+}
+
+.flexiciousGrid .multiSelectComboBoxPopup{
+
+    border: solid 1px black;
+    background: white;
+    z-index: 1001;
+}
+.flexiciousGrid .multiSelectComboBoxPopup .checkBoxRow{
+    display: block;
+    margin: 12px;
+    height: 24px;
+    border-bottom: solid 1px #cccccc;
+}
+
+.flexiciousGrid .multiSelectComboBoxPopup .okCancelDiv{
+    display:block;
+    margin: 12px;
+    float: right;
+}
+.flexiciousGrid .multiSelectComboBoxPopup .okCancel{
+    padding:4px;
+    text-align:right;
+    border-top:solid 1px #CCCCCC;
+}
+.flexiciousGrid .multiSelectComboBoxPopup .okButton{
+
+    padding:2px;
+    text-decoration: underline;
+    cursor: pointer;
+    display:inline;
+}
+.flexiciousGrid .multiSelectComboBoxPopup .cancelButton{
+
+    padding:2px;
+    text-decoration: underline;
+    cursor: pointer;
+    display:inline;
+}
+.flexiciousGrid .multiSelectComboBoxPopup .hover{
+    background:#CEDBEF;
+}
+/*=============numeric range box===================*/
+
+.flexiciousGrid .numericRangeBox {
+    display:inline-block;
+}
+.flexiciousGrid   {
+    position:relative;
+}
+.flexiciousGrid  .flexDataGridVirtualBodyContainer {
+    position:absolute;
+    overflow: auto;
+}
+.flexiciousGrid  .flexDataGridFilterCell input {
+}
+
+.flexiciousGrid  .flexDataGridHeaderContainer {
+    position:absolute;
+    overflow:hidden;
+}
+
+.flexiciousGrid  .lockedContent {
+    position:absolute;
+    overflow:hidden;
+}
+.flexiciousGrid  .elasticContainer {
+    position:absolute;
+    overflow:hidden;
+}
+
+.flexiciousGrid  .flexDataGridCell {
+    position:absolute;
+
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -ms-user-select: none;
+    user-select: none;
+
+    height: 48px;
+    text-align: left;
+    font-size: 13px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    
+    
+}
+
+.flexiciousGrid  .flexDataGridCell .cellIcon {
+    position:absolute;
+}
+
+.flexiciousGrid  .flexDataGridCell .triStateCheckBox {
+    /*padding-left: 0;*/
+    background-position: 4px,4px ;
+    -ms-background-position-x: 4px;
+    -ms-background-position-y: 4px;
+
+}
+.flexiciousGrid  .flexDataGridCell .cellRenderer {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;;
+}
+.flexiciousGrid  .flexDataGridCell .expandCollapseIcon {
+    position: absolute;
+}
+.flexiciousGrid .flexDataGridCell .cellRenderer {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.flexiciousGrid  .flexDataGridHeaderCell {
+
+    white-space: nowrap;
+    font-weight: normal;
+    text-align: left;
+    text-overflow: ellipsis;
+    font-weight: bold;
+
+}
+
+
+.flexiciousGrid  .flexDataGridColumnGroupCell {
+    
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+
+}
+.flexiciousGrid  .bottomBar {
+    position:absolute;
+}
+
+.flexiciousGrid  .leftLockedVerticalSeparator {
+    position:absolute;
+}
+.flexiciousGrid  .rightLockedVerticalSeparator {
+    position:absolute;
+}
+.flexiciousGrid  .rightLockedVerticalSeparator {
+    position:absolute;
+}
+.flexiciousGrid  .uIComponent {
+    text-overflow:clip;
+    display: inline-block;
+}
+
+.flexiciousGrid .columnResizingGlyph{
+    background-color: #222222;
+    position: absolute;
+}
+.flexiciousGrid .columnResizingCellGlyph{
+    position: absolute;
+}
+.flexiciousGrid .columnDraggingGlyph{
+    background-color: #222222;
+    position: absolute;
+}
+
+
+
+.flexiciousGrid .myHeader{
+    padding-top:0;
+    font-weight: bold ;
+    color:#3764A0;
+}
+
+
+.flexiciousGrid .button {
+    padding: 2px 5px;
+    border-radius: 4px;
+    border: solid 1px #20548D;
+    background: #4479BB;
+    color: #FFF;
+
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+
+    cursor: default;
+}
+.flexiciousGrid .button:hover {
+    background: #356194;
+    border: solid 1px #2A4D77;
+    text-decoration: none;
+    cursor: default;
+}
+.flexiciousGrid .button:active {
+    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    background: #2E5482;
+    border: solid 1px #213E5F;
+    cursor: default;
+}
+
+.flexiciousGrid .handCursor{
+    cursor: pointer;
+}
+
+
+/*=========settingsPopup========*/
+.flexiciousGrid .settingsPopup {
+    height: 250px;
+}
+.flexiciousGrid .settingsPopup .multiSelectComboBox{
+    position:absolute;
+    left:10px;
+    top:10px;
+    visibility: hidden;
+}
+.flexiciousGrid .settingsPopup .multiSelectComboBoxPopup{
+    position:absolute;
+    left:10px;
+    height: 205px;
+    width: 250px;
+    overflow-y: scroll;
+}
+
+.flexiciousGrid .settingsPopup .txtPageSize{
+   width: 55px;
+}
+
+.flexiciousGrid .settingsPopup .columnsLabel{
+    left:10px;
+    top:1px;
+    position:absolute;
+
+}
+
+.flexiciousGrid .settingsPopup .options{
+    right:10px;
+    top:30px;
+    position:absolute;
+    width:200px;
+
+}
+
+.flexiciousGrid .bottomButtonBar {
+    position: absolute;
+    right :10px;
+    bottom :10px;
+    vertical-align: bottom;
+}
+
+.flexiciousGrid .bottomButtonBarSave {
+    position: absolute;
+    right :110px;
+    bottom :4px;
+}
+
+/*=========exportOptionsView========*/
+.flexiciousGrid .exportOptionsView {
+    height: 250px;
+}
+
+.flexiciousGrid .exportOptionsView .txtPageFrom{
+    width: 55px;
+}
+
+.flexiciousGrid .exportOptionsView .txtPageTo{
+    width: 55px;
+}
+
+.flexiciousGrid .exportOptionsView .multiSelectComboBox{
+    position:absolute;
+    left:10px;
+    top:10px;
+    visibility: hidden;
+}
+.flexiciousGrid .exportOptionsView .multiSelectComboBoxPopup{
+    position:absolute;
+    left:10px;
+    height: 205px;
+    width: 250px;
+    top: 25px;
+    overflow-y: scroll;
+}
+.flexiciousGrid .exportOptionsView .options{
+    right:10px;
+    top:30px;
+    position:absolute;
+    width:200px;
+    line-height: 22px;
+}
+
+.flexiciousGrid .exportOptionsView .columnsLabel{
+    left:10px;
+    top:1px;
+    position:absolute;
+}
+
+
+.flexiciousGrid .exportOptionsView .comboBox{
+    position:absolute;
+    right:80px;
+    top:142px;
+}
+/*=========exportOptionsView========*/
+.flexiciousGrid .printOptionsView {
+    height: 250px;
+}
+
+.flexiciousGrid .printOptionsView .txtPageFrom{
+    width: 55px;
+}
+
+.flexiciousGrid .printOptionsView .txtPageTo{
+    width: 55px;
+}
+
+.flexiciousGrid .printOptionsView .multiSelectComboBox{
+    position:absolute;
+    left:10px;
+    top:10px;
+    visibility: hidden;
+}
+.flexiciousGrid .printOptionsView .multiSelectComboBoxPopup{
+    position:absolute;
+    left:10px;
+    height: 205px;
+    width: 250px;
+    top: 25px;
+    overflow-y: scroll;
+}
+.flexiciousGrid .printOptionsView .options{
+    right:10px;
+    top:30px;
+    position:absolute;
+    width:200px;
+    line-height: 22px;
+}
+
+
+.flexiciousGrid .printOptionsView .comboBox{
+    position:absolute;
+    right:45px;
+    top:150px;
+}
+/*=========openSettingsPopup========*/
+.flexiciousGrid .openSettingsPopup {
+    height: 300px;
+}
+/*=========openSettingsPopup========*/
+.flexiciousGrid .saveSettingsPopup {
+    height: 200px;
+}
+
+
+.flexiciousGrid .lessOpacity {
+    zoom: 1;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+
+
+.flexiciousGrid .spinnerLabel{
+    background-color: #CDCDCD;
+    padding: 5px;
+    position: absolute;
+}
+
+.flexiciousGrid .spinner{
+    left:220px;
+    position: absolute;
+}
+
+.flexiciousGrid .backgroundForFillerRows{
+    position: absolute;
+    overflow: hidden;
+}
+
+.flexiciousGrid .largeIcons .iconCell{
+    height: 36px;
+    width: 36px;
+}
+
+.x-toolbar-cell .x-btn
+{
+    width: 190px !important;
+}
+.ui-dialog{
+
+    z-index:999;
+
+}
+.ui-dialog .ui-dialog-titlebar-close span{
+    left: 0px;
+    margin: 0px;
+    top: 0px;
+}
+
+
+.flxiciousPrintContent{
+    border:solid 2px black;
+}
+
+.flxiciousPrintContent .printWindow{
+    position: relative;
+}
+
+
+
+/*
+Android-Toast
+(c) 2013-2014 Jad Joubran
+*/
+
+#android_toast_container{
+	width: 100%;
+	position: fixed;
+	bottom: 12%;
+	left: 0;
+        pointer-events:none;
+}
+
+#android_toast{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: rgb(48, 52, 55);
+	color: rgb(245, 245, 245);
+	font-size: 13px;
+	padding: 5px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	opacity: 0.95;
+	-webkit-box-shadow:  1px 2px 2px 1px rgba(34, 34, 34, 1);
+	box-shadow:  1px 2px 2px 1px rgba(34, 34, 34, 1);
+	text-align: center;
+	font-family: Roboto, sans-serif;
+}
+
+#android_toast em{
+	color: rgb(81, 180, 210);
+	font-weight: bold;
+	font-style: normal;
+}
+
+.android_toast_top{
+	top: 12%;
+	bottom: auto !important;
+}
+
+
+.android_toast_fadein{
+	animation: android_toast_fadein 1s ease;
+	-webkit-animation: android_toast_fadein 1s ease;
+}
+
+.android_toast_fadeout{
+	animation: android_toast_fadeout 1s ease;
+	-webkit-animation: android_toast_fadeout 1s ease;
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+
+@keyframes android_toast_fadein{
+	from {
+		opacity: 0;
+		-webkit-opacity: 0;
+	}
+	to {
+		opacity: 0.95;
+		-webkit-opacity: 0.95;
+	}
+}
+
+@-webkit-keyframes android_toast_fadein{
+	from {
+		opacity: 0;
+		-webkit-opacity: 0;
+	}
+	to {
+		opacity: 0.95;
+		-webkit-opacity: 0.95;
+	}
+}
+
+@keyframes android_toast_fadeout{
+	from {
+		opacity: 0.95;
+		-webkit-opacity: 0.95;
+	}
+	to {
+		opacity: 0;
+		-webkit-opacity: 0;
+	}
+}
+
+@-webkit-keyframes android_toast_fadeout{
+	from {
+		opacity: 0.95;
+		-webkit-opacity: 0.95;
+	}
+	to {
+		opacity: 0;
+		-webkit-opacity: 0;
+	}
+}
+
+.tabrow {
+		    text-align: left;
+		    list-style: none;
+		    margin: 10px 0 20px 10px;
+		    padding: 0 0 0 5px;
+		    line-height: 24px;
+		    height: 26px;
+		    overflow: hidden;
+		    font-size: 14px;
+		    font-family: sans-serif;
+            font-weight: bold;
+            color: 0x8c8989;
+		    position: relative;
+		}
+		.tabrow li {
+		    border: 1px solid #AAA;
+		    background: #D1D1D1;
+		    background: -o-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+		    background: -ms-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+		    background: -moz-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+		    background: -webkit-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+		    background: linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+		    display: inline-block;
+		    position: relative;
+		    z-index: 0;
+		    border-top-left-radius: 6px;
+		    border-top-right-radius: 6px;
+		    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 #FFF;
+		    text-shadow: 0 1px #FFF;
+		    margin: 0 -5px;
+		    padding: 0 20px;
+		}
+		.tabrow a {
+			  color: #555;
+			  text-decoration: none;
+		}
+		.tabrow li.selected {
+		    background: #FFF;
+		    color: #333;
+		    z-index: 2;
+		    border-bottom-color: #FFF;
+		}
+		.tabrow:before {
+		    position: absolute;
+		    content: " ";
+		    width: 100%;
+		    bottom: 0;
+		    left: 0;
+		    border-bottom: 1px solid #AAA;
+		    z-index: 1;
+		}
+		.tabrow li:before,
+		.tabrow li:after {
+		    border: 1px solid #AAA;
+		    position: absolute;
+		    bottom: -1px;
+		    width: 5px;
+		    height: 5px;
+		    content: " ";
+		}
+		.tabrow li:before {
+		    left: -6px;
+		    border-bottom-right-radius: 6px;
+		    border-width: 0 1px 1px 0;
+		    box-shadow: 2px 2px 0 #D1D1D1;
+		}
+		.tabrow li:after {
+		    right: -6px;
+		    border-bottom-left-radius: 6px;
+		    border-width: 0 0 1px 1px;
+		    box-shadow: -2px 2px 0 #D1D1D1;
+		}
+		.tabrow li.selected:before {
+		    box-shadow: 2px 2px 0 #FFF;
+		}
+		.tabrow li.selected:after {
+		    box-shadow: -2px 2px 0 #FFF;
+		}
