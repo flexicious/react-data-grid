@@ -2,7 +2,7 @@
  * Flexicious
  * Copyright 2011, Flexicious LLC
  */
-import { UIUtils, Constants, UIComponent, ComboBox, ReactDataGrid, ReactDataGridColumn, ToolbarAction } from 'flexicious-react-datagrid'
+import { UIUtils, Constants, UIComponent, ComboBox, ReactDataGrid, ReactDataGridColumn, ToolbarAction } from './LibraryImports'
 import React from 'react'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import TextField from 'material-ui/TextField'

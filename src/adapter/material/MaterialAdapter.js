@@ -1,5 +1,5 @@
 
-import { Constants, ToolbarAction, TypedObject } from 'flexicious-react-datagrid'
+import { Constants, ToolbarAction, TypedObject } from './LibraryImports'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import React from 'react';

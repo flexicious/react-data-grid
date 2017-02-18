@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { Constants, ToolbarAction, UIUtils, UIComponent, TriStateCheckBox } from 'flexicious-react-datagrid'
+import { Constants, ToolbarAction, UIUtils, UIComponent, TriStateCheckBox } from './LibraryImports'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import CheckBox from 'material-ui/CheckBox'
 /**
