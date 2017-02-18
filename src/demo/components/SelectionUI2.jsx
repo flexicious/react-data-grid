@@ -14,7 +14,7 @@ export default class SelectionUI2 extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setDataProvider(SampleData.networkData);
     grid.validateNow();
     grid.expandAll();
@@ -26,7 +26,7 @@ export default class SelectionUI2 extends React.Component {
         <h1 className='page-title'>Selection UI 2</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"} variableRowHeight editable ref="grid" titleIcon="http://www.flexicious.com/resources/images/device_red.png" disabledField="disabled"
+          <ReactDataGrid  width={"100%"} variableRowHeight editable ref={(grid) => { this.grid = grid; }} titleIcon="http://www.flexicious.com/resources/images/device_red.png" disabledField="disabled"
            enableSelectionCascade enableFilters enableMultiColumnSort enableAutoRefresh maxAutoAdjustHeight="300" 
            enableDrag headerVerticalGridLineThickness="0" lockedSeperatorThickness="0" enableDynamicLevels 
            forcePagerRow preferencePersistenceKey="selectedUI2" enableDefaultDisclosureIcon={false} filterExcludeObjectsWithoutMatchField>

@@ -58,7 +58,7 @@ export default class ItemRenderer extends React.Component {
         <h1 className='page-title'>Item Renderers</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"} ref="grid" ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy itemClick={this.itemClickHandler}
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} ref={(grid) => { this.grid = grid; }} enablePrint enablePreferencePersistence enableExport enableCopy itemClick={this.itemClickHandler}
             dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} rowHeight={55} horizontalScrollPolicy="off" 
             selectedKeyField="id" enablePaging pageSize={50} enableFilters enableFooters initialSortField="legalName"
             initialSortAscending preferencePersistenceKey="itemRenderers" >

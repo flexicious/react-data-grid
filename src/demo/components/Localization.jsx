@@ -15,7 +15,7 @@ export default class Localization extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     flexiciousNmsp.Filter.ALL_ITEM = "tous";
     flexiciousNmsp.Constants.MCS_LBL_TITLE_TEXT = "Trier la colonne multi";
     flexiciousNmsp.Constants.MCS_LBL_HEADER_TEXT = "S'il vous plaît spécifier l'ordre de tri et de la direction des colonnes que vous souhaitez trier par:";
@@ -138,7 +138,7 @@ export default class Localization extends React.Component {
         <h1 className='page-title'>Localization</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid width={"100%"} forcePagerRow enableExport ref="grid" dataProvider={Employee.getAllEmployees()} enableDrillDown enableFilters enablePaging enablePreferencePersistence enablePrint preferencePersistenceKey="localization" enableMultiColumnSort>
+          <ReactDataGrid width={"100%"} forcePagerRow enableExport ref={(grid) => { this.grid = grid; }} dataProvider={Employee.getAllEmployees()} enableDrillDown enableFilters enablePaging enablePreferencePersistence enablePrint preferencePersistenceKey="localization" enableMultiColumnSort>
             <ReactDataGridColumnLevel>
 
               <ReactDataGridColumn type="checkbox" selectedKeyField="employeeId" />

@@ -17,7 +17,7 @@ export default class DynamicColumns extends React.Component {
   }
 
   handleAddLastStockPriceColumn() {
-    var grid = this.refs.grid;
+    var grid = this.grid;
     var col = this.addCurrencyColumn("lastStockPrice", "Last Stock Price")
     grid.addColumn(col);
     grid.distributeColumnWidthsEqually();
@@ -25,7 +25,7 @@ export default class DynamicColumns extends React.Component {
   }
 
   handleRemoveLastStockPriceColumn() {
-    var grid = this.refs.grid;
+    var grid = this.grid;
     grid.removeColumn(grid.getColumnByDataField("lastStockPrice"));
     grid.distributeColumnWidthsEqually();
     grid.reDraw();
@@ -33,7 +33,7 @@ export default class DynamicColumns extends React.Component {
 
   componentDidMount() {
 
-    var grid = this.refs.grid;
+    var grid = this.grid;
     grid.setDataProvider(FlexiciousMockGenerator.instance().getFlatOrgList());;
     grid.clearColumns();
 
@@ -72,7 +72,7 @@ export default class DynamicColumns extends React.Component {
     return dgCol;
   }
   addColumn(dataField, headerText) {
-    var grid = this.refs.grid;
+    var grid = this.grid;
     var dgCol = grid.createColumn();
     dgCol.setDataField(dataField);
     dgCol.setHeaderText(headerText);
@@ -92,7 +92,7 @@ export default class DynamicColumns extends React.Component {
 
           <RaisedButton onClick={this.handleAddLastStockPriceColumn.bind(this)} label={"Add Last Stock Price Column"} />
           <RaisedButton onClick={this.handleRemoveLastStockPriceColumn.bind(this)} label={"Remove Last Stock Price Column"} />
-          <ReactDataGrid ref="grid" horizontalScrollPolicy="on" ref="grid" width={"100%"} height={500}
+          <ReactDataGrid ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="on" ref={(grid) => { this.grid = grid; }} width={"100%"} height={500}
             enablePrint enablePreferencePersistence generateColumns={false} enableExport
             enableCopy enableFilters enableFooters enablePaging preferencePersistenceKey="dynamicColumns"
             />

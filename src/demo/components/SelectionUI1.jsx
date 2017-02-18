@@ -15,7 +15,7 @@ export default class SelectionUI1 extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setDataProvider(SampleData.sampleNestedData);
     grid.validateNow();
     grid.expandAll();
@@ -28,7 +28,7 @@ export default class SelectionUI1 extends React.Component {
         <FullWidthSection useContent={true}>
 
 
-          <ReactDataGrid width={"100%"} ref="grid" forcePagerRow enableFilters enableMultiColumnSort builtInActions='sort,separator' styleName='FlexiciousGridStyle' enableSelectionCascade enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey='selectedUI1' showSpinnerOnFilterPageSort enableDefaultDisclosureIcon={false}>
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} forcePagerRow enableFilters enableMultiColumnSort builtInActions='sort,separator' styleName='FlexiciousGridStyle' enableSelectionCascade enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey='selectedUI1' showSpinnerOnFilterPageSort enableDefaultDisclosureIcon={false}>
             <ReactDataGridColumnLevel childrenField='items' enableFilters={false} nestIndent='20' selectedKeyField='employeeId'>
               <ReactDataGridColumn sortable={false} headerText='' excludeFromSettings enableExpandCollapseIcon width='25' columnWidthMode='fixed' enableCellClickRowSelect={false} />
               <ReactDataGridColumn type='checkbox' />

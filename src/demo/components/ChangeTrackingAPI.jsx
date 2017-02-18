@@ -14,7 +14,7 @@ export default class ChangeTrackingAPI extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setDataProvider(FlexiciousMockGenerator.getMockNestedData());
     grid.validateNow();
     grid.expandAll();
@@ -22,12 +22,12 @@ export default class ChangeTrackingAPI extends React.Component {
   }
 
   getChanges(event){
-    const grid = this.refs.grid;
+    const grid = this.grid;
     chagesDisplayField.value = grid.getChanges();
   };
 
   getCellBackgroundColor (cell){
-    const grid = this.refs.grid;
+    const grid = this.grid;
     if(!cell.getRowInfo().getIsDataRow() || cell.level.grid.implementsOrExtends("IPrintDatagrid")){
         return null;
     } 
@@ -57,7 +57,7 @@ export default class ChangeTrackingAPI extends React.Component {
         <FullWidthSection useContent={true}>
         <TextField id="chagesDisplayField" disabled={true}/>
          <RaisedButton onClick={this.getChanges.bind(this)} label={"Get Changes"} />
-          <ReactDataGrid width={"100%"} ref="grid" editable={true} forcePagerRow enableFilters enableMultiColumnSort builtInActions="sort,separator" styleName="FlexiciousGridStyle" enableSelectionCascade enableSelectionBubble enableTriStateCheckbox showSpinnerOnFilterPageSort enableDefaultDisclosureIcon={false} preferencePersistenceKey="changeTrackingAPI" onrowChanged={this.onRowChanged} cellBackgroundColorFunction={this.getCellBackgroundColor.bind(this)} enableTrackChanges>
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} editable={true} forcePagerRow enableFilters enableMultiColumnSort builtInActions="sort,separator" styleName="FlexiciousGridStyle" enableSelectionCascade enableSelectionBubble enableTriStateCheckbox showSpinnerOnFilterPageSort enableDefaultDisclosureIcon={false} preferencePersistenceKey="changeTrackingAPI" onrowChanged={this.onRowChanged} cellBackgroundColorFunction={this.getCellBackgroundColor.bind(this)} enableTrackChanges>
             <ReactDataGridColumnLevel childrenField="items" enableFilters={false} nestIndent={20} width={"100%"} height="600" >
               <ReactDataGridColumn sortable={false} headerText="" excludeFromSettings enableExpandCollapseIcon width={25} columnWidthMode="fixed" editable={false} />
               <ReactDataGridColumn type="checkbox" />

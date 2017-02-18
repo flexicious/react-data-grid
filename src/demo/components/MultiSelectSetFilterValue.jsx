@@ -24,11 +24,11 @@ export default class MultiSelectSetFilterValue extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
   }
 
   handlesetFilterValue() {
-      const grid = this.refs.grid;
+      const grid = this.grid;
       var arr = new Array();
       arr.push("NY");
       arr.push("CT");
@@ -41,7 +41,7 @@ export default class MultiSelectSetFilterValue extends React.Component {
         <h1 className='page-title'>MultiSelect Set Filter Value</h1>
         <RaisedButton onClick={this.handlesetFilterValue.bind(this)} label={"Set Filter Value"} />
         <FullWidthSection useContent={true}>
-          <ReactDataGrid  width={"100%"} dataProvider={arrColl} ref="grid" enableFilters >
+          <ReactDataGrid  width={"100%"} dataProvider={arrColl} ref={(grid) => { this.grid = grid; }} enableFilters >
               <ReactDataGridColumn dataField="label" filterControl="TextInput" filterOperation="BeginsWith" />
               <ReactDataGridColumn dataField="state" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
           </ReactDataGrid>

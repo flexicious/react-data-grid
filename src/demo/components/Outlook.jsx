@@ -33,7 +33,7 @@ export default class Outlook extends React.Component {
         }
     }
     componentDidMount() {
-        const grid = this.refs.grid;
+        const grid = this.grid;
         BusinessService.getInstance().getDeepOrgList(function (evt, token) {
             grid.setDataProvider(evt.result);
             grid.hideSpinner();
@@ -99,7 +99,7 @@ export default class Outlook extends React.Component {
             <div>
                 <h1 className='page-title'>Custom Styling - Outlook</h1>
                 <FullWidthSection useContent={true}>
-                    <ReactDataGrid width={"100%"} ref="grid" styles={this.gridstyle} enablePrint enablePreferencePersistence enableDrillDown
+                    <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} styles={this.gridstyle} enablePrint enablePreferencePersistence enableDrillDown
                         preferencePersistenceKey="outlookGroupedData" enableEagerDraw showSpinnerOnFilterPageSort horizontalScrollPolicy="off" 
                         rendererInitialized={this.gridrendererInitializedHandler} enableExport enableCopy>
                         <ReactDataGridColumnLevel enablePaging pageSize={20} childrenField="deals" selectedKeyField="id" horizontalGridLineThickness={2}

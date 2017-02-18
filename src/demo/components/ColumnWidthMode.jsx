@@ -10,13 +10,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Employee from '../mockdata/Employee.js';
 
 export default class ColumnLockMode extends React.Component {
-  constructor() {
-    super();
-  }
 
-  componentDidMount() {
-    const grid = this.refs.grid;
-  }
 
   render() {
     return (

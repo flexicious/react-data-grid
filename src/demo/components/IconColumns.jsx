@@ -13,11 +13,9 @@ export default class IconColumns extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setDataProvider(FlexiciousMockGenerator.instance().getFlatOrgList());
   }
-
-
   /**
    *
    * @param cell
@@ -44,15 +42,13 @@ export default class IconColumns extends React.Component {
     return "This is a dynamic tooltip for " + cell.getRowInfo().getData().legalName;
 
   };
-
-
   render() {
     return (
       <div>
         <h1 className='page-title'>Icon Columns</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid width={"100%"} ref="grid" enableFooters enableFilters preferencePersistenceKey={"IconColumns"} horizontalScrollPolicy="off">
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} enableFooters enableFilters preferencePersistenceKey={"IconColumns"} horizontalScrollPolicy="off">
             <ReactDataGridColumnLevel >
               <ReactDataGridColumn hideText enableIcon icon="images/info.gif" iconToolTip="This column shows only an icon, no text."
                 iconHandCursor  width={30} iconLeft={10} headerText="Icon Only"/>

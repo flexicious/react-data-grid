@@ -10,7 +10,7 @@ export default class LargeDataset extends React.Component {
     super();
   }
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     BusinessService.getInstance().getAllLineItems(function (evt, token) { 
       grid.setDataProvider(evt.result) 
     })
@@ -22,7 +22,7 @@ export default class LargeDataset extends React.Component {
         <FullWidthSection useContent={true}>
 
 
-          <ReactDataGrid width={"100%"} ref="grid" horizontalScrollPolicy="on" preferencePersistenceKey="largeDataset" >
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="on" preferencePersistenceKey="largeDataset" >
             <ReactDataGridColumn dataField="id" headerText="1 ID" />
             <ReactDataGridColumn dataField="lineItemDescription" headerText="2 Line Item Description" width={200} />
             <ReactDataGridColumn dataField="lineItemAmount" headerText="3 Line Item Amount" />

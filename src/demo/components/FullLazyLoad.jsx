@@ -10,7 +10,7 @@ let _footerData = {};
 export default class FullLazyLoad extends React.Component {
   componentDidMount() {
     _footerData = {};
-    const grid = this.refs.grid;
+    const grid = this.grid;
     var f = new Filter();
     f.pageIndex = 0;
     f.pageSize = grid.getPageSize();
@@ -156,7 +156,7 @@ export default class FullLazyLoad extends React.Component {
         <h1 className='page-title'>Fully Lazy Loaded</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid width={"100%"} ref="grid" ref="grid" enablePrint horizontalScrollPolicy="auto" enableSelectAllOnPageChange={false}
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} ref={(grid) => { this.grid = grid; }} enablePrint horizontalScrollPolicy="auto" enableSelectAllOnPageChange={false}
             enableMaintainSelectionOnSelectAll clearSelectionOnDataProviderChange={false} enablePreferencePersistence enableExport enableCopy
             preferencePersistenceKey="fullyLazyLoaded"
             printExportDataRequest={this.printExportDataRequestHandler} showSpinnerOnFilterPageSort

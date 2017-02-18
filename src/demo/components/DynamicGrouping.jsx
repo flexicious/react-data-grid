@@ -13,12 +13,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 export default class DynamicGrouping extends React.Component {
   constructor() {
     super();
-    this.handleGroupClick=this.handleGroupClick.bind(this);
+    this.handleGroupClick = this.handleGroupClick.bind(this);
+    this.state = {
+      dataProvider: FlexiciousMockGenerator.instance().getAllLineItems()
+    }
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
-    grid.setDataProvider(FlexiciousMockGenerator.instance().getAllLineItems());
     this.groupBy("invoice.id");
   }
 
@@ -27,27 +28,25 @@ export default class DynamicGrouping extends React.Component {
   };
 
   groupBy(prop) {
-    const grid = this.refs.grid;
     var buckets = {};
     var key;
     var result = [];
     var _dataProvider = new Object();
     var _flat = FlexiciousMockGenerator.instance().getAllLineItems();
     //iterate through the flat list and create a hierarchy
-    for(var i=0;i<_flat.length;i++){
-        var item =_flat[i];
-        key = flexiciousNmsp.UIUtils.resolveExpression(item,prop); //the parent
-        if(!buckets[key]){
-            buckets[key] = [];//the children
-        }
-        buckets[key].push(item); //add to the parents child list
+    for (var i = 0; i < _flat.length; i++) {
+      var item = _flat[i];
+      key = flexiciousNmsp.UIUtils.resolveExpression(item, prop); //the parent
+      if (!buckets[key]) {
+        buckets[key] = [];//the children
+      }
+      buckets[key].push(item); //add to the parents child list
     }
-    for (key  in buckets){
-        result.push({name:key,children:buckets[key]}); //create the final structure
+    for (key in buckets) {
+      result.push({ name: key, children: buckets[key] }); //create the final structure
     }
     _dataProvider = result; //this will refresh the grid...
-    grid.setDataProvider(_dataProvider);
-    grid.rebuild();
+    this.setState({ dataProvider: _dataProvider });
   };
 
 
@@ -55,19 +54,19 @@ export default class DynamicGrouping extends React.Component {
     return (
       <div>
         <h1 className='page-title'>Dynamic Grouping</h1>
-        
+
         <FullWidthSection useContent={true} >
-          <SelectField floatingLabelText="SelectGroup" ref="groupingField" onChange={this.handleGroupClick}>
-             <MenuItem value="invoice.id" primaryText="Invoice Number" />
-              <MenuItem value="invoice.invoiceStatus.name" primaryText="Invoice Status" />
-              <MenuItem value="invoice.deal.dealDescription" primaryText="Deal" />
-              <MenuItem value="invoice.deal.dealStatus.name" primaryText="Deal Status" />
-              <MenuItem value="invoice.deal.customer.legalName" primaryText="Customer" />
-              <MenuItem value="invoice.deal.customer.headquarterAddress.city.name" primaryText="City" />
-              <MenuItem value="invoice.deal.customer.headquarterAddress.state.name" primaryText="State" />
-              <MenuItem value="invoice.deal.customer.headquarterAddress.country.name" primaryText="Country" />
+          <SelectField floatingLabelText="SelectGroup" onChange={this.handleGroupClick}>
+            <MenuItem value="invoice.id" primaryText="Invoice Number" />
+            <MenuItem value="invoice.invoiceStatus.name" primaryText="Invoice Status" />
+            <MenuItem value="invoice.deal.dealDescription" primaryText="Deal" />
+            <MenuItem value="invoice.deal.dealStatus.name" primaryText="Deal Status" />
+            <MenuItem value="invoice.deal.customer.legalName" primaryText="Customer" />
+            <MenuItem value="invoice.deal.customer.headquarterAddress.city.name" primaryText="City" />
+            <MenuItem value="invoice.deal.customer.headquarterAddress.state.name" primaryText="State" />
+            <MenuItem value="invoice.deal.customer.headquarterAddress.country.name" primaryText="Country" />
           </SelectField>
-          <ReactDataGrid horizontalScrollPolicy="on" ref="grid" width={"100%"} height="600" enableDynamicLevels enableHeightAutoAdjust preferencePersistenceKey="dynamicGrouping" >
+          <ReactDataGrid horizontalScrollPolicy="on" dataProvider={this.state.dataProvider} width={"100%"} height="600" enableDynamicLevels enableHeightAutoAdjust preferencePersistenceKey="dynamicGrouping" >
             <ReactDataGridColumnLevel childrenField="children" nestIndent={25}>
               <ReactDataGridColumn dataField="name" headerText="Name" columnLockMode="left" />
               <ReactDataGridColumn dataField="id" headerText="1 ID" />

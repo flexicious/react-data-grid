@@ -29,18 +29,13 @@ export default class DynamicLevels extends React.Component {
             _openObjects += item3 + ",";
         }
 
-    };
-    componentDidMount() {
-        const grid = this.refs.grid;
-        const json = UIUtils.xml2json(FlexiciousMockGenerator.dpHierarchyXML);
-        grid.setDataProvider(json.Region);
-    }
+    }; 
     render() {
         return (
             <div>
                 <h1 className='page-title'>Dynamic Levels</h1>
                 <FullWidthSection useContent={true}>
-                    <ReactDataGrid width={"100%"} ref="grid" enablePrint change={this.gridchangeHandler}
+                    <ReactDataGrid width={"100%"} dataProvider={UIUtils.xml2json(FlexiciousMockGenerator.dpHierarchyXML).Region} enablePrint change={this.gridchangeHandler}
                         enableDrillDown enableDynamicLevels enableSelectionBubble enableTriStateCheckbox enableExport enableCopy enableSelectionCascade
                         selectedKeyField="@id">
                         <ReactDataGridColumnLevel enableFooters >

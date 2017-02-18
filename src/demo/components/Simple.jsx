@@ -5,11 +5,16 @@ import Widget from './Widget';
 import FlexiciousMockGenerator from '../mockdata/FlexiciousMockGenerator.js'
 import BusinessService from '../mockdata/BusinessService'
 export default class Simple extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      dataProvider : null //we set it to null, because if we set it to an emtpy array the grid will think that you are giving it a zero record dataprovider 
+      //and show a "No records found" message.
+    } 
+  }
   componentDidMount() {
-    const grid = this.refs.grid;
-    BusinessService.getInstance().getFlatOrgList(function (evt, token) {
-      grid.setDataProvider(evt.result);
-      grid.hideSpinner();
+    BusinessService.getInstance().getFlatOrgList((evt, token) => {
+      this.setState({ dataProvider: evt.result });
     });
   }
   render() {
@@ -17,7 +22,7 @@ export default class Simple extends React.Component {
       <div>
         <h1 className='page-title'>Simple Grid</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid ref={'grid'} width={"100%"} enablePrint enablePreferencePersistence enableDrag showSpinnerOnFilterPageSort enableEagerDraw
+          <ReactDataGrid ref={'grid'} width={"100%"} dataProvider={this.state.dataProvider} enablePrint enablePreferencePersistence enableDrag showSpinnerOnFilterPageSort enableEagerDraw
             enableDrop enableExport enableCopy preferencePersistenceKey={'simpleGrid'} enableMultiColumnSort useCompactPreferences horizontalScrollPolicy={'auto'}
             footerDrawTopBorder enablePdf headerRowHeight={100}>
             <ReactDataGridColumnLevel selectedKeyField={'id'} enablePaging pageSize={50} enableFilters enableFooters initialSortField={'legalName'} initialSortAscending>

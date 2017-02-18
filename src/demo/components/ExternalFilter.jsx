@@ -17,7 +17,7 @@ export default class ExternalFilter extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     //dgMain.buildFromXml(xml);
     grid.setDataProvider(FlexiciousMockGenerator.getMockNestedData());
     grid.getColumnLevel().nextLevel.nextLevel.filterFunction=this.filterDeviceTypes.bind(this);
@@ -28,7 +28,7 @@ export default class ExternalFilter extends React.Component {
   }
  
 handleSearchClick(event){
-  const grid = this.refs.grid;
+  const grid = this.grid;
   grid.processFilter();
 };
 
@@ -50,7 +50,7 @@ filterDeviceTypes(item){
           <CheckBox defaultChecked={true} label="Time Sheet-1" onCheck={(evt,newValue)=>{this.cbtimesheet1=newValue;}}/>
           <CheckBox defaultChecked={true} label="Time Sheet-2" onCheck={(evt,newValue)=>{this.cbtimesheet2=newValue;}}/>
           <RaisedButton onClick={this.handleSearchClick} label="Search" />
-          <ReactDataGrid  width={"100%"}  ref="grid" forcePagerRow enableFilters enableMultiColumnSort 
+          <ReactDataGrid  width={"100%"}  ref={(grid) => { this.grid = grid; }} forcePagerRow enableFilters enableMultiColumnSort 
           builtInActions='sort,separator' styleName='FlexiciousGridStyle' preferencePersistenceKey='externalFilter' 
           enableSelectionCascade enableSelectionBubble enableTriStateCheckbox showSpinnerOnFilterPageSort 
           enableDefaultDisclosureIcon={false}>

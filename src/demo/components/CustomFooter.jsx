@@ -14,25 +14,14 @@ export default class CustomFooter extends React.Component {
     super();
     this.getSalaryFooter = this.getSalaryFooter.bind(this);
   }
-
-  componentDidMount() {
-    const grid = this.refs.grid;
-  };
-
+ 
   getSalaryFooter(col) {
     const grid = col.level.grid;
     return <div>
       <div style={{textAlign:'right'}}> Avg: {flexiciousNmsp.UIUtils.formatCurrency(flexiciousNmsp.UIUtils.average(grid.getDataProvider(), "annualSalary"))}</div>
       <div style={{textAlign:'right'}}> Min: {flexiciousNmsp.UIUtils.formatCurrency(flexiciousNmsp.UIUtils.min(grid.getDataProvider(), "annualSalary"))}</div>
       <div style={{textAlign:'right'}}> Max: {flexiciousNmsp.UIUtils.formatCurrency(flexiciousNmsp.UIUtils.max(grid.getDataProvider(), "annualSalary"))}</div>
-    </div>
-    
-
-    // var html = "<div style='text-align: right'> Avg: " + flexiciousNmsp.UIUtils.formatCurrency(flexiciousNmsp.UIUtils.average(grid.getDataProvider(), "annualSalary")) + "</div>"
-    //   + "<div style='text-align: right'> Min: " + flexiciousNmsp.UIUtils.formatCurrency(flexiciousNmsp.UIUtils.min(grid.getDataProvider(), "annualSalary")) + "</div>"
-    //   + "<div style='text-align: right'> Max: " + flexiciousNmsp.UIUtils.formatCurrency(flexiciousNmsp.UIUtils.max(grid.getDataProvider(), "annualSalary")) + "</div>";
-
-    // return html;
+    </div> 
   };
 
   render() {
@@ -40,7 +29,7 @@ export default class CustomFooter extends React.Component {
       <div>
         <h1 className='page-title'>Custom Footer</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid ref="grid" width={"100%"} enableFilters enableCopy enableFooters enablePaging dataProvider={Employee.getAllEmployees()} pageSize={25} filterRowHeight={25} footerRowHeight={70} >
+          <ReactDataGrid width={"100%"} enableFilters enableCopy enableFooters enablePaging dataProvider={Employee.getAllEmployees()} pageSize={25} filterRowHeight={25} footerRowHeight={70} >
             <ReactDataGridColumnLevel>
               <ReactDataGridColumn type="checkbox" selectedKeyField="employeeId" />
               <ReactDataGridColumn headerText="ID" dataField="employeeId" filterOperation="Contains" filterControl="TextInput" filterTriggerEvent="enterKeyUp" />

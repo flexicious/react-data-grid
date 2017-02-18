@@ -7,8 +7,8 @@ import BusinessService from '../mockdata/BusinessService'
 
 export default class LevelRenderer extends React.Component {
   componentDidMount() {
-    this.refs.grid.validateNow();
-    this.refs.grid.expandAll();
+    this.grid.validateNow();
+    this.grid.expandAll();
   }
   render() {
     return (
@@ -17,7 +17,7 @@ export default class LevelRenderer extends React.Component {
         <FullWidthSection useContent={true}>
 
 
-          <ReactDataGrid ref="grid"  width={"100%"} enablePrint enablePreferencePersistence enableDrillDown enableExport enableCopy preferencePersistenceKey="levelRenderers"
+          <ReactDataGrid ref={(grid) => { this.grid = grid; }}  width={"100%"} enablePrint enablePreferencePersistence enableDrillDown enableExport enableCopy preferencePersistenceKey="levelRenderers"
             dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} horizontalScrollPolicy="off" >
             <ReactDataGridColumnLevel enableFilters enablePaging pageSize={20} childrenField="deals" enableFooters selectedKeyField="id" >
               <ReactDataGridColumn type="checkbox" />

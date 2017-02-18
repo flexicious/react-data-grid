@@ -19,7 +19,7 @@ export default class SortNumeric extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
   }
   render() {
     return (

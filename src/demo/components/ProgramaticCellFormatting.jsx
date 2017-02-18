@@ -73,7 +73,7 @@ export default class ProgramaticCellFormatting extends React.Component {
             <div>
                 <h1 className='page-title'>Programmatic Cell Formatting</h1>
                 <FullWidthSection useContent={true}>
-                    <ReactDataGrid  width={"100%"} ref="grid" horizontalScrollPolicy="off" enableEagerDraw enableFooters enableFilters enableExport 
+                    <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="off" enableEagerDraw enableFooters enableFilters enableExport 
                         dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()}
                         preferencePersistenceKey="programaticCellFormatting" forcePagerRow>
                         <ReactDataGridColumnLevel selectedKeyField="id"

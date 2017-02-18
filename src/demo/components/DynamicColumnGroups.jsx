@@ -53,12 +53,9 @@ export default class DynamicColumnGroups extends React.Component {
     }
     return null;
   }
-  componentDidMount() {
-    const grid = this.refs.grid;
-  }
 
   handleChange(newValue) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     var columnsIndex;
     var index = 1;
     if (newValue == 1)
@@ -102,7 +99,7 @@ export default class DynamicColumnGroups extends React.Component {
               <Tab label="Cols 8-10" value={3} />
             </Tabs>
           </div>
-          <ReactDataGrid styles={this.gridStyle} enableActiveCellHighlight={false} popupFactorySettingsPopup={new ClassFactory(CustomSettingsPopup)} width={"100%"} ref="grid" preferencePersistenceKey="DynamicColumnGroups" dataProvider={SampleData.salesData}
+          <ReactDataGrid styles={this.gridStyle} enableActiveCellHighlight={false} popupFactorySettingsPopup={new ClassFactory(CustomSettingsPopup)} width={"100%"} preferencePersistenceKey="DynamicColumnGroups" dataProvider={SampleData.salesData}
             enablePrint enablePreferencePersistence horizontalScrollPolicy="auto" enableExport forcePagerRow enableFilters enableFooters >
             <ReactDataGridColumn dataField="investor" headerText="Investor" headerAlign="center" filterControl="TextInput"
               cellTextColorFunction={this.getColumnTextColor} filterComboBoxBuildFromGrid columnLockMode="left" footerOperation="count" footerOperationPrecision={0} />

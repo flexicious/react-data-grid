@@ -11,7 +11,7 @@ export default class ColumnLockMode extends React.Component {
       <div>
         <h1 className='page-title'>Column Lock Modes</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid width={"100%"} ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy horizontalScrollPolicy="auto"
+          <ReactDataGrid width={"100%"} enablePrint enablePreferencePersistence enableExport enableCopy horizontalScrollPolicy="auto"
             preferencePersistenceKey="columnLockModes" useCompactPreferences enableMultiColumnSort dataProvider={FlexiciousMockGenerator.instance().getFlatOrgList()} >
             <ReactDataGridColumnLevel selectedKeyField="id" enablePaging pageSize={50} enableFilters enableFooters>
               <ReactDataGridColumn dataField="orgIndex" headerText="orgIndex" />

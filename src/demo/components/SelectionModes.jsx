@@ -14,7 +14,7 @@ export default class SelectionModes extends React.Component {
   }
 
   onSelectionModeChange(event, mode) {
-    var grid = this.refs.grid;
+    var grid = this.grid;
     grid.clearSelection();
     grid.enableStickyControlKeySelection = true;
     grid.setSelectionMode(mode);
@@ -25,7 +25,7 @@ export default class SelectionModes extends React.Component {
     }
   }
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
 
   }
   render() {
@@ -58,12 +58,12 @@ export default class SelectionModes extends React.Component {
               />
           </RadioButtonGroup>
 
-          <RaisedButton onClick={() => { this.refs.grid.clearSelection() } } label={"Clear Selection"} />
-          <RaisedButton onClick={() => { alert('Selected Keys:' + this.refs.grid.getSelectedKeys().join('|')) } } label={"Show Selection"} />
+          <RaisedButton onClick={() => { this.grid.clearSelection() } } label={"Clear Selection"} />
+          <RaisedButton onClick={() => { alert('Selected Keys:' + this.grid.getSelectedKeys().join('|')) } } label={"Show Selection"} />
 
 
 
-          <ReactDataGrid  width={"100%"} ref="grid" enableFooters selectedKeyField="id" preferencePersistenceKey="selectionModes"
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} enableFooters selectedKeyField="id" preferencePersistenceKey="selectionModes"
             dataProvider={FlexiciousMockGenerator.instance().getFlatOrgList()}>
             <ReactDataGridColumn type="checkbox" id="cbCol" />
             <ReactDataGridColumn dataField="id" headerText="ID" filterControl="TextInput" />

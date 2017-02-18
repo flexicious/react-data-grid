@@ -20,11 +20,11 @@ export default class VariableHeaderRowHeight extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
   }
 
   handleDoubleClick(event) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setSelectedObjects([event.item]);
   }
   render() {
@@ -33,7 +33,7 @@ export default class VariableHeaderRowHeight extends React.Component {
         <h1 className='page-title'>Variable Header Row Height</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"} ref="grid" selectionMode="singleRow" variableHeaderHeight variableRowHeight horizontalScrollPolicy="off" 
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} selectionMode="singleRow" variableHeaderHeight variableRowHeight horizontalScrollPolicy="off" 
           variableRowHeightUseRendererForCalculation dataProvider={arrColl} selectedKeyField="label" doubleClickEnabled itemDoubleClick={this.handleDoubleClick.bind(this)}>
             <ReactDataGridColumnLevel>
                 <ReactDataGridColumn type="checkbox" />

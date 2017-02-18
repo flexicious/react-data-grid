@@ -6,7 +6,7 @@ import FlexiciousMockGenerator from '../mockdata/FlexiciousMockGenerator.js'
 import BusinessService from '../mockdata/BusinessService'
 export default class PartialLazyLoad extends React.Component {
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     flexiciousNmsp.BusinessService.getInstance().getFlatOrgList(function (evt, token) {
       grid.setPreservePager(true);
       grid.setDataProvider(evt.result);
@@ -29,7 +29,7 @@ export default class PartialLazyLoad extends React.Component {
       <div>
         <h1 className='page-title'>Partial Lazy Loaded</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid  width={"100%"}  ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy showSpinnerOnFilterPageSort preferencePersistenceKey="partialLazyLoaded"
+          <ReactDataGrid  width={"100%"}  ref={(grid) => { this.grid = grid; }} enablePrint enablePreferencePersistence enableExport enableCopy showSpinnerOnFilterPageSort preferencePersistenceKey="partialLazyLoaded"
                                       enableEagerDraw>
             <ReactDataGridColumnLevel enableFilters enablePaging pageSize={20} childrenField="deals" enableFooters selectedKeyField="id" itemLoadMode="server"
                                       itemLoad={this.columnlevel1_itemLoadHandler}>

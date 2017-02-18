@@ -12,8 +12,8 @@ export default class Grouped2 extends React.Component {
   }
 
   componentDidMount() {
-    this.refs.grid.validateNow();
-    this.refs.grid.expandAll();
+    this.grid.validateNow();
+    this.grid.expandAll();
   }
   onCreationComplete() {
     console.log('Grid initialized')
@@ -91,8 +91,8 @@ export default class Grouped2 extends React.Component {
     return false;
   };
   componentDidMount() {
-    this.refs.grid.validateNow();
-    this.refs.grid.expandAll();
+    this.grid.validateNow();
+    this.grid.expandAll();
   };
   render() {
     return (
@@ -100,7 +100,7 @@ export default class Grouped2 extends React.Component {
         <h1 className='page-title'>Grouped Data</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"} ref="grid" dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} id="grid"
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} id="grid"
             enablePrint horizontalGridLines cellPlacementFunction={this.cellPlaced} horizontalScrollPolicy="off" 
             enablePreferencePersistence enableFilters enableDrillDown enableDefaultDisclosureIcon={false}
             enableExport enableCopy enableEagerDraw showSpinnerOnFilterPageSort preferencePersistenceKey="groupedData2">

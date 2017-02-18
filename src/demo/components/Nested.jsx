@@ -6,7 +6,7 @@ import FlexiciousMockGenerator from '../mockdata/FlexiciousMockGenerator.js'
 import BusinessService from '../mockdata/BusinessService'
 export default class Nested extends React.Component {
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     BusinessService.getInstance().getDeepOrgList(function (evt, token) {
       grid.setDataProvider(evt.result);
       grid.hideSpinner();
@@ -18,7 +18,7 @@ export default class Nested extends React.Component {
       <div>
         <h1 className='page-title'>Nested Data</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid minWidth={"600px"} width={"100%"} ref="grid"  enableEagerDraw showSpinnerOnFilterPageSort enablePrint enableMultiColumnSort enablePreferencePersistence enableDrillDown enableExport enableCopy enableSelectionCascade
+          <ReactDataGrid minWidth={"600px"} width={"100%"} ref={(grid) => { this.grid = grid; }}  enableEagerDraw showSpinnerOnFilterPageSort enablePrint enableMultiColumnSort enablePreferencePersistence enableDrillDown enableExport enableCopy enableSelectionCascade
             enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey={"nesteddata"} itemDoubleClick={"myCompanyNameSpace.nested_grid_itemDoubleClickHandler"}
             doubleClickEnabled horizontalScrollPolicy={"auto"}  >
             <ReactDataGridColumnLevel enableFilters enablePaging initialSortField={"legalName"} pageSize={20} childrenField={"deals"} enableFooters selectedKeyField={"id"}										  >

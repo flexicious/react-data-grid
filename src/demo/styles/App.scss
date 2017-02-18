@@ -11,7 +11,10 @@ $select-color: unquote("rgba(#{$color-black}, 0.26)") !default;
 $select-padding: 4px;
 $color: #cccccc;
 
-
+.flexiciousGrid label{
+  color:#333333;
+}
+   
    
 .flexiciousGrid input::-webkit-input-placeholder, button {
   font-family: 'roboto', sans-serif;

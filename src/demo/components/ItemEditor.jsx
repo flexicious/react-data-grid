@@ -53,7 +53,7 @@ export default class ItemEditor extends React.Component {
       <div>
         <h1 className='page-title'>Item Editors</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid  width={"100%"} horizontalScrollPolicy="off" rowDisabledFunction={this.getRowDisabled} editable enableFilters enableFooters ref="grid" 
+          <ReactDataGrid  width={"100%"} horizontalScrollPolicy="off" rowDisabledFunction={this.getRowDisabled} editable enableFilters enableFooters ref={(grid) => { this.grid = grid; }} 
             itemEditValueCommit={this.itemEditValueCommitHandler} preferencePersistenceKey="editableCells" dataProvider={FlexiciousMockGenerator.instance().getFlatOrgList()}>
             <ReactDataGridColumn type="checkbox" />
             <ReactDataGridColumn dataField="id" headerText="ID" filterControl="TextInput" editable selectable truncateToFit />
