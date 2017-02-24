@@ -43,6 +43,7 @@ $color: #cccccc;
 }
 .flexiciousGrid .editor{
     background: #FFF;
+    overflow: visible !important;
 }
 /* Remove focus */
 .flexiciousGrid select:focus {

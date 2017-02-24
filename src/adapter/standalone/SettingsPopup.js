@@ -3,12 +3,8 @@
  * Copyright 2011, Flexicious LLC
  */
 
-import Constants from '../../utils/Constants'
-import UIUtils from '../../utils/UIUtils' 
-import ToolbarAction from '../../flexgrid/valueobjects/ToolbarAction'
-import UIComponent from '../../core/UIComponent'
-import ReactDataGrid from '../../table/ReactDataGrid'
-import ReactDataGridColumn from '../../table/ReactDataGridColumn'
+import { UIUtils, Constants, UIComponent, ReactDataGrid, ReactDataGridColumn, ToolbarAction } from './LibraryImports'
+
 import React from 'react'
 /**
  * A SettingsPopup that which can be used within the filtering/binding infrastructure.
@@ -22,9 +18,6 @@ export default class SettingsPopup extends UIComponent {
     constructor() {
         super({}, "div")
         this.attachClass("flexiciousGrid");
-        this.setWidth(800);
-        this.setHeight(600);
-
     }
 
     /**
@@ -99,33 +92,35 @@ export default class SettingsPopup extends UIComponent {
     }
     showDialog() {
         const actions = [ToolbarAction.create(Constants.MCS_BTN_APPLY_LABEL, this.onOK.bind(this), true),
-        ToolbarAction.create(Constants.MCS_BTN_CANCEL_LABEL, this.onCancel.bind(this), true),
+            ToolbarAction.create(Constants.MCS_BTN_CANCEL_LABEL, this.onCancel.bind(this), true),
         ];
         this.popup = UIUtils.addPopUp(this.render(), this.grid, false, null, Constants.SETTINGS_POPUP_TITLE, actions);
         this.grid.addChild(this.popup);
     }
-
+    getHeaderText(col) {
+        return col._headerText || col.dataField;
+    }
     render() {
-        return <div className={"settingsPopup flexiciousPopup"}>
+        return <div className={"settingsPopup flexiciousPopup"} style={{ height: "400px", width: "600px" }}>
             <div className={"columnsLabel"}>{Constants.SETTINGS_COLUMNS_TO_SHOW}
-                <ReactDataGrid width={"100%"} height={300} dataProvider={this._cols} enableActiveCellHighlight={false}
+                <ReactDataGrid width={400} height={300} dataProvider={this._cols} enableActiveCellHighlight={false}
                     selectedObjects={(this._cols.length != this._visibleCols.length) ? this._visibleCols : this._cols}
                     onChange={(evt) => { this.selectedColumns = evt.grid.getSelectedObjects() } }>
                     <ReactDataGridColumn type={"checkbox"} />
-                    <ReactDataGridColumn dataField={"_headerText"} headerText={Constants.SETTINGS_COLUMNS_TO_SHOW} />
+                    <ReactDataGridColumn labelFunction={this.getHeaderText} headerText={Constants.SETTINGS_COLUMNS_TO_SHOW} />
                 </ReactDataGrid>
             </div>
             <div className={"options"}>
                 <input type="checkbox" className={"cbFooter"} defaultChecked={this._footerVisible} style={this._enableFooters ? {} : { "visibility": "hidden" }}
                     onChange={(evt) => { this._footerVisible = evt.currentTarget.checked } } />
-                <span> {Constants.SETTINGS_SHOW_FOOTERS}</span>
+                <span style={this._enableFooters ? {} : { "visibility": "hidden" }}> {Constants.SETTINGS_SHOW_FOOTERS}</span>
                 <br />
                 <input type="checkbox" className={"cbFilters"} defaultChecked={this._filterVisible} style={this._enableFilters ? {} : { "visibility": "hidden" }}
                     onChange={(evt) => { this._filterVisible = evt.currentTarget.checked } } />
-                <span> {Constants.SETTINGS_SHOW_FILTER}</span>
+                <span style={this._enableFilters ? {} : { "visibility": "hidden" }}> {Constants.SETTINGS_SHOW_FILTER}</span>
                 <br />
                 <br />
-                <div>
+                <div style={this._enablePaging ? {} : { "visibility": "hidden" }}>
                     <span>{Constants.SETTINGS_RECORDS_PER_PAGE}</span>
                     <input className={"txtPageSize"} type={"number"} defaultValue={this._pageSize || 50}
                         onChange={(evt) => { this._pageSize = parseInt(evt.currentTarget.value) } } />

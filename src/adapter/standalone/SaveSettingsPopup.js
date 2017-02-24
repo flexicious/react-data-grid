@@ -2,11 +2,8 @@
  * Flexicious
  * Copyright 2011, Flexicious LLC
  */
-import UIUtils from '../../utils/UIUtils'
-import Constants from '../../utils/Constants'
-import UIComponent from '../../core/UIComponent'
-import TriStateCheckBox from '../../controls/TriStateCheckBox'
-import ToolbarAction from '../../flexgrid/valueobjects/ToolbarAction'
+import { Constants, ToolbarAction, UIUtils, UIComponent, TriStateCheckBox } from './LibraryImports'
+
 import React from 'react'
 /**
  * A SaveSettingsPopup that which can be used within the filtering/binding infrastructure.
@@ -110,24 +107,24 @@ export default class SaveSettingsPopup extends UIComponent {
             </div>;
 
         }
-        return <div>
+        return <div style={{ height: "200px", width: "600px" }}>
             {prefName}
-            <table style={{ width: "550px" }}>
+            <table style={{ width: "550px", borderSpacing: "20px" }}>
                 <tbody>
                     <tr>
-                        <td>
+                        <td style={{ textAlign: "left" }}>
                             <div style={{ display: "inline-block" }}>
                                 <input type={"checkbox"} className={"cbPERSIST_COLUMN_ORDER"} defaultChecked={true} />{Constants.SAVE_SETTINGS_ORDER_OF_COLUMNS}<br />
                                 <input type={"checkbox"} className={"cbPERSIST_COLUMN_VISIBILITY"} defaultChecked={true} />{Constants.SAVE_SETTINGS_VISIBILITY_OF_COLUMNS}<br />
                                 <input type={"checkbox"} className={"cbPERSIST_COLUMN_WIDTH"} defaultChecked={true} />{Constants.SAVE_SETTINGS_WIDTHS_OF_COLUMNS}</div>
                         </td>
-                        <td>
+                        <td style={{ textAlign: "left" }}>
                             <div style={{ display: "inline-block" }}>
                                 <input type={"checkbox"} className={"cbPERSIST_FILTER"} defaultChecked={true} />{Constants.SAVE_SETTINGS_FILTER_CRITERIA}<br />
                                 <input type={"checkbox"} className={"cbPERSIST_SORT"} defaultChecked={true} /> {Constants.SAVE_SETTINGS_SORT_SETTINGS}<br />
                                 <input type={"checkbox"} className={"cbPERSIST_SCROLL"} defaultChecked={true} />{Constants.SAVE_SETTINGS_SCROLL_POSITIONS} </div>
                         </td>
-                        <td>
+                        <td style={{ textAlign: "left" }}>
                             <div style={{ display: "inline-block" }}>
                                 <input type={"checkbox"} className={"cbPERSIST_FOOTER_FILTER_VISIBILITY"} defaultChecked={true} />{Constants.SAVE_SETTINGS_FILTER_AND_FOOTER_VISIBILITY} <br />
                                 <input type={"checkbox"} className={"cbPERSIST_PAGE_SIZE"} defaultChecked={true} />{Constants.SAVE_SETTINGS_RECORDS_PER_PAGE}<br />

@@ -1,16 +1,14 @@
 
-import { Constants, ToolbarAction, TypedObject } from './LibraryImports'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import { UIUtils, Constants, ToolbarAction, TypedObject, ClassFactory } from './LibraryImports'
 import React from 'react';
-import DatePicker from 'material-ui/DatePicker';
 
+import Modal from './Modal'
+import ExportOptionsView from './ExportOptionsView'
+import SaveSettingsPopup from './SaveSettingsPopup'
+import SettingsPopup from './SettingsPopup'
+import DatePicker from './DatePicker'
 
-import MaterialExportOptionsView from './MaterialExportOptionsView'
-import MaterialSaveSettingsPopup from './MaterialSaveSettingsPopup'
-import MaterialSettingsPopup from './MaterialSettingsPopup'
-
-class MaterialModal extends React.Component {
+class StandAloneModal extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -23,6 +21,8 @@ class MaterialModal extends React.Component {
                     this.setState({ open: false });
                 }
             }
+        }
+        this.onClickOverlay = () => {
         }
     }
 
@@ -57,60 +57,63 @@ class MaterialModal extends React.Component {
         };
         return (
             <div key="dialogDiv">
-                <Dialog
+                <Modal
                     key="dialog"
+                    onClickOverlay={this.onClickOverlay}
                     title={this.props.title}
                     actions={actions}
                     modal={this.props.modal}
-                    open={this.state.open}
+                    visible={this.state.open}
                     contentStyle={customContentStyle}
+                    className= {"flexiciousPopup"}
+                    width={this.props.width}
+                    height={this.props.height}
                     >
                     {children}
-                </Dialog>
+                </Modal>
             </div>
         );
     }
 }
 
 const ParameterizedFlatButton = ({label, callback, arg}) => {
-    return <FlatButton
-        label={label}
-        primary={true}
+    return <button
         onClick={() => { callback(arg) } }
-        />;
+        > {label}</button>;
 }
 
 
 /**
- * A utility class that maps utility functions from Flexicious into Material
+ * A utility class that maps utility functions from Flexicious into JQuery
  * @constructor
  * @namespace com.flexicious.adapters
  */
-export default class MaterialAdapter {
+export default class StandaloneAdapter {
     getClassNames() { //for support of "is" keyword
         return ["TypedObject", this.typeName];
     }
 
 
     setupInputMask(input, options) {
-        //todo implement
+        debugger;
     }
     showDialog(elem, parent, modal, w, h, title, actions) {
 
-        return <MaterialModal key="modalDialog" actions={actions} title={title} width={w} height={h} modal={modal}>
+        return <StandAloneModal key="modalDialog" actions={actions} title={title} width={elem.props.style ? elem.props.style.width : "400"}
+        height={elem.props.style ? elem.props.style.height : "300"}  modal={modal}>
             {elem}
-        </MaterialModal>;
+        </StandAloneModal>;
     }
 
     createSettingsPopup() {
-        return new flexiciousNmsp.ClassFactory(flexiciousNmsp.MaterialSettingsPopup)
+        return new ClassFactory(SettingsPopup)
     }
     createSaveSettingsPopup() {
-        return new flexiciousNmsp.ClassFactory(flexiciousNmsp.MaterialSaveSettingsPopup)
+        return new ClassFactory(SaveSettingsPopup)
 
     }
     createExportPopup() {
-        return new flexiciousNmsp.ClassFactory(flexiciousNmsp.MaterialExportOptionsView)
+        return new ClassFactory(ExportOptionsView)
 
     }
 
@@ -118,9 +121,9 @@ export default class MaterialAdapter {
         return <DatePicker hintText={hintText} ref={ref} defaultDate={dflt} container="inline" autoOk={true} key={ref} onChange={onChangeCallBack} />
     }
     getDateFromPicker(picker) {
-        return picker.state.date || picker.state.dialogDate;
+        return picker.state.selectedDay;
     }
- 
+
 
     showMessage(msg) {
         //alert(msg);//todo - make a better notification popup
@@ -142,7 +145,6 @@ export default class MaterialAdapter {
 
 
     }
-
     showToaster(
         message,
         title,
@@ -158,10 +160,9 @@ export default class MaterialAdapter {
     }
 }
 
-flexiciousNmsp.MaterialAdapter = MaterialAdapter; //add to name space
-MaterialAdapter.prototype.typeName = MaterialAdapter.typeName = "MaterialAdapter";//for quick inspection
-flexiciousNmsp.MaterialAdapter = MaterialAdapter;
-flexiciousNmsp.UIUtils.adapter = new MaterialAdapter();
+flexiciousNmsp.StandaloneAdapter = StandaloneAdapter; //add to name space
+StandaloneAdapter.prototype.typeName = StandaloneAdapter.typeName = "StandaloneAdapter";//for quick 
+flexiciousNmsp.UIUtils.adapter = new StandaloneAdapter();
 
 /*
 Copyright (c) 2013 Jad Joubran
