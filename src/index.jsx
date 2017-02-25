@@ -1,7 +1,7 @@
 
 import { Constants, StyleDefaults } from 'flexicious-react-datagrid'
 import Demo from './demo/Demo'
-import StandAloneAdapter from './adapter/StandAlone/StandAloneAdapter'
+import StandAloneAdapter from 'flexicious-react-datagrid-styles'
 var React = require('react');
 var ReactDOM = require('react-dom');
 var injectTapEventPlugin = require('react-tap-event-plugin');
