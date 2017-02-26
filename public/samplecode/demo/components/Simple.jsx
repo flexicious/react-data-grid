@@ -17,7 +17,7 @@ export default class Simple extends React.Component {
       <div>
         <h1 className='page-title'>Simple Grid</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid ref={'grid'} width={"100%"} enablePrint enablePreferencePersistence enableDrag showSpinnerOnFilterPageSort enableEagerDraw
+          <ReactDataGrid ref={'grid'} width={"100%"} enablePrint enablePreferencePersistence  showSpinnerOnFilterPageSort enableEagerDraw
             enableDrop enableExport enableCopy preferencePersistenceKey={'simpleGrid'} enableMultiColumnSort useCompactPreferences horizontalScrollPolicy={'auto'}
             footerDrawTopBorder enablePdf headerRowHeight={100}>
             <ReactDataGridColumnLevel selectedKeyField={'id'} enablePaging pageSize={50} enableFilters enableFooters initialSortField={'legalName'} initialSortAscending>
