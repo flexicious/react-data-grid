@@ -170,3 +170,13 @@ body {
 		.tabrow li.selected:after {
 		    box-shadow: -2px 2px 0 #FFF;
 		}
+
+
+//here we customize core flexicious css classes.
+.flexiciousGridPager .iconCell{
+    margin: 2px;
+    padding: 2px;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+    height:36px;
+}
