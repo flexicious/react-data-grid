@@ -86,11 +86,11 @@ export default class ProgramaticCellFormatting extends React.Component {
                             <ReactDataGridColumn dataField="headquarterAddress.line1" headerText="Address Line 1" footerLabel="Count:" footerOperation="count" />
                             <ReactDataGridColumn dataField="headquarterAddress.line2" headerText="Address Line 2" />
                             <ReactDataGridColumn dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid
-                                filterComboBoxWidth={150} />
+                                 />
                             <ReactDataGridColumn dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid
-                                filterComboBoxWidth={150} />
+                                 />
                             <ReactDataGridColumn dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox"
-                                filterComboBoxBuildFromGrid filterComboBoxWidth={150} />
+                                filterComboBoxBuildFromGrid  />
                             <ReactDataGridColumn width={100} columnWidthMode="fixed" cellBackgroundColorFunction={this.getColumnBackground}
                                 cellTextColorFunction={this.getColumnTextColor}  headerAlign="right" dataField="annualRevenue" headerText="Annual Revenue" textAlign="right" headerAlign="right" headerAlign="center"
                                 footerLabel="Avg:" footerOperation="average" footerAlign="center" footerOperationPrecision={2}

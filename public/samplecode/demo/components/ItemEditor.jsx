@@ -61,13 +61,13 @@ export default class ItemEditor extends React.Component {
             <ReactDataGridColumn dataField="headquarterAddress.line1" headerText="Address Line 1" footerLabel="Count:" footerOperation="count" editable />
             <ReactDataGridColumn dataField="headquarterAddress.line2" headerText="Address Line 2" />
             <ReactDataGridColumn dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid
-              filterComboBoxWidth="150" editable />
+              editable />
             <ReactDataGridColumn dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox"
-              filterComboBoxBuildFromGrid filterComboBoxWidth="150" editable itemEditorManagesPersistence useFilterDataProviderForItemEditor
+              filterComboBoxBuildFromGrid editable itemEditorManagesPersistence useFilterDataProviderForItemEditor
               itemEditor={ComboBoxItemEditor} />
             <ReactDataGridColumn dataField="addedDate" headerText="Added Date" itemEditor={DatePicker} format="date" editable editorDataField="selectedDate" />
             <ReactDataGridColumn dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox"
-              filterComboBoxBuildFromGrid filterComboBoxWidth="150" editable={false} />
+              filterComboBoxBuildFromGrid editable={false} />
             <ReactDataGridColumn dataField="annualRevenue" headerText="Annual Revenue" textAlign="right" headerAlign="right" headerAlign="center" footerLabel="Avg:" footerOperation="average"
               footerAlign="center" footerOperationPrecision={2} footerFormatter={flexiciousNmsp.CurrencyFormatter}
               labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} editable />

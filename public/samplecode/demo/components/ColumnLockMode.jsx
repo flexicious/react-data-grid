@@ -24,11 +24,11 @@ export default class ColumnLockMode extends React.Component {
                 </ReactDataGridColumnGroup>
                 <ReactDataGridColumnGroup headerText="Region">
                   <ReactDataGridColumn id="colCity" dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox"
-                    filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+                    filterComboBoxBuildFromGrid />
                   <ReactDataGridColumn id="colState" dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox"
-                    filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+                    filterComboBoxBuildFromGrid />
                   <ReactDataGridColumn id="colCountry" dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox"
-                    filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+                    filterComboBoxBuildFromGrid />
                 </ReactDataGridColumnGroup>
               </ReactDataGridColumnGroup>
               <ReactDataGridColumnGroup headerText="Financials" >

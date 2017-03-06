@@ -48,11 +48,11 @@ export default class CustomFooter extends React.Component {
               <ReactDataGridColumn textAlign="right" headerAlign="right" labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} width="100" headerText="Annual Salary" dataField="annualSalary"
                 filterControl="NumericRangeBox" filterTriggerEvent="enterKeyUp" footerLabelFunction={this.getSalaryFooter} />
               <ReactDataGridColumn headerText="State" dataField="stateCode" />
-              <ReactDataGridColumn headerText="Department" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+              <ReactDataGridColumn headerText="Department" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
               <ReactDataGridColumn headerText="Phone" dataField="phoneNumber" />
               <ReactDataGridColumn headerText="Active" dataField="isActive" filterOperation="Equals" filterControl="TriStateCheckBox" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
               <ReactDataGridColumn headerText="Hire Date" dataField="hireDate" filterControl="DateComboBox" labelFunction={UIUtils.dataGridFormatDateLabelFunction}
-                filterDateRangeOptions="[flexiciousNmsp.DateRange.DATE_RANGE_THISQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_LASTQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_THISYEAR,flexiciousNmsp.DateRange.DATE_RANGE_LASTYEAR,flexiciousNmsp.DateRange.DATE_RANGE_CUSTOM]" filterComboBoxWidth="150" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
+                filterDateRangeOptions="[flexiciousNmsp.DateRange.DATE_RANGE_THISQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_LASTQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_THISYEAR,flexiciousNmsp.DateRange.DATE_RANGE_LASTYEAR,flexiciousNmsp.DateRange.DATE_RANGE_CUSTOM]" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
             </ReactDataGridColumnLevel>
           </ReactDataGrid>
         </FullWidthSection>

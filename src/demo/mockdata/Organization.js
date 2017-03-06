@@ -1,4 +1,5 @@
 import BaseEntity from './BaseEntity'
+import FlexiciousMockGenerator from './FlexiciousMockGenerator'
 /**
  * Flexicious
  * Copyright 2011, Flexicious LLC
@@ -29,7 +30,7 @@ export default class Organization extends BaseEntity {
     }
 
     getOrgIndex() {
-        return myCompanyNameSpace.FlexiciousMockGenerator.simpleList.indexOf(this);
+        return FlexiciousMockGenerator.simpleList.indexOf(this);
     }
 
     getRelationshipAmount() {

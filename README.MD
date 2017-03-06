@@ -8,6 +8,7 @@ Smooth scroll, Nested Hierarchical Tree/child grids, Left/Right Locked Columns, 
 
 Instructions
 
+http://www/reactdatagrid.com
 
 1) git clone https://github.com/flexicious/react-datagrid
 
@@ -15,10 +16,6 @@ Instructions
 
 3) npm install 
 
-4) If you dont have an http-server - npm install -g http-server
+4) npm start
 
-5) npm run dev (on windows) or on mac/unix: webpack -d --progress  --watch --config ./config/webpack.config.js | http-server .
-
-6) Place the trial version of the library in the public folder [If you dont have one, request it here : http://www.reactdatagrid.com/#trial]
-
-7) Open a browser and goto http://localhost:8080/public/ 
+5) Open a browser and goto http://localhost:3000 

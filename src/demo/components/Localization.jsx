@@ -146,7 +146,7 @@ export default class Localization extends React.Component {
               <ReactDataGridColumn headerText="Nom" labelFunction={this.getFullName} />
               <ReactDataGridColumn textAlign="right" headerAlign="right" labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} width="100" headerText="Salaire annuel" dataField="annualSalary" filterControl="NumericRangeBox" filterTriggerEvent="enterKeyUp" />
               <ReactDataGridColumn headerText="Etat" dataField="stateCode" />
-              <ReactDataGridColumn headerText="Département" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+              <ReactDataGridColumn headerText="Département" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
               <ReactDataGridColumn headerText="Téléphone" dataField="phoneNumber" />
               <ReactDataGridColumn headerText="Actif" dataField="isActive" filterOperation="Equals" filterControl="TriStateCheckBox" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
 

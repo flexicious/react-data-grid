@@ -39,11 +39,11 @@ export default class Nested extends React.Component {
                 </ReactDataGridColumnGroup>
                 <ReactDataGridColumnGroup headerText={"Region"}>
                   <ReactDataGridColumn id={"colCity"} dataField={"headquarterAddress.city.name"} headerText={"City"} filterControl={"ComboBox"}
-                    filterComboBoxBuildFromGrid filterComboBoxWidth={"150"} />
+                    filterComboBoxBuildFromGrid  />
                   <ReactDataGridColumn id={"colState"} editable itemEditor={flexiciousNmsp.ComboBox} itemEditorApplyOnValueCommit useFilterDataProviderForItemEditor
-                    dataField={"headquarterAddress.state.name"} headerText={"State"} filterControl={"MultiSelectComboBox"} filterComboBoxBuildFromGrid filterComboBoxWidth={"150"} />
+                    dataField={"headquarterAddress.state.name"} headerText={"State"} filterControl={"MultiSelectComboBox"} filterComboBoxBuildFromGrid  />
                   <ReactDataGridColumn id={"colCountry"} dataField={"headquarterAddress.country.name"} headerText={"Country"} filterControl={"MultiSelectComboBox"}
-                    filterComboBoxBuildFromGrid filterComboBoxWidth={"150"} />
+                    filterComboBoxBuildFromGrid  />
                 </ReactDataGridColumnGroup>
               </ReactDataGridColumnGroup>
               <ReactDataGridColumnGroup headerText={"Financials"} >

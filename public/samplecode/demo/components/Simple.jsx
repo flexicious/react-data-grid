@@ -27,11 +27,11 @@ export default class Simple extends React.Component {
               <ReactDataGridColumn id={'colLine1'} dataField={'headquarterAddress.line1'} headerText={'Line 1'} footerLabel={'Count:'} footerOperation={'count'} />
               <ReactDataGridColumn id={'colLine2'} dataField={'headquarterAddress.line2'} headerText={'Line 2'} />
               <ReactDataGridColumn id={'colCity'} dataField={'headquarterAddress.city.name'} headerText={'City'} filterControl={'MultiSelectComboBox'}
-                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid />
+                 filterComboBoxBuildFromGrid />
               <ReactDataGridColumn id={'colState'} dataField={'headquarterAddress.state.name'} headerText={'State'} filterControl={'MultiSelectComboBox'}
-                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid />
+                 filterComboBoxBuildFromGrid />
               <ReactDataGridColumn id={'colCountry'} dataField={'headquarterAddress.country.name'} headerText={'Country'} filterControl={'MultiSelectComboBox'}
-                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid />
+                 filterComboBoxBuildFromGrid />
               <ReactDataGridColumn headerAlign={'right'} id={'colAnnRev'} dataField={'annualRevenue'} headerText={'Annual Revenue'} headerWordWrap
                 textAlign={'right'} footerLabel={'Avg:'} footerOperation={'average'} footerAlign={'center'} footerOperationPrecision={'2'}
                 labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} filterControl={'NumericRangeBox'} sortNumeric
