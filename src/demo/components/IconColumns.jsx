@@ -84,7 +84,6 @@ export default class IconColumns extends React.Component {
  * A IconTooltipRenderer is a custom item renderer, that defines how to use custom cells with logic that you can control
  * @constructor
  * @namespace flexiciousNmsp
- * @extends UIComponent
  */
 class IconTooltipRenderer extends UIComponent {
   constructor() {
@@ -100,7 +99,7 @@ class IconTooltipRenderer extends UIComponent {
     // this.domElement.style.position="absolute";
     this.setHeight(350);
     this.setWidth(270);
-    this.setComponentStyleAttribute("position", "absolute");
+    this.setStyleAttribute("position", "absolute");
     this.addEventListener(this, Constants.EVENT_CLICK, this.onPopupClick);
   }
 

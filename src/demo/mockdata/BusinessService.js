@@ -8,7 +8,6 @@ import { UIUtils, Constants } from '../components/LibraryImports'
  * @author Flexicious
  * @constructor
  * @namespace com.flexicious.example.serviceproxies
- * @extends ServiceProxyBase
  */
 export default class BusinessService extends ServiceProxyBase {
     constructor() {

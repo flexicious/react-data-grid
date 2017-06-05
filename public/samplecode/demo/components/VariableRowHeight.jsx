@@ -15,7 +15,7 @@ export default class VariableRowHeight extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setDataProvider(SampleData.bookData);
     grid.validateNow();
     grid.expandAll();
@@ -38,7 +38,7 @@ export default class VariableRowHeight extends React.Component {
       <div>
         <h1 className='page-title'>Variable Row Height</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid  width={"100%"} ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy enableFilters enableFooters initialSortField="title" preferencePersistenceKey="variableRowHeight" initialSortAscending forcePagerRow variableRowHeight horizontalScrollPolicy="off">
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} enablePrint enablePreferencePersistence enableExport enableCopy enableFilters enableFooters initialSortField="title" preferencePersistenceKey="variableRowHeight" initialSortAscending forcePagerRow variableRowHeight horizontalScrollPolicy="off">
               <ReactDataGridColumn dataField="id" headerText="ID" filterControl="TextInput" filterOperation="Contains" columnWidthMode="fitToContent" />
               <ReactDataGridColumn dataField="title" headerText="Title" filterControl="TextInput" columnWidthMode="fitToContent" footerLabel="Count:" footerOperation="count" footerAlign="center" filterOperation="Contains" />
               <ReactDataGridColumn dataField="description" headerText="Description" wordWrap />

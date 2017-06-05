@@ -13,7 +13,7 @@ export default class OnlyOneItemOpen extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
   }
 
   itemOpeningHandler(evt) {
@@ -58,7 +58,7 @@ export default class OnlyOneItemOpen extends React.Component {
       <div>
         <h1 className='page-title'>Only One Item Open</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid delegate={this} width={"100%"} ref="grid" enableFooters initialSortField="title" initialSortAscending forcePagerRow
+          <ReactDataGrid delegate={this} width={"100%"} ref={(grid) => { this.grid = grid; }} enableFooters initialSortField="title" initialSortAscending forcePagerRow
             dataProvider={UIUtils.xml2json(FlexiciousMockGenerator.dpHierarchyXML, null, true).Region} preferencePersistenceKey="onlyOneItemOpen"
             onItemOpening={this.itemOpeningHandler}>
             <ReactDataGridColumnLevel>

@@ -41,7 +41,7 @@ export default class XmlData extends React.Component {
 
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     const json = UIUtils.xml2json(dpXML);
     grid.setDataProvider(json.book);
   }
@@ -51,7 +51,7 @@ export default class XmlData extends React.Component {
         <h1 className='page-title'>Flat XML Data</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"}  ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy enableFilters enableFooters initialSortField="title"
+          <ReactDataGrid  width={"100%"}  ref={(grid) => { this.grid = grid; }} enablePrint enablePreferencePersistence enableExport enableCopy enableFilters enableFooters initialSortField="title"
             initialSortAscending forcePagerRow variableRowHeight>
             <ReactDataGridColumn dataField="id" headerText="ID" filterControl="TextInput" filterOperation="Contains" columnWidthMode="fitToContent" />
             <ReactDataGridColumn dataField="title" headerText="Title" filterControl="TextInput" columnWidthMode="fitToContent"

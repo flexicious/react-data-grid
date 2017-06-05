@@ -7,7 +7,7 @@ import { UIUtils, Constants, TypedObject } from '../components/LibraryImports'
  * @author Flexicious
  * @constructor
  * @namespace com.flexicious.example.serviceproxies
- * @extends TypedObject
+ * 
  */
 export default class ServiceProxyBase extends TypedObject {
     constructor(ro) {

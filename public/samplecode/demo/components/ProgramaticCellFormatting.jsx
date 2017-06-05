@@ -1,4 +1,4 @@
-import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn } from './LibraryImports'
+import { UIUtils, ReactDataGridPsuedoScroll, ReactDataGridColumnLevel, ReactDataGridColumn } from './LibraryImports'
 import React from 'react';
 import FullWidthSection from './FullWidthSection'
 import Widget from './Widget';
@@ -73,7 +73,7 @@ export default class ProgramaticCellFormatting extends React.Component {
             <div>
                 <h1 className='page-title'>Programmatic Cell Formatting</h1>
                 <FullWidthSection useContent={true}>
-                    <ReactDataGrid  width={"100%"} ref="grid" horizontalScrollPolicy="off" enableEagerDraw enableFooters enableFilters enableExport 
+                    <ReactDataGridPsuedoScroll  width={"100%"} ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="off" enableEagerDraw enableFooters enableFilters enableExport 
                         dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()}
                         preferencePersistenceKey="programaticCellFormatting" forcePagerRow>
                         <ReactDataGridColumnLevel selectedKeyField="id"
@@ -86,11 +86,11 @@ export default class ProgramaticCellFormatting extends React.Component {
                             <ReactDataGridColumn dataField="headquarterAddress.line1" headerText="Address Line 1" footerLabel="Count:" footerOperation="count" />
                             <ReactDataGridColumn dataField="headquarterAddress.line2" headerText="Address Line 2" />
                             <ReactDataGridColumn dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid
-                                 />
+                                filterComboBoxWidth={150} />
                             <ReactDataGridColumn dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid
-                                 />
+                                filterComboBoxWidth={150} />
                             <ReactDataGridColumn dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox"
-                                filterComboBoxBuildFromGrid  />
+                                filterComboBoxBuildFromGrid filterComboBoxWidth={150} />
                             <ReactDataGridColumn width={100} columnWidthMode="fixed" cellBackgroundColorFunction={this.getColumnBackground}
                                 cellTextColorFunction={this.getColumnTextColor}  headerAlign="right" dataField="annualRevenue" headerText="Annual Revenue" textAlign="right" headerAlign="right" headerAlign="center"
                                 footerLabel="Avg:" footerOperation="average" footerAlign="center" footerOperationPrecision={2}
@@ -106,7 +106,7 @@ export default class ProgramaticCellFormatting extends React.Component {
                                 footerOperation="average" footerOperationPrecision={2} footerFormatter={flexiciousNmsp.CurrencyFormatter}
                                 labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} />
                         </ReactDataGridColumnLevel>
-                    </ReactDataGrid>
+                    </ReactDataGridPsuedoScroll>
                 </FullWidthSection>
             </div>
         );

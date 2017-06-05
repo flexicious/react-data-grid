@@ -58,7 +58,7 @@ export default class ItemRenderer extends React.Component {
         <h1 className='page-title'>Item Renderers</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"} ref="grid" ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy itemClick={this.itemClickHandler}
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} ref={(grid) => { this.grid = grid; }} enablePrint enablePreferencePersistence enableExport enableCopy itemClick={this.itemClickHandler}
             dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} rowHeight={55} horizontalScrollPolicy="off" 
             selectedKeyField="id" enablePaging pageSize={50} enableFilters enableFooters initialSortField="legalName"
             initialSortAscending preferencePersistenceKey="itemRenderers" >
@@ -71,8 +71,6 @@ export default class ItemRenderer extends React.Component {
               <ReactDataGridColumn dataField="lastStockPrice" headerText="Stock Price" labelFunction={this.getStockChartHTML} />
               <ReactDataGridColumn sortable={false} enableCellClickRowSelect={false} width={50} dataField="isActive"
                 itemRenderer={CheckBoxItemRenderer} headerRenderer={CheckBoxHeaderRenderer} />
-
-
               <ReactDataGridColumnLevel enableFooters selectedKeyField="id" initialSortField="dealDate" initialSortAscending={false}>
                 <ReactDataGridColumn type="checkbox" />
                 <ReactDataGridColumn dataField="dealDescription" headerText="Deal Description" footerLabel="Count:" footerOperation="count" footerAlign="center" />

@@ -3,7 +3,7 @@ import { UIUtils, TypedObject } from '../components/LibraryImports'
          * Typical model class, Employee with typical properties
          * @constructor
          * @namespace
-         * @extends TypedObject
+         * 
          */
 export default class Employee extends TypedObject {
     constructor() {

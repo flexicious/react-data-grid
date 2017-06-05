@@ -19,7 +19,7 @@ export default class Nested extends React.Component {
         <h1 className='page-title'>Nested Data</h1>
         <FullWidthSection useContent={true}>
           <ReactDataGrid minWidth={"600px"} width={"100%"} ref={(grid) => { this.grid = grid; }}  enableEagerDraw showSpinnerOnFilterPageSort enablePrint enableMultiColumnSort enablePreferencePersistence enableDrillDown enableExport enableCopy enableSelectionCascade
-            enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey={"nesteddata"} itemDoubleClick={"myCompanyNameSpace.nested_grid_itemDoubleClickHandler"}
+            enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey={"nesteddata"} 
             doubleClickEnabled horizontalScrollPolicy={"auto"}  >
             <ReactDataGridColumnLevel enableFilters enablePaging initialSortField={"legalName"} pageSize={20} childrenField={"deals"} enableFooters selectedKeyField={"id"}										  >
               <ReactDataGridColumn editable itemEditorApplyOnValueCommit id={"date"} itemEditor={flexiciousNmsp.DatePicker} dataField={"addedDate"}
@@ -58,9 +58,6 @@ export default class Nested extends React.Component {
                 <ReactDataGridColumn id={"colStockPrice"} editable dataField={"lastStockPrice"} headerText={"Stock Price"} textAlign={"right"} footerLabel={"Avg:"}
                   footerOperation={"average"} footerOperationPrecision={2} footerFormatter={flexiciousNmsp.CurrencyFormatter}
                   labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} />
-                <ReactDataGridColumn id={"colDelete"} excludeFromPrint columnWidthMode={"fixed"} width={"25"} headerText={" "} iconLeft={"6"} iconTop={4}
-                  enableIcon headerIcon={"http://www.htmltreegrid.com/demo/flexicious/css/images/search_clear.png"}
-                  icon={"http://www.htmltreegrid.com/demo/flexicious/css/images/search_clear.png"} sortable={false} />
               </ReactDataGridColumnGroup>
               <ReactDataGridColumnLevel childrenField={"invoices"} enableFooters selectedKeyField={"id"} nestIndent={30} initialSortField={"dealDate"}
                 initialSortAscending={false} parentField={"customer"}>

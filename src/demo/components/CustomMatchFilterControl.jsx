@@ -30,7 +30,6 @@ export default class CustomMatchFilterControl extends React.Component {
  * A TextInputRenderer is a custom item renderer, that defines how to use custom cells with logic that you can control
  * @constructor
  * @namespace flexiciousNmsp
- * @extends TextInput
  */
 class CustomMatchTextBoxRenderer extends TextInput {
 

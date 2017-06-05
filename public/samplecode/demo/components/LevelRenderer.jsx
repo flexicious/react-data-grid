@@ -7,8 +7,8 @@ import BusinessService from '../mockdata/BusinessService'
 
 export default class LevelRenderer extends React.Component {
   componentDidMount() {
-    this.refs.grid.validateNow();
-    this.refs.grid.expandAll();
+    this.grid.validateNow();
+    this.grid.expandAll();
   }
   render() {
     return (
@@ -17,7 +17,7 @@ export default class LevelRenderer extends React.Component {
         <FullWidthSection useContent={true}>
 
 
-          <ReactDataGrid ref="grid"  width={"100%"} enablePrint enablePreferencePersistence enableDrillDown enableExport enableCopy preferencePersistenceKey="levelRenderers"
+          <ReactDataGrid ref={(grid) => { this.grid = grid; }}  width={"100%"} enablePrint enablePreferencePersistence enableDrillDown enableExport enableCopy preferencePersistenceKey="levelRenderers"
             dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} horizontalScrollPolicy="off" >
             <ReactDataGridColumnLevel enableFilters enablePaging pageSize={20} childrenField="deals" enableFooters selectedKeyField="id" >
               <ReactDataGridColumn type="checkbox" />
@@ -25,9 +25,9 @@ export default class LevelRenderer extends React.Component {
               <ReactDataGridColumn truncateToFit enableCellClickRowSelect={false} selectable dataField="legalName" headerText="Legal Name" width="150" columnWidthMode="fixed" />
               <ReactDataGridColumn dataField="headquarterAddress.line1" headerText="Address Line 1" footerLabel="Count:" footerOperation="count" />
               <ReactDataGridColumn dataField="headquarterAddress.line2" headerText="Address Line 2" />
-              <ReactDataGridColumn dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
-              <ReactDataGridColumn dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
-              <ReactDataGridColumn dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
+              <ReactDataGridColumn dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+              <ReactDataGridColumn dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
+              <ReactDataGridColumn dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
               <ReactDataGridColumn dataField="annualRevenue" headerText="Annual Revenue" columnWidthMode="fitToContent" textAlign="right" headerAlign="right" headerAlign="center" footerLabel="Avg:"
                 footerOperation="average" footerAlign="center" columnWidthModeFitToContentExcludeHeader footerOperationPrecision={2}
                 footerFormatter={flexiciousNmsp.CurrencyFormatter} labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} />

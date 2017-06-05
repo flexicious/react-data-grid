@@ -1,7 +1,8 @@
 import React from 'react';
 import ClearFix from 'material-ui/internal/ClearFix';
 import spacing from 'material-ui/styles/spacing';
-import UIUtils from '../../js/utils/UIUtils'
+import { UIUtils } from './LibraryImports'
+
 const desktopGutter = spacing.desktopGutter;
 
 const FullWidthSection = React.createClass({
@@ -29,7 +30,6 @@ const FullWidthSection = React.createClass({
         boxSizing: 'border-box'
       },
       content: {
-        maxWidth: 1400,
         margin: '0 auto'
       }
     };

@@ -55,7 +55,7 @@ export default class Grouped2 extends React.Component {
       && cell.getLevel().nextLevel) {
       cell.move(0, cell.getY());
       cell.setActualSize(cell.parent.getWidth(), cell.getHeight());
-      cell.setComponentStyleAttribute("zIndex", 9);
+      cell.setStyleAttribute("zIndex", 9);
     }
   }
   checkCellDisabled(cell) {

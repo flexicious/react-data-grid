@@ -35,7 +35,7 @@ export default class BaseEntity extends TypedObject {
                     entity[levelProp].push(item.clone(deepClone));
                 }
             }
-            else if (this[levelProp] && (!this[levelProp] instanceof Array) && this[levelProp].implementsOrExtends('BaseEntity'))
+            else if (this[levelProp] && !(this[levelProp] instanceof Array) && this[levelProp].implementsOrExtends && this[levelProp].implementsOrExtends('BaseEntity'))
                 entity[levelProp] = this[levelProp];
         }
         return entity;

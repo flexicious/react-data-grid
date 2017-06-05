@@ -33,11 +33,9 @@ export default class AutoResizingGrid extends React.Component {
         <h1 className='page-title'>Auto Resizing Grid</h1>
         <FullWidthSection useContent={true}>
           <RaisedButton onClick={this.onAddItem} label={"Add Item"} />
-
           <ReactDataGrid dataProvider={this.state.dataProvider} width={"100%"} height={300} enablePrint enableHeightAutoAdjust enablePreferencePersistence
             enableDrillDown enableSelectionCascade enableExport enableCopy
             preferencePersistenceKey="autoResiziingGrid" />
-
         </FullWidthSection>
       </div>
     );

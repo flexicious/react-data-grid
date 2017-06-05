@@ -52,7 +52,7 @@ export default class LargeDynamicGrid extends React.Component {
 
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     numberFormatter.precision = 0;
     var _colCount = 0;
     var dp = [];
@@ -184,7 +184,7 @@ export default class LargeDynamicGrid extends React.Component {
       <div>
         <h1 className='page-title'>Large Dynamic Grid</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid width={"100%"} ref="grid" horizontalScrollPolicy="on" enableExport forcePagerRow columnGroupStyleName="cgStyle"
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="on" enableExport forcePagerRow columnGroupStyleName="cgStyle"
             preferencePersistenceKey="largeDynamicGrid" />
         </FullWidthSection>
       </div>

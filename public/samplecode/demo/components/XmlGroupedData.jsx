@@ -95,7 +95,7 @@ export default class XMLGroupedData extends React.Component {
   };
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     const json = UIUtils.xml2json(FlexiciousMockGenerator.dpHierarchyXML);
     grid.setDataProvider(json.Region);
     grid.getColumnLevel().setColumnWidthsUsingWidthMode(true);
@@ -109,7 +109,7 @@ export default class XMLGroupedData extends React.Component {
 
 
 
-          <ReactDataGrid width={"100%"} ref="grid" enablePrint enablePreferencePersistence enableExport enableCopy enableFilters enableDrillDown enableFooters
+          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} enablePrint enablePreferencePersistence enableExport enableCopy enableFilters enableDrillDown enableFooters
             initialSortField="title" initialSortAscending forcePagerRow
             enableHideIfNoChildren preferencePersistenceKey="xmlGroupedData">
 

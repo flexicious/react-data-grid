@@ -17,7 +17,7 @@ export default class TraderView extends React.Component {
     }
 
     componentDidMount() {
-        const grid = this.refs.grid;
+        const grid = this.grid;
         var stocks = [];
         for (var i = 0; i < 500; i++) {
             var chg = FlexiciousMockGenerator.getRandom(-10, 10);
@@ -63,7 +63,7 @@ export default class TraderView extends React.Component {
     }
 
     updateTimerHandler(evt) {
-        var fdg = this.refs.grid;
+        var fdg = this.grid;
         //when this happens, we get a batch from the server that says tickers with XX ids have
         //new values...
         var affectedItems = [];
@@ -109,7 +109,7 @@ export default class TraderView extends React.Component {
                 <FullWidthSection useContent={true}>
                     <CheckBox style={{ width: 'auto' }} defaultChecked={false} label="Start" onCheck={this.startTimer} />
                     <TextField style={{ width: 'auto' }} id="rateTextField" onChange={(evt, newValue) => { repeatrate = newValue; } } />
-                    <ReactDataGrid width={"100%"} ref="grid" preferencePersistenceKey="tradingView" horizontalScrollPolicy="off">
+                    <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} preferencePersistenceKey="tradingView" horizontalScrollPolicy="off">
                         <ReactDataGridColumn headerText="Symbol" dataField="symbol" />
                         <ReactDataGridColumn headerText="Name" dataField="name" />
                         <ReactDataGridColumn headerText="Last" dataField="last" cellTextColorFunction={this.getCellTextColor} cellBackgroundColorFunction={this.getCellBackgroundColor} />

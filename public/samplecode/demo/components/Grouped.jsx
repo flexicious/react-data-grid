@@ -13,8 +13,8 @@ export default class Grouped extends React.Component {
   }
 
   componentDidMount() {
-    this.refs.grid.validateNow();
-    this.refs.grid.expandAll();
+    this.grid.validateNow();
+    this.grid.expandAll();
   }
   onCreationComplete() {
     console.log('Grid initialized')
@@ -58,7 +58,7 @@ export default class Grouped extends React.Component {
         <FullWidthSection useContent={true}>
 
           <ReactDataGrid width={"100%"} dataProvider={FlexiciousMockGenerator.instance().getDeepOrgListSync()} horizontalScrollPolicy="off"
-            ref="grid" ref="grid" enablePrint horizontalGridLines enablePreferencePersistence enableFilters enableExport enableCopy
+            ref={(grid) => { this.grid = grid; }} ref={(grid) => { this.grid = grid; }} enablePrint horizontalGridLines enablePreferencePersistence enableFilters enableExport enableCopy
             enableEagerDraw showSpinnerOnFilterPageSort preferencePersistenceKey="groupedData" oncreationComplete={this.onCreationComplete}
             enableMultiColumnSort enableSelectionCascade>
             <ReactDataGridColumnLevel enableFilters enablePaging pageSize={20} childrenField="deals" selectedKeyField="id" reusePreviousLevelColumns >

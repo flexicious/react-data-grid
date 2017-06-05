@@ -10,13 +10,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Employee from '../mockdata/Employee.js';
 
 export default class ColumnLockMode extends React.Component {
-  constructor() {
-    super();
-  }
 
-  componentDidMount() {
-    const grid = this.refs.grid;
-  }
 
   render() {
     return (
@@ -32,12 +26,12 @@ export default class ColumnLockMode extends React.Component {
               <ReactDataGridColumn columnWidthMode="fitToContent" headerText="Last Name" dataField="lastName" filterOperation="BeginsWith" filterControl="TextInput"
                 filterTriggerEvent="enterKeyUp" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
               <ReactDataGridColumn columnWidthMode="fitToContent" percentWidth={25} headerText="Department" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox"
-                filterComboBoxBuildFromGrid footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
+                filterComboBoxBuildFromGrid filterComboBoxWidth="150" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
               <ReactDataGridColumn columnWidthMode="fixed" width="40" headerText="Active" dataField="isActive" filterOperation="Equals" filterControl="TriStateCheckBox"
                 footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
               <ReactDataGridColumn columnWidthMode="percent" percentWidth="33" headerText="Phone" dataField="phoneNumber" filterOperation="Contains" filterControl="TextInput"
                 filterTriggerEvent="enterKeyUp" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
-              <ReactDataGridColumn columnWidthMode="percent" percentWidth="33" headerText="Hire Date" dataField="hireDate" filterControl="DateComboBox" labelFunction={UIUtils.dataGridFormatDateLabelFunction} filterDateRangeOptions="[flexiciousNmsp.DateRange.DATE_RANGE_THISQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_LASTQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_THISYEAR,flexiciousNmsp.DateRange.DATE_RANGE_LASTYEAR,flexiciousNmsp.DateRange.DATE_RANGE_CUSTOM]" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
+              <ReactDataGridColumn columnWidthMode="percent" percentWidth="33" headerText="Hire Date" dataField="hireDate" filterControl="DateComboBox" labelFunction={UIUtils.dataGridFormatDateLabelFunction} filterDateRangeOptions="[flexiciousNmsp.DateRange.DATE_RANGE_THISQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_LASTQUARTER,flexiciousNmsp.DateRange.DATE_RANGE_THISYEAR,flexiciousNmsp.DateRange.DATE_RANGE_LASTYEAR,flexiciousNmsp.DateRange.DATE_RANGE_CUSTOM]" filterComboBoxWidth="150" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
               <ReactDataGridColumn columnWidthMode="percent" percentWidth="33" textAlign="right" headerAlign="right" labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} width="100" headerText="Annual Salary" dataField="annualSalary" filterControl="NumericRangeBox" filterTriggerEvent="enterKeyUp" />
             </ReactDataGridColumnLevel>
           </ReactDataGrid>

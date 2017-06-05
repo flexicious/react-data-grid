@@ -129,7 +129,6 @@ const flxConstants = flexiciousNmsp.Constants;
  * @constructor
  * @class CustomSettingsPopup
  * @namespace flexiciousNmsp
- * @extends UIComponent
  */
 
 class CustomSettingsPopup extends UIComponent {

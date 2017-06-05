@@ -12,13 +12,34 @@ export default class XMLGroupedData extends React.Component {
     super();
   }
 
-  static getFooter(cell) {
+  static getFooter(col/*FlexDataGridColumn */, cell/*FlexDataGridFooterCell*/) {
 
-    var val = cell.getRowInfo().getData();
-    return XMLGroupedData.getTotal(val, cell.getLevel().getNestDepth(),
-      cell.getColumn().getDataField(), true);
+    // var val = cell.getRowInfo().getData();
+    // return XMLGroupedData.getTotal(val, cell.getLevel().getNestDepth(),
+    //   cell.getColumn().getDataField(), true);
+
+    var val = null;
+    var nestDepth = 1;
+
+    if (cell == null) {
+        //cell will be null in export mode. In that case, we look at the currentExportLevel for the 
+        //level at which the export is happening. 
+        //Since we are calculating a footer cell, we need the list of items that makeup this footer.
+        //At the top level, our list of items is the dataprovider
+        //itself. At inner levels, we figure out the parent object, and get its children
+        nestDepth = col.level.grid.currentExportLevel.getNestDepth();
+        if (nestDepth == 1)
+            val = col.level.grid.getDataProvider();
+        else
+            val = col.level.grid.getParent(this.grid.recordBeingExported, this.grid.currentExportLevel);
+    } else {
+        nestDepth = cell.level.nestDepth;
+        val = cell.getRowInfo().getData();
+    }
+    return XMLGroupedData.getTotal(val, nestDepth, col.getDataField(), true);
 
   };
+
   static getTotal(val, nestDepth, dataField, usePrefix) {
 
     var arr = [];
@@ -84,7 +105,16 @@ export default class XMLGroupedData extends React.Component {
     if (typeof cell == "undefined") cell = null;
 
     var val = "";
-    var nestDepth = cell.getLevel().getNestDepth();
+    //var nestDepth = cell.getLevel().getNestDepth();
+    var nestDepth = 1;
+
+    if (cell == null) {
+        //cell will be null in export mode. In that case, because we need level, we use this.grid.currentExportLevel
+        nestDepth = col.level.grid.currentExportLevel.getNestDepth();
+    }
+    else {
+        nestDepth = cell.level.getNestDepth();
+    }
 
     if (nestDepth == 3) {
       val = UIUtils.resolveExpression(item, col.getDataField());

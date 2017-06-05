@@ -17,7 +17,7 @@ export default class FilterComboBoxDataProvider extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     ArrCol = [
     {label:"Aflac", state:"NJ", startDate:new Date()},
     {label:"Ambac", state:"PA", startDate:new Date()},
@@ -31,7 +31,7 @@ export default class FilterComboBoxDataProvider extends React.Component {
 
    
   loadFilters(){
-    const grid = this.refs.grid;
+    const grid = this.grid;
     var filteredArray = flexiciousNmsp.UIUtils.filterArray(ArrCol,grid.createFilter(),grid,grid.getColumnLevel(),false)
     var stateCol= grid.getColumnByDataField("state");
     stateCol.filterComboBoxDataProvider = (stateCol.getDistinctValues(filteredArray));
@@ -47,7 +47,7 @@ export default class FilterComboBoxDataProvider extends React.Component {
       <div>
         <h1 className='page-title'>Filter ComboBox Data Provider</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid delegate={this}  width={"100%"} ref="grid" enableFilters preferencePersistenceKey="filterComboboxDataprovider"
+          <ReactDataGrid delegate={this}  width={"100%"} ref={(grid) => { this.grid = grid; }} enableFilters preferencePersistenceKey="filterComboboxDataprovider"
             onfilterPageSortChange={this.filterPageSortChangeHandler} enableExport	forcePagerRow enablePaging >  
             <ReactDataGridColumnLevel>
                 <ReactDataGridColumn dataField="label" filterControl="TextInput" filterOperation="BeginsWith" />

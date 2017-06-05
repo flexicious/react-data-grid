@@ -27,7 +27,7 @@ export default class SelectionOptions extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     //grid.buildFromXml(FlexiciousMockGenerator.mockNestedXml);
     this.insertUIDColumn(grid.getColumnLevel());
     grid.setDataProvider(FlexiciousMockGenerator.getMockNestedData());
@@ -43,7 +43,7 @@ export default class SelectionOptions extends React.Component {
   };
 
   changeHandler(evt) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     if (!grid) return;
     const state = {
       selectedKeysTxt: (grid.getSelectedKeys().join("\n")),
@@ -69,13 +69,13 @@ export default class SelectionOptions extends React.Component {
   };
 
   useSelectionExclusion(evt, checked) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.clearSelection();
     grid.enableSelectionExclusion = checked;
   };
 
   selectionCascadeBubble(evt, checked) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.clearSelection();
     grid.enableSelectionCascade = checked;
     grid.enableSelectionBubble = checked;
@@ -83,30 +83,30 @@ export default class SelectionOptions extends React.Component {
   };
 
   disableSelectionforaRow(evt, checked) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     cbDisable = checked;
     grid.clearSelection();
     grid.redrawBody();
   };
 
   clearOpenItemsonDataproviderRefresh(evt, checked) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.clearOpenItemsOnDataProviderChange = checked;
   };
 
   handleClearSelectedItemsonDataproviderRefresh(evt, checked) {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.clearSelectionOnDataProviderChange = checked;
   };
 
   btnRefreshclickHandler() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     grid.setDataProvider(FlexiciousMockGenerator.getMockNestedData());//the getter will create a new instance
     this.changeHandler(null);
   }
 
   getChanges() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     const state = {
       selectedKeysTxt: (grid.getSelectedKeys().join("\n")),
       unSelectedKeysTxt: (grid.getUnSelectedKeys().join("\n")),
@@ -130,7 +130,7 @@ export default class SelectionOptions extends React.Component {
             <Checkbox onCheck={this.disableSelectionforaRow} label="Disable Selection for a Row" />
             <Checkbox onCheck={this.clearOpenItemsonDataproviderRefresh} label="Clear Open Items on Dataprovider Refresh" />
             <Checkbox onCheck={this.handleClearSelectedItemsonDataproviderRefresh} label="Clear Selected Items on Dataprovider Refresh" />
-            <RaisedButton onTouchTap={this.btnRefreshclickHandler} label={"Refresh DataProvider"} />
+            <RaisedButton onClick={this.btnRefreshclickHandler} label={"Refresh DataProvider"} />
           </div>
           <div>
             <TextField ref="lblSelectedKeys" multiLine={true} rows={5} rowsMax={5} hintText="Selected Keys" value={this.state.selectedKeysTxt} />
@@ -139,13 +139,14 @@ export default class SelectionOptions extends React.Component {
           </div>
 
 
-          <ReactDataGrid ref='grid' width={"100%"} clearOpenItemsOnDataProviderChange={false}
-
+          <ReactDataGrid ref={(grid) => { this.grid = grid; }} width={"100%"} clearOpenItemsOnDataProviderChange={false}
             onChange={this.changeHandler}
             onItemOpen={this.changeHandler}
             onItemClose={this.changeHandler}
-
-            clearSelectionOnDataProviderChange={false} forcePagerRow enableFilters enableMultiColumnSort builtInActions='sort,separator' styleName='FlexiciousGridStyle' enableSelectionCascade enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey='selectionOptions' showSpinnerOnFilterPageSort enableDefaultDisclosureIcon={false} change={this.changeHandler} itemOpen={this.changeHandler} itemClose={this.changeHandler} enablePreferencePersistence >
+            clearSelectionOnDataProviderChange={false} forcePagerRow enableFilters enableMultiColumnSort builtInActions='sort,separator' styleName='FlexiciousGridStyle'
+            enableSelectionCascade enableSelectionBubble enableTriStateCheckbox preferencePersistenceKey='selectionOptions'
+            showSpinnerOnFilterPageSort enableDefaultDisclosureIcon={false} change={this.changeHandler} itemOpen={this.changeHandler}
+            itemClose={this.changeHandler} enablePreferencePersistence >
             <ReactDataGridColumnLevel childrenField='items' enableFilters={false} nestIndent='20' selectedKeyField='employeeId'>
               <ReactDataGridColumn sortable={false} headerText='' excludeFromSettings enableExpandCollapseIcon width='25' columnWidthMode='fixed' />
               <ReactDataGridColumn type='checkbox' />

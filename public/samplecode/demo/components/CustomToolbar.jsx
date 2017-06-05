@@ -1,24 +1,16 @@
-import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn, Constants } from './LibraryImports'
+import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn, Constants, TextInput, ClassFactory, UIComponent } from './LibraryImports'
 import FullWidthSection from './FullWidthSection'
 import Widget from './Widget';
 
 import FlexiciousMockGenerator from '../mockdata/FlexiciousMockGenerator.js'
 import Employee from '../mockdata/Employee'
-import TextInput from '../../js/controls/TextInput'
 import RaisedButton from 'material-ui/RaisedButton'
-import UIComponent from '../../js/core/UIComponent'
 import React from 'react'
-import ClassFactory from '../../js/utils/ClassFactory'
 
 export default class CustomToolbar extends React.Component {
   constructor() {
     super();
-  }
-  componentDidMount() {
-    const grid = this.refs.grid;
-    grid.setDataProvider(Employee.allEmployees);
-
-  }
+  } 
   getFullName(item, col) {
     return item.firstName + " " + item.lastName;
   }
@@ -27,8 +19,8 @@ export default class CustomToolbar extends React.Component {
       <div>
         <h1 className='page-title'>Custom Toolbar</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid  width={"100%"} ref="grid" enableFilters enableCopy enableFooters enablePaging
-            pageSize={25} filterRowHeight={40} footerRowHeight={60}  pagerRowHeight={60} pagerRenderer={new ClassFactory(CustomPagerControl)}>
+          <ReactDataGrid width={"100%"} dataProvider={Employee.allEmployees}  enableFilters enableCopy enableFooters enablePaging
+            pageSize={25} filterRowHeight={40} footerRowHeight={60} pagerRowHeight={60} pagerRenderer={new ClassFactory(CustomPagerControl)}>
             <ReactDataGridColumn type="checkbox" selectedKeyField="employeeId" />
             <ReactDataGridColumn headerText="ID" dataField="employeeId" filterOperation="Contains" filterControl="TextInput" filterTriggerEvent="enterKeyUp" />
             <ReactDataGridColumn headerText="Nom" labelFunction={this.getFullName} />
@@ -36,7 +28,7 @@ export default class CustomToolbar extends React.Component {
               width="100" headerText="Salaire annuel" dataField="annualSalary" filterControl="NumericRangeBox" filterTriggerEvent="enterKeyUp" />
             <ReactDataGridColumn headerText="Etat" dataField="stateCode" />
             <ReactDataGridColumn headerText="Département" dataField="department" filterOperation="Equals"
-              filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
+              filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
             <ReactDataGridColumn headerText="Téléphone" dataField="phoneNumber" />
             <ReactDataGridColumn headerText="Actif" dataField="isActive" filterOperation="Equals" filterControl="TriStateCheckBox"
               footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
@@ -57,7 +49,6 @@ export default class CustomToolbar extends React.Component {
  * @constructor
  * @class CustomPagerControl
  * @namespace flexiciousNmsp
- * @extends TypedObject
  */
 class CustomPagerControl extends UIComponent {
   constructor() {

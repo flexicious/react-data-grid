@@ -15,7 +15,7 @@ export default class MultipleGroupingManual extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     dpFlat = [
     {Region:"Southwest", RegionCode:"SW", Territory:"Arizona",TerritoryCode:"AZ",
         Territory_Rep:"Barbara Jennings", Actual:38865, Estimate:40000},
@@ -95,7 +95,7 @@ groupBy(dp, prop, nullValue,filterfunction,additionalProperties, useOtherBucket)
         <h1 className='page-title'>Multiple Grouping Manual</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid  width={"100%"} ref="grid" color="0x323232" preferencePersistenceKey="multipleGrouping_Manual">
+          <ReactDataGrid  width={"100%"} ref={(grid) => { this.grid = grid; }} color="0x323232" preferencePersistenceKey="multipleGrouping_Manual">
             <ReactDataGridColumnLevel childrenField="children" enableFooters >
               
                 <ReactDataGridColumn dataField="Region" enableHierarchicalNestIndent />

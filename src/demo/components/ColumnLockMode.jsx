@@ -11,7 +11,8 @@ export default class ColumnLockMode extends React.Component {
       <div>
         <h1 className='page-title'>Column Lock Modes</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid width={"100%"} enablePrint enablePreferencePersistence enableExport enableCopy horizontalScrollPolicy="auto"
+          <ReactDataGrid width={"100%"} enablePrint enablePreferencePersistence enableExport enableCopy horizontalScrollPolicy="auto" enableLockedSectionSeparators={false}
+          lockedSeperatorThickness={0}
             preferencePersistenceKey="columnLockModes" useCompactPreferences enableMultiColumnSort dataProvider={FlexiciousMockGenerator.instance().getFlatOrgList()} >
             <ReactDataGridColumnLevel selectedKeyField="id" enablePaging pageSize={50} enableFilters enableFooters>
               <ReactDataGridColumn dataField="orgIndex" headerText="orgIndex" />
@@ -24,11 +25,11 @@ export default class ColumnLockMode extends React.Component {
                 </ReactDataGridColumnGroup>
                 <ReactDataGridColumnGroup headerText="Region">
                   <ReactDataGridColumn id="colCity" dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox"
-                    filterComboBoxBuildFromGrid />
+                    filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
                   <ReactDataGridColumn id="colState" dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox"
-                    filterComboBoxBuildFromGrid />
+                    filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
                   <ReactDataGridColumn id="colCountry" dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox"
-                    filterComboBoxBuildFromGrid />
+                    filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
                 </ReactDataGridColumnGroup>
               </ReactDataGridColumnGroup>
               <ReactDataGridColumnGroup headerText="Financials" >

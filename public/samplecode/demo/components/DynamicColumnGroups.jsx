@@ -1,4 +1,4 @@
-import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn, Constants, ClassFactory } from './LibraryImports'
+import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn, Constants, ClassFactory, UIComponent, ToolbarAction } from './LibraryImports'
 import React from 'react';
 import FullWidthSection from './FullWidthSection'
 import Widget from './Widget';
@@ -7,9 +7,7 @@ import SampleData from '../mockdata/SampleData'
 import SystemConstants from '../mockdata/SystemConstants'
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
-import UIComponent from '../../js/core/UIComponent'
-import ToolbarAction from '../../js/flexgrid/valueobjects/ToolbarAction'
-import {Tab, Tabs} from 'material-ui/Tabs';
+import { Tab, Tabs } from 'material-ui/Tabs';
 
 
 export default class DynamicColumnGroups extends React.Component {
@@ -55,46 +53,38 @@ export default class DynamicColumnGroups extends React.Component {
     }
     return null;
   }
-  componentDidMount() {
-    const grid = this.refs.grid;
-  }
 
-  handleChange(newValue){
-    const grid = this.refs.grid;
-     var columnsIndex;
-        var index=1;
-        if(newValue == 1)
-            columnsIndex = [1,2,3];
-        else if(newValue == 2)
-             columnsIndex = [4,5,6,7];
-        else
-            columnsIndex = [8,9,10];
-        
-        var columns = grid.getColumns();
-        var columnGroups = grid.getColumnGroups();
-        for(var i=0; i<columnGroups.length; i++)
-        {
-            var columns = columnGroups[i].getColumns();
-            for(var j=0; j<columns.length; j++)
-            {  
-                var column = columns[j];
-                var headerText = column.getHeaderText();
-                column.setVisible(false);
-                for(var k=0; k<columnsIndex.length; k++)
-                {
-                    var columnLabel = "Column_"+columnsIndex[k];
-                    if(headerText != null)
-                    {
-                        if(headerText == columnLabel)
-                        {
-                            column.setVisible(true);
-                            break;
-                        }
-                    }
-                }
+  handleChange(newValue) {
+    const grid = this.grid;
+    var columnsIndex;
+    var index = 1;
+    if (newValue == 1)
+      columnsIndex = [1, 2, 3];
+    else if (newValue == 2)
+      columnsIndex = [4, 5, 6, 7];
+    else
+      columnsIndex = [8, 9, 10];
+
+    var columns = grid.getColumns();
+    var columnGroups = grid.getColumnGroups();
+    for (var i = 0; i < columnGroups.length; i++) {
+      var columns = columnGroups[i].getColumns();
+      for (var j = 0; j < columns.length; j++) {
+        var column = columns[j];
+        var headerText = column.getHeaderText();
+        column.setVisible(false);
+        for (var k = 0; k < columnsIndex.length; k++) {
+          var columnLabel = "Column_" + columnsIndex[k];
+          if (headerText != null) {
+            if (headerText == columnLabel) {
+              column.setVisible(true);
+              break;
             }
+          }
         }
-        grid.rebuild();
+      }
+    }
+    grid.rebuild();
   };
 
   render() {
@@ -102,17 +92,17 @@ export default class DynamicColumnGroups extends React.Component {
       <div>
         <h1 className='page-title'>Dynamic Column Groups/Custom Settings Popup</h1>
         <FullWidthSection useContent={true}>
-        <div>
-          <Tabs id="selectColumnGroup" value={0} onChange={this.handleChange.bind(this)}>
-            <Tab label="Cols 1-3" value={1}/>
-            <Tab label="Cols 4-7" value={2}/>
-            <Tab label="Cols 8-10" value={3}/>
-          </Tabs>
-        </div>
-          <ReactDataGrid styles={this.gridStyle} enableActiveCellHighlight={false} popupFactorySettingsPopup={new ClassFactory(CustomSettingsPopup)} width={"100%"} ref="grid" preferencePersistenceKey="DynamicColumnGroups" dataProvider={SampleData.salesData}
+          <div>
+            <Tabs id="selectColumnGroup" value={0} onChange={this.handleChange.bind(this)}>
+              <Tab label="Cols 1-3" value={1} />
+              <Tab label="Cols 4-7" value={2} />
+              <Tab label="Cols 8-10" value={3} />
+            </Tabs>
+          </div>
+          <ReactDataGrid styles={this.gridStyle} enableActiveCellHighlight={false} popupFactorySettingsPopup={new ClassFactory(CustomSettingsPopup)} width={"100%"} preferencePersistenceKey="DynamicColumnGroups" dataProvider={SampleData.salesData}
             enablePrint enablePreferencePersistence horizontalScrollPolicy="auto" enableExport forcePagerRow enableFilters enableFooters >
             <ReactDataGridColumn dataField="investor" headerText="Investor" headerAlign="center" filterControl="TextInput"
-              cellTextColorFunction={this.getColumnTextColor} filterComboBoxBuildFromGrid columnLockMode="left" footerOperation="count" footerOperationPrecision={0}/>
+              cellTextColorFunction={this.getColumnTextColor} filterComboBoxBuildFromGrid columnLockMode="left" footerOperation="count" footerOperationPrecision={0} />
             <ReactDataGridColumn dataField="salesPerson" headerText="Sales Person" headerAlign="center" filterControl="TextInput"
               filterComboBoxBuildFromGrid columnLockMode="left" />
             <ReactDataGridColumn dataField="desk" headerText="Desk" headerAlign="center" filterControl="ComboBox"
@@ -139,7 +129,6 @@ const flxConstants = flexiciousNmsp.Constants;
  * @constructor
  * @class CustomSettingsPopup
  * @namespace flexiciousNmsp
- * @extends UIComponent
  */
 
 class CustomSettingsPopup extends UIComponent {

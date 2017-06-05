@@ -20,7 +20,7 @@ export default class RowspanColspan extends React.Component {
 
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     questions = [];
     this.addQuestion("Please rate your level of satisfaction with the sense of safety and security as experienced in your residential college/housing campus");
     this.addQuestion("Please rate your level of satisfaction with the availability of public transportation to and from the University Campus");
@@ -117,7 +117,7 @@ export default class RowspanColspan extends React.Component {
   }
 
   handleRowSpanClick() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     rbnRowSpanselected = true;
     rbnColSpanselected = false;
     var questionColumn = grid.getColumnByDataField('question');
@@ -126,7 +126,7 @@ export default class RowspanColspan extends React.Component {
   }
 
   handleColumnSpanClick() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     rbnRowSpanselected = false;
     rbnColSpanselected = true;
     var questionColumn = grid.getColumnByDataField('question');
@@ -150,7 +150,7 @@ export default class RowspanColspan extends React.Component {
             <RadioButton name="useRowSpan" label={"Use Row Span"} className={"flxsExportpaging RBN_CURRENT_PAGE"} value={"rowSpan"} />
             <RadioButton name="useColumnSpan" label={"Use Column Span"} className={"flxsExportpaging RBN_ALL_PAGES"} value={"columnSpan"} />
           </RadioButtonGroup>
-          <ReactDataGrid width={"100%"} fontFamily="tahoma" horizontalScrollPolicy={"off"} fontSize="11" ref="grid" enableDynamicLevels rowSpanFunction={this.getRowSpan.bind(this)} colSpanFunction={this.getColSpan.bind(this)}
+          <ReactDataGrid width={"100%"} fontFamily="tahoma" horizontalScrollPolicy={"off"} fontSize="11" ref={(grid) => { this.grid = grid; }} enableDynamicLevels rowSpanFunction={this.getRowSpan.bind(this)} colSpanFunction={this.getColSpan.bind(this)}
             enableDefaultDisclosureIcon={false} preferencePersistenceKey="rowSpanColSpan" cellBackgroundColorFunction={this.getColor} horizontalGridLines alternatingItemColors={[0xFFFFFF, 0xE7F3FF]} headerColors={[0x298EBD, 0x298EBD]}
             headerRollOverColors={[0x298EBD, 0x298EBD]} columnGroupColors={[0x298EBD, 0x298EBD]} footerColors={[0x298EBD, 0x298EBD]} headerStyleName="whiteText" footerStyleName="whiteText" columnGroupStyleName="whiteText" footerRollOverColors={[0x298EBD, 0x298EBD]} lockedSeperatorThickness={1} lockedSeperatorColor="0x6f6f6f" >
             <ReactDataGridColumnLevel childrenField="answers" enableFooters >

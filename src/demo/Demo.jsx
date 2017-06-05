@@ -48,6 +48,7 @@ import ColumnWidthMode from './components/ColumnWidthMode'
 import DynamicColumnGroups from './components/DynamicColumnGroups'
 import FlexiciousMockGenerator from './mockdata/FlexiciousMockGenerator.js'
 
+
 import { Router, Route, browserHistory, hashHistory } from 'react-router';
 import 'babel-polyfill';
 
@@ -79,29 +80,29 @@ const routes = {
     { path: 'custommatchfiltercontrol', component: CustomMatchFilterControl },
     { path: 'customtoolbar', component: CustomToolbar },
     { path: 'largedynamicgrid', component: LargeDynamicGrid },
-    { path: 'dynamiclevels', component: DynamicLevels },
+    { path: 'dynamiclevels', component: DynamicLevels },    
 
-
-    { path: 'iconcolumns', component: IconColumns },
-    { path: 'errorhandling', component: ErrorHandling },
-    { path: 'dynamicgrouping', component: DynamicGrouping },
-    { path: 'selectionui1', component: SelectionUI1 },
-    { path: 'selectionui2', component: SelectionUI2 },
-    { path: 'externalfilter', component: ExternalFilter },
-    { path: 'changetrackingapi', component: ChangeTrackingAPI },
-    { path: 'rowspancolspan', component: RowSpanColSpan },
-    { path: 'traderview', component: TraderView },
-    { path: 'variablerowheight', component: VariableRowHeight },
-    { path: 'selectionoptions', component: SelectionOptions },
-    { path: 'filtercomboboxdataprovider', component: FilterComboBoxDataProvider },
-    { path: 'localization', component: Localization },
-    { path: 'oneitemopen', component: OnlyOneItemOpen },
-    { path: 'sortnumeric', component: SortNumeric },
-    { path: 'multiselectsetfiltervalue', component: MultiSelectSetFilterValue },
-    { path: 'variableheaderrowheight', component: VariableHeaderRowHeight },
-    { path: 'multiplegroupingmanual', component: MultipleGroupingManual },
-    { path: 'customfooter', component: CustomFooter },
-    { path: 'dynamiccolumngroups', component: DynamicColumnGroups },
+    
+    { path: 'iconcolumns', component: IconColumns },    
+    { path: 'errorhandling', component: ErrorHandling },    
+    { path: 'dynamicgrouping', component: DynamicGrouping },    
+    { path: 'selectionui1', component: SelectionUI1 },    
+    { path: 'selectionui2', component: SelectionUI2 },    
+    { path: 'externalfilter', component: ExternalFilter },    
+    { path: 'changetrackingapi', component: ChangeTrackingAPI },  
+    { path: 'rowspancolspan', component: RowSpanColSpan },   
+    { path: 'traderview', component: TraderView },   
+    { path: 'variablerowheight', component: VariableRowHeight },   
+    { path: 'selectionoptions', component: SelectionOptions },  
+    { path: 'filtercomboboxdataprovider', component: FilterComboBoxDataProvider },  
+    { path: 'localization', component: Localization },  
+    { path: 'oneitemopen', component: OnlyOneItemOpen },  
+    { path: 'sortnumeric', component: SortNumeric },  
+    { path: 'multiselectsetfiltervalue', component: MultiSelectSetFilterValue },  
+    { path: 'variableheaderrowheight', component: VariableHeaderRowHeight },  
+    { path: 'multiplegroupingmanual', component: MultipleGroupingManual },  
+    { path: 'customfooter', component: CustomFooter },  
+    { path: 'dynamiccolumngroups', component: DynamicColumnGroups },  
     { path: 'columnwidthmode', component: ColumnWidthMode }
   ]
 };

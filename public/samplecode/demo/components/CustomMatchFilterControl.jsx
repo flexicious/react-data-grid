@@ -1,21 +1,12 @@
-import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn } from './LibraryImports'
+import { UIUtils, ReactDataGrid, ReactDataGridColumnLevel, ReactDataGridColumn, TextInput } from './LibraryImports'
 import React from 'react';
 import FullWidthSection from './FullWidthSection'
 import Widget from './Widget';
 import FlexiciousMockGenerator from '../mockdata/FlexiciousMockGenerator.js'
 import Employee from '../mockdata/Employee'
-import TextInput from '../../js/controls/TextInput'
 import RaisedButton from 'material-ui/RaisedButton';
 
 export default class CustomMatchFilterControl extends React.Component {
-  constructor() {
-    super();
-  }
-  componentDidMount() {
-    const grid = this.refs.grid;
-    grid.setDataProvider(Employee.allEmployees);
-
-  }
   getFullName(item, col) {
     return item.firstName + " " + item.lastName;
   }
@@ -24,7 +15,7 @@ export default class CustomMatchFilterControl extends React.Component {
       <div>
         <h1 className='page-title'>Custom Match Filter Control</h1>
         <FullWidthSection useContent={true}>
-          <ReactDataGrid  width={"100%"} ref="grid" enableFilters enableCopy enableFooters enablePaging
+          <ReactDataGrid width={"100%"} dataProvider={Employee.allEmployees} enableFilters enableCopy enableFooters enablePaging
             pageSize={25} filterRowHeight={40} footerRowHeight={60} >
             <ReactDataGridColumn headerText="Name" labelFunction={this.getFullName}
               filterRenderer={CustomMatchTextBoxRenderer} />
@@ -39,7 +30,6 @@ export default class CustomMatchFilterControl extends React.Component {
  * A TextInputRenderer is a custom item renderer, that defines how to use custom cells with logic that you can control
  * @constructor
  * @namespace flexiciousNmsp
- * @extends TextInput
  */
 class CustomMatchTextBoxRenderer extends TextInput {
 

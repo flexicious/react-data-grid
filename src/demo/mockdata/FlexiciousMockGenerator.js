@@ -14,6 +14,8 @@ import { UIUtils, Constants, EventDispatcher, DateUtils } from '../components/Li
  */
 let _pageIndex = 0;
 let _pageSize = 30;
+    let lineItemIndex=0;
+
 export default class FlexiciousMockGenerator extends EventDispatcher {
     constructor() {
         super()
@@ -212,7 +214,6 @@ export default class FlexiciousMockGenerator extends EventDispatcher {
 
     getOrgList(deep) {
         const orgs = [];
-
         for (const nm of FlexiciousMockGenerator.companyNames) {
             orgs.push(this.createOrganization(nm, deep));
         }
@@ -234,6 +235,7 @@ export default class FlexiciousMockGenerator extends EventDispatcher {
         if (!this.simpleList) {
             this.simpleList = this.getOrgList(false);
         }
+        
         if (filter.implementsOrExtends('PrintExportFilter')) {
             const pef = filter;
             if (pef.printExportOptions.printExportOption == flexiciousNmsp.PrintExportOptions.PRINT_EXPORT_ALL_PAGES) {
@@ -244,7 +246,7 @@ export default class FlexiciousMockGenerator extends EventDispatcher {
             }
         }
         else
-            return new flexiciousNmsp.PagedResult((UIUtils.filterPageSort(this.simpleList, filter)), filter.recordCount);
+            return new flexiciousNmsp.PagedResult((UIUtils.filterPageSort(this.simpleList, filter)), filter.recordCount, {}, true);
 
     }
 
@@ -355,9 +357,9 @@ export default class FlexiciousMockGenerator extends EventDispatcher {
         return invoice;
 
     }
-
     createInvoiceLineItem(lineItemIdx, invoice, deep) {
         const lineItem = new flexiciousNmsp.LineItem();
+        lineItem.index = lineItemIndex++;
         lineItem.id = (invoice.id * 10) + lineItemIdx;
         lineItem.invoice = invoice;
         lineItem.lineItemAmount = FlexiciousMockGenerator.getRandom(10000, 50000);

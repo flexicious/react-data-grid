@@ -61,13 +61,13 @@ export default class ItemEditor extends React.Component {
             <ReactDataGridColumn dataField="headquarterAddress.line1" headerText="Address Line 1" footerLabel="Count:" footerOperation="count" editable />
             <ReactDataGridColumn dataField="headquarterAddress.line2" headerText="Address Line 2" />
             <ReactDataGridColumn dataField="headquarterAddress.city.name" headerText="City" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid
-              editable />
+              filterComboBoxWidth="150" editable />
             <ReactDataGridColumn dataField="headquarterAddress.state.name" headerText="State" filterControl="MultiSelectComboBox"
-              filterComboBoxBuildFromGrid editable itemEditorManagesPersistence useFilterDataProviderForItemEditor
+              filterComboBoxBuildFromGrid filterComboBoxWidth="150" editable itemEditorManagesPersistence useFilterDataProviderForItemEditor
               itemEditor={ComboBoxItemEditor} />
             <ReactDataGridColumn dataField="addedDate" headerText="Added Date" itemEditor={DatePicker} format="date" editable editorDataField="selectedDate" />
             <ReactDataGridColumn dataField="headquarterAddress.country.name" headerText="Country" filterControl="MultiSelectComboBox"
-              filterComboBoxBuildFromGrid editable={false} />
+              filterComboBoxBuildFromGrid filterComboBoxWidth="150" editable={false} />
             <ReactDataGridColumn dataField="annualRevenue" headerText="Annual Revenue" textAlign="right" headerAlign="right" headerAlign="center" footerLabel="Avg:" footerOperation="average"
               footerAlign="center" footerOperationPrecision={2} footerFormatter={flexiciousNmsp.CurrencyFormatter}
               labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} editable />
@@ -90,7 +90,6 @@ export default class ItemEditor extends React.Component {
  * A ComboBoxItemEditor is a custom item renderer, that defines how to use custom cells with logic that you can control
  * @constructor
  * @namespace flexiciousNmsp
- * @extends UIComponent
  */
 class ComboBoxItemEditor extends ComboBox {
   constructor() {

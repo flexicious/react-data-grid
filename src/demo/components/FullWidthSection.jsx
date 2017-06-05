@@ -30,7 +30,6 @@ const FullWidthSection = React.createClass({
         boxSizing: 'border-box'
       },
       content: {
-        maxWidth: 1400,
         margin: '0 auto'
       }
     };

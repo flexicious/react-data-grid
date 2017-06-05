@@ -4,7 +4,7 @@ import transitions from 'material-ui/styles/transitions';
 import typography from 'material-ui/styles/typography';
 import { grey400 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
-import UIUtils from '../../js/utils/UIUtils'
+import { UIUtils } from './LibraryImports'
 import withWidth, { MEDIUM, LARGE } from 'material-ui/utils/withWidth'
 
 const Widget = React.createClass({

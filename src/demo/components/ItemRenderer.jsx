@@ -71,8 +71,6 @@ export default class ItemRenderer extends React.Component {
               <ReactDataGridColumn dataField="lastStockPrice" headerText="Stock Price" labelFunction={this.getStockChartHTML} />
               <ReactDataGridColumn sortable={false} enableCellClickRowSelect={false} width={50} dataField="isActive"
                 itemRenderer={CheckBoxItemRenderer} headerRenderer={CheckBoxHeaderRenderer} />
-
-
               <ReactDataGridColumnLevel enableFooters selectedKeyField="id" initialSortField="dealDate" initialSortAscending={false}>
                 <ReactDataGridColumn type="checkbox" />
                 <ReactDataGridColumn dataField="dealDescription" headerText="Deal Description" footerLabel="Count:" footerOperation="count" footerAlign="center" />
@@ -119,6 +117,7 @@ class CheckBoxItemRenderer extends React.Component {
       });
     };
   }
+  
   render() {
     return (
       <div style={{ maxWidth: 250 }}>

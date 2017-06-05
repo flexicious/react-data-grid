@@ -22,8 +22,10 @@ export default class LargeDataset extends React.Component {
         <FullWidthSection useContent={true}>
 
 
-          <ReactDataGrid width={"100%"} ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="on" preferencePersistenceKey="largeDataset" >
-            <ReactDataGridColumn dataField="id" headerText="1 ID" />
+          <ReactDataGrid width={"100%"} rowHeight={25} ref={(grid) => { this.grid = grid; }} horizontalScrollPolicy="on" preferencePersistenceKey="largeDataset" 
+            >
+            <ReactDataGridColumn dataField="index" headerText="Index" sortNumeric />
+            <ReactDataGridColumn dataField="id" headerText="1 ID" sortNumeric />
             <ReactDataGridColumn dataField="lineItemDescription" headerText="2 Line Item Description" width={200} />
             <ReactDataGridColumn dataField="lineItemAmount" headerText="3 Line Item Amount" />
             <ReactDataGridColumn dataField="invoice.invoiceNumber" headerText="4 Invoice Number" />

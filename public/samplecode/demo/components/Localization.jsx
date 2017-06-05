@@ -15,7 +15,7 @@ export default class Localization extends React.Component {
   }
 
   componentDidMount() {
-    const grid = this.refs.grid;
+    const grid = this.grid;
     flexiciousNmsp.Filter.ALL_ITEM = "tous";
     flexiciousNmsp.Constants.MCS_LBL_TITLE_TEXT = "Trier la colonne multi";
     flexiciousNmsp.Constants.MCS_LBL_HEADER_TEXT = "S'il vous plaît spécifier l'ordre de tri et de la direction des colonnes que vous souhaitez trier par:";
@@ -138,7 +138,7 @@ export default class Localization extends React.Component {
         <h1 className='page-title'>Localization</h1>
         <FullWidthSection useContent={true}>
 
-          <ReactDataGrid width={"100%"} forcePagerRow enableExport ref="grid" dataProvider={Employee.getAllEmployees()} enableDrillDown enableFilters enablePaging enablePreferencePersistence enablePrint preferencePersistenceKey="localization" enableMultiColumnSort>
+          <ReactDataGrid width={"100%"} forcePagerRow enableExport ref={(grid) => { this.grid = grid; }} dataProvider={Employee.getAllEmployees()} enableDrillDown enableFilters enablePaging enablePreferencePersistence enablePrint preferencePersistenceKey="localization" enableMultiColumnSort>
             <ReactDataGridColumnLevel>
 
               <ReactDataGridColumn type="checkbox" selectedKeyField="employeeId" />
@@ -146,7 +146,7 @@ export default class Localization extends React.Component {
               <ReactDataGridColumn headerText="Nom" labelFunction={this.getFullName} />
               <ReactDataGridColumn textAlign="right" headerAlign="right" labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} width="100" headerText="Salaire annuel" dataField="annualSalary" filterControl="NumericRangeBox" filterTriggerEvent="enterKeyUp" />
               <ReactDataGridColumn headerText="Etat" dataField="stateCode" />
-              <ReactDataGridColumn headerText="Département" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid />
+              <ReactDataGridColumn headerText="Département" dataField="department" filterOperation="Equals" filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid filterComboBoxWidth="150" />
               <ReactDataGridColumn headerText="Téléphone" dataField="phoneNumber" />
               <ReactDataGridColumn headerText="Actif" dataField="isActive" filterOperation="Equals" filterControl="TriStateCheckBox" footerOperation="count" footerLabel="Count:" footerOperationPrecision="0" />
 

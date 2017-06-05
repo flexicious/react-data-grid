@@ -10,11 +10,11 @@ export default class CustomerOrganization extends Organization {
         this.deals=[];
     }
 
-    static getClassNames() {
+    getClassNames() {
         return ["CustomerOrganization","Organization","BaseEntity"];
     }
 
-    static createNew() {
+    createNew() {
         return new CustomerOrganization();
     }
 }
