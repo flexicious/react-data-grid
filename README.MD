@@ -13,7 +13,7 @@ http://www.reactdatagrid.com/
 Instructions
 
 * Instruction Video : https://www.youtube.com/watch?v=sO3o0zG93fM
-* Running example : http://www.webpackbin.com/VkzRMfjYz
+* Running example : https://www.webpackbin.com/bins/-Kj9JhCTXC3CghFUfRtQ
 * Code : https://github.com/flexicious/react-datagrid-getting-started 
 
 1) npm install 
