@@ -27,11 +27,33 @@ export default class Simple extends React.Component {
       this.setState({ dataProvider: evt.result });
     });
   }
+  onClick(){
+    var grid = this.refs.grid;
+    BusinessService.getInstance().getFlatOrgList((evt, token) => {
+      this.lastHorizontalScroll = grid.getHorizontalScrollPosition();
+      this.lastVerticalScroll = grid.getVerticalScrollPosition();      
+      this.setState({ dataProvider: evt.result });
+      this.scrollPending = true;
+    });
+  }
+  componentDidUpdate(){
+    if(this.scrollPending){
+      this.scrollPending = false;
+      var grid = this.refs.grid;
+      grid.validateNow();
+      console.log(this.lastHorizontalScroll);
+      console.log(this.lastVerticalScroll)
+      grid.setVerticalScrollPosition(this.lastVerticalScroll);
+      grid.setHorizontalScrollPosition(this.lastHorizontalScroll);
+      grid.recycleH();
+    }
+  }
   render() {
     return (
       <div>
         <h1 className='page-title'>Simple Grid</h1>
         <FullWidthSection useContent={true}>
+        <button onClick={this.onClick.bind(this)}>Maintain Scroll</button>
           <ReactDataGrid ref={'grid'} width={"100%"} dataProvider={this.state.dataProvider} enablePrint enablePreferencePersistence showSpinnerOnFilterPageSort enableEagerDraw
             enableExport enableCopy preferencePersistenceKey={'simpleGrid'} enableMultiColumnSort useCompactPreferences horizontalScrollPolicy={'auto'}
             footerDrawTopBorder enablePdf headerRowHeight={100} >
@@ -42,11 +64,11 @@ export default class Simple extends React.Component {
               <ReactDataGridColumn id={'colLine1'} dataField={'headquarterAddress.line1'} headerText={'Line 1'} footerLabel={'Count:'} footerOperation={'count'} />
               <ReactDataGridColumn id={'colLine2'} dataField={'headquarterAddress.line2'} headerText={'Line 2'} />
               <ReactDataGridColumn id={'colCity'} dataField={'headquarterAddress.city.name'} headerText={'City'} filterControl={'MultiSelectComboBox'}
-                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid />
-              <ReactDataGridColumn id={'colState'} dataField={'headquarterAddress.state.name'} headerText={'State'} filterControl={'MultiSelectComboBox'}
-                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid />
-              <ReactDataGridColumn id={'colCountry'} dataField={'headquarterAddress.country.name'} headerText={'Country'} filterRenderer={ExtendedMultiSelectComboBox}
-                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid />
+                filterComboBoxWidth={'150'} filterComboBoxBuildFromGrid useLabelFunctionForFilterCompare sortCaseInsensitive />
+              <ReactDataGridColumn id={'colState'} dataField={'headquarterAddress.state.name'} headerText={'State'} 
+                filterComboBoxWidth={'150'}  />
+              <ReactDataGridColumn id={'colCountry'} dataField={'headquarterAddress.country.name'} headerText={'Country'} 
+                filterComboBoxWidth={'150'}  />
               <ReactDataGridColumn headerAlign={'right'} id={'colAnnRev'} dataField={'annualRevenue'} headerText={'Annual Revenue'} headerWordWrap
                 textAlign={'right'} footerLabel={'Avg:'} footerOperation={'average'} footerAlign={'center'} footerOperationPrecision={'2'}
                 labelFunction={UIUtils.dataGridFormatCurrencyLabelFunction} filterControl={'NumericRangeBox'} sortNumeric
@@ -67,5 +89,4 @@ export default class Simple extends React.Component {
     );
   }
 }
-
 
