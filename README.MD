@@ -2,11 +2,10 @@
 
 We have now released A brand new blazing fast pure React/TypeScript datagrid. Built in React for React, with modern tooling, thoughtful design, and a highly customizable, pluggable rendering engine that works seamlessly with MUI or completely standalone.
 
-More details 
-https://reactdatagrid.com/
-Design/Architecture: https://reactdatagrid.com/docs/welcome
-Tutorial/Getting started: https://reactdatagrid.com/docs/intro
-Sample Code: https://github.com/flexicious/euxdt-example
+- More details https://reactdatagrid.com/
+- Design/Architecture: https://reactdatagrid.com/docs/welcome
+- Tutorial/Getting started: https://reactdatagrid.com/docs/intro
+- Sample Code: https://github.com/flexicious/euxdt-example
 
 
 
