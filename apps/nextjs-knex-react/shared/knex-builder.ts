@@ -1,4 +1,4 @@
-import { FilterPageSortArguments, FilterOperation, FilterExpression, Filter } from '@euxdt/grid-core';
+import { FilterPageSortArguments, FilterOperation, FilterExpression, Filter, isFilter, isFilterExpression } from '@euxdt/grid-core';
 import { Knex } from 'knex';
 
 export type Primitive = string | number | Date | boolean;
@@ -99,11 +99,4 @@ export const buildKnexQuery = (qb: Knex.QueryBuilder, { filter, pagination, sort
     return queryBuilder;
 }
 
-export const isFilterExpression = (filter: FilterExpression | Filter): filter is FilterExpression => {
-    return 'col' in filter && 'operation' in filter && 'expression' in filter;
-}
-
-export const isFilter = (filter: FilterExpression | Filter): filter is Filter => {
-    return 'logicalOperator' in filter && 'children' in filter;
-}
 
