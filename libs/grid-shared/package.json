@@ -1,0 +1,11 @@
+{
+  "name": "@euxdt/grid-shared",
+  "version": "0.0.28",
+  "type": "commonjs",
+  "description": "Core library that contains the grid logic",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/euxdt/grid-core.git"
+  },
+  "author": "Flexicious"
+}
