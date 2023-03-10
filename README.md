@@ -26,13 +26,15 @@ This repo is a NX monorepo, which means it has multiple packages. The main packa
 ### NextJS Example App with Knex and Sqlite 
 The nextjs-knex-react example is a full stack application, with a server side API, and a client side React application. The server side API is built using [NextJS](https://nextjs.org/), and the database is [Sqlite](https://www.sqlite.org/index.html). The database is managed using [Knex](http://knexjs.org/). The client side application is built using React, and uses the ReactDataGrid component. The server side API is built using [NextJS](https://nextjs.org/), and the database is [Sqlite](https://www.sqlite.org/index.html). This example demonstrates a real world application with server side paging, filtering, sorting, and even a batched export/pdf functionality. 
 
+Additionally, this application demonstrates lazy loading of hierarchical data, so when you expand a row, it will load the child data from the server.
+
 To run the nextjs-knex-react example, run the following commands:
 
 ```bash
 npx nx serve nextjs-knex-react
 ```
 
-This will start both the server side API, and the client side React application. Once the application is running, you can access the application at http://localhost:4200.
+This will start both the server side API, and the client side React application. Once the application is running, you can access the application at http://localhost:3000.
 
 
 ### GraphQL Example App with Apollo Server and Apollo Client
@@ -45,6 +47,21 @@ npx nx serve graphql-apollo-react
 ```
 
 This will start both the server side API, and the client side React application. Once the application is running, you can access the application at http://localhost:4200.
+
+### SQL Builder Example App with NextJS and Sqlite
+The sql-reactdatagrid example is a full stack application, built using [NextJS](https://nextjs.org/), and Reacct. The database is [Sqlite](https://www.sqlite.org/index.html). The client side application uses the ReactDataGrid component. This example demonstrates a real world application with server side paging, filtering, sorting, and even a batched export/pdf functionality.
+
+This application demonstrates lazy loading of all data, including filter dropdowns that show distinct values for the user to pick from.
+They will populate only when the user clicks no the down arrow button.
+
+To run the sql-reactdatagrid example, run the following commands:
+
+```bash
+npx nx serve sql-react-datagrid
+```
+
+This will start both the server side API, and the client side React application. Once the application is running, you can access the application at http://localhost:3000.
+
 
 ## Documentation
 Getting Started Guide:
