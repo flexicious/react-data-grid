@@ -5,7 +5,7 @@
 To get started, first clone the repo: 
 
 ```bash
-git clone https://github.com/flexicious/react-datagrid
+git clone https://github.com/flexicious/react-data-grid
 ```
 
 Then install the dependencies:
