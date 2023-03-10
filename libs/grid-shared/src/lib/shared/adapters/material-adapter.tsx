@@ -8,7 +8,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { createElement, ReactNode, Ref } from "react";
-export const generateIcon = (icon: ReactNode, { onClick, disabled, title, className }: any) => <IconButton color="primary" key={className} size="small" onClick={onClick} disabled={disabled} title={title} >
+export const generateIcon = (icon: ReactNode, { onClick, disabled, title, className, style }: any) => 
+<IconButton color="primary" key={className} size="small" onClick={onClick} disabled={disabled} title={title} style={style}>
     {icon}
 </IconButton>;
 
@@ -54,6 +55,7 @@ export const materialAdapter: LibraryAdapter = {
         } else if ((node.key).indexOf("add-circle-icon") >= 0) {
             return generateIcon(<AddCircle />, props);
         } else if ((node.key).indexOf("expand-one-icon") >= 0) {
+            console.log("expand-one-icon", props);
             return generateIcon(<ChevronRight />, props);
         } else if ((node.key).indexOf("collapse-one-icon") >= 0) {
             return generateIcon(<ExpandMore />, props);
@@ -88,6 +90,12 @@ export const materialAdapter: LibraryAdapter = {
         return <TextField value={value} defaultValue={defaultValue} onChange={(e) => {
             onChange?.(e.target.value);
         }} onKeyDown={onKeyDown} inputProps={{ readOnly, onClick, placeholder }} style={style} inputRef={ref as Ref<any>} variant="standard" />;
+    },
+    createTextArea: (props): unknown => {
+        const { onChange, placeholder, onKeyDown, ref, style, readOnly, onClick, value, defaultValue } = props;
+        return <TextField value={value} defaultValue={defaultValue} onChange={(e) => {
+            onChange?.(e.target.value);
+        }} onKeyDown={onKeyDown} inputProps={{ readOnly, onClick, placeholder }} style={style} inputRef={ref as Ref<any>} variant="standard" multiline rows={4} />;
     },
     createCheckBox: (props: GridCheckBoxProps) => {
         const { onChange, value, ref } = props;

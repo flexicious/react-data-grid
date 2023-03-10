@@ -2,7 +2,7 @@ import {  gql } from 'apollo-server-micro';
 
 export const BusinessQuery = gql`query Query($args: FilterPageSortArguments) {
   businesses(args: $args) {
-    rows {
+    currentPageData {
       business_id
       name
       address
@@ -23,10 +23,14 @@ export const BusinessQuery = gql`query Query($args: FilterPageSortArguments) {
       violation_count
 
     }
-
+    pagination {
+      totalRecords
+      pageSize
+      currentPage
+      totalPages
+    }
     footerValues 
     filterDistinctValues
-    count
   }
 }
 `;

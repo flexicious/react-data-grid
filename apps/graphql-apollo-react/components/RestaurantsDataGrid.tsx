@@ -1,6 +1,6 @@
 import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@euxdt/grid-core";
 import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions } from "@euxdt/grid-react";
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { client } from "../graphql/client/apollo-client";
 import { BusinessQuery } from "../graphql/client/queries/business";
 import { DataGrid } from "./DataGrid";
@@ -8,72 +8,63 @@ import { DataGrid } from "./DataGrid";
 
 export const RestaurantsDataGrid = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [filterPageSortArgs, setFilterPageSortArgs] = useState<FilterPageSortArguments>();
-    const [serverInfo, dispatch] = useReducer( (state: ServerInfo, action: { type: "SET_SERVER_INFO";
-        payload: Partial<ServerInfo>;
-      }): ServerInfo => {
-        switch (action.type) {
-          case "SET_SERVER_INFO":
-            return { ...state, ...action.payload };
-          default:
-            return state;
-        }
-      }, {});
+    const [request, setRequest] = useState<FilterPageSortArguments>();
+    const [response, setResponse] = useState<ServerInfo>({});
 
     const uniqueIdentifierOptions = useMemo(() => ({
         useField: "business_id",
     }), []);
-    const filterValueColumns = useMemo(() => ["name", "city"], []);
-    const footerValueColumns = useMemo(() => ["inspection_count", "violation_count"], []);
+    const initialLoadDistinctValueColumns = useMemo(() => ["name", "city","TaxCode"], []);
     useEffect(() => {
-        setFilterPageSortArgs({
-            distinctValueColumns: filterValueColumns,
-            footerValueColumns,
+        //Initial load
+        setRequest({
+            distinctValueColumns: initialLoadDistinctValueColumns,
             filter: { children: [] },
             pagination: { pageSize: 100, currentPage: 1 },
+            reason: FilterPageSortChangeReason.InitialLoad,
         });
-    }, [filterValueColumns, footerValueColumns]);
+    }, [initialLoadDistinctValueColumns]);
     useEffect(() => {
-        if (!filterPageSortArgs) return;
+        if (!request) return;
         const getServerData = async (filterPageSortArgs: FilterPageSortArguments) => {
-            const { pagination } = filterPageSortArgs;
             setLoading(true);
             const response = await client.query({
                 query: BusinessQuery,
                 variables: {
                     args: filterPageSortArgs,
                 },
+            })
+            const result = response.data.businesses;
+            const newResponse = {...result};
+            setResponse(s=>{
+                //Merge the new response with the old response.
+                if (Object.keys(result.filterDistinctValues || {}).length > 0) {
+                    newResponse.filterDistinctValues = { ...s.filterDistinctValues, ...result.filterDistinctValues };
+                } else {
+                    delete newResponse.filterDistinctValues;
+                }
+                return {
+                    ...s,
+                    ...newResponse,
+                    pagination: {
+                        ...s.pagination,
+                        ...newResponse.pagination,
+                    },
+                };
             });
-            const newServerInfo: ServerInfo = {
-                currentPageData: response.data.businesses.rows,
-                pagination: {
-                    currentPage: pagination?.currentPage || 1,
-                    pageSize: pagination?.pageSize || 100,
-                    totalRecords: response.data.businesses.count || 0,
-                    totalPages: Math.ceil(response.data.businesses.count / (pagination?.pageSize || 100)),
-                },
-            };
-            if(Object.keys(response.data.businesses.filterDistinctValues || {}).length > 0) {
-                newServerInfo.filterDistinctValues = response.data.businesses.filterDistinctValues;
-            }
-            if(Object.keys(response.data.businesses.footerValues || {}).length > 0) {
-                newServerInfo.footerValues = response.data.businesses.footerValues;
-            }
-            dispatch({ type: "SET_SERVER_INFO", payload: newServerInfo });
-
             setLoading(false);
         };
-        getServerData(filterPageSortArgs);
-    }, [filterPageSortArgs]);
+        getServerData(request);
+    }, [request]);
 
 
     return (
         <DataGrid style={{height:"100%", }}
         gridOptions={{
-            dataProvider: serverInfo?.currentPageData,
+            dataProvider: response?.currentPageData,
             filterPageSortMode: FilterPageSortLoadMode.Server,
             enablePaging: true,
-            serverInfo,
+            serverInfo: response,
             toolbarOptions: {
                 enableGlobalSearch: false,
                 enableExcel:true,
@@ -81,10 +72,10 @@ export const RestaurantsDataGrid = () => {
             },
             eventBus: {
                 onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
-                    setFilterPageSortArgs({
+                    setRequest({
                         ...args,
-                        distinctValueColumns: [],//don't need distinct values on subsequent calls, footers only need to be updated on filter change
-                        footerValueColumns: reason === FilterPageSortChangeReason.FilterChanged ? footerValueColumns : [],
+                        reason,
+                        distinctValueColumns: [],//don't need distinct values on subsequent calls
                     });
                 },
                 onExportPageRequested: async(args) => {
@@ -94,7 +85,7 @@ export const RestaurantsDataGrid = () => {
                             args,
                         },
                     });
-                    return response.data.businesses.rows;
+                    return response.data.businesses.currentPageData;
                 },
             },
             isLoading: loading,
@@ -109,6 +100,10 @@ export const RestaurantsDataGrid = () => {
                 },
                 {
                     ...createColumn("name", "string", "Name"),
+                    filterOptions: createMultiSelectFilterOptions()
+                },
+                {
+                    ...createColumn("TaxCode", "string", "Tax Code"),
                     filterOptions: createMultiSelectFilterOptions()
                 },
                 {
@@ -144,10 +139,6 @@ export const RestaurantsDataGrid = () => {
                 {
                     ...createColumn("longitude", "number", "Longitude"),
                     filterOptions: createNumericRangeFilterOptions(),
-                },
-                {
-                    ...createColumn("TaxCode", "string", "Tax Code"),
-                    filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
                 },
                 {
                     ...createColumn("business_certificate", "number", "Business_certificate"),

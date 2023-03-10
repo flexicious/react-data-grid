@@ -4,12 +4,10 @@ import { Knex } from 'knex';
 export type Primitive = string | number | Date | boolean;
 export const buildKnexQuery = (qb: Knex.QueryBuilder, { filter, pagination, sorts }: FilterPageSortArguments): Knex.QueryBuilder => {
     let queryBuilder: Knex.QueryBuilder = qb;
-    console.log(pagination);
     if (pagination) {
         queryBuilder = queryBuilder.offset((pagination.currentPage - 1) * pagination.pageSize).limit(pagination.pageSize);
     }
     if (sorts) {
-        console.log(sorts);
         const sortsArray = Array.from(sorts.values());
         for (const sort of sortsArray) {
             if (sort.sortColumn)

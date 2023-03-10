@@ -27,14 +27,20 @@ type NameValue {
   name: String!
   value: String!
 }
+type Pagination{
+  totalRecords: Int
+  pageSize: Int
+  currentPage: Int
+  totalPages: Int
+}
 
 
 type Query {
-  businesses(args: FilterPageSortArguments): ServerResponse!
+  businesses(args: FilterPageSortArguments): ServerInfo!
 }
-type ServerResponse {
-  rows: [Business!]!
-  count: Int!
+type ServerInfo {
+  currentPageData: [Business!]!
+  pagination: Pagination
   filterDistinctValues: JSON
   footerValues: JSON
 }
@@ -92,11 +98,12 @@ input ExpansionInput {
 
 input FilterPageSortArguments {
   distinctValueColumns: [String!]
-  footerValueColumns: [String!]
+  visibleColumns: [String!]
   filter: FilterInput
   pagination: PaginationRequestInput
   sorts: [SortInfoInput!]
   expansion: ExpansionInput
+  reason: String
 }
 
 type Query {

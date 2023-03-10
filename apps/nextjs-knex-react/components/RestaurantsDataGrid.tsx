@@ -1,94 +1,144 @@
-import { Business } from "../shared/types";
-import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo, ServerResponse } from "@euxdt/grid-core";
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions } from "@euxdt/grid-react";
+import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@euxdt/grid-core";
+import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS } from "@euxdt/grid-react";
 import axios from "axios";
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DataGrid } from "./DataGrid";
 
 export const RestaurantsDataGrid = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [filterPageSortArgs, setFilterPageSortArgs] = useState<FilterPageSortArguments>();
-    const [serverInfo, dispatch] = useReducer( (state: ServerInfo, action: { type: "SET_SERVER_INFO";
-        payload: Partial<ServerInfo>;
-      }): ServerInfo => {
-        switch (action.type) {
-          case "SET_SERVER_INFO":
-            return { ...state, ...action.payload };
-          default:
-            return state;
-        }
-      }, {});
-
+    const [childLoading, setChildLoading] = useState<boolean>(false);
+    const [request, setRequest] = useState<FilterPageSortArguments>();
+    const [response, setResponse] = useState<ServerInfo>({});
     const uniqueIdentifierOptions = useMemo(() => ({
-        useField: "business_id",
+        useFunction: (item:any)=> {
+            const uniqueId = item.uniqueId || item.business_id;
+            return uniqueId.toString();
+        }
     }), []);
-    const filterValueColumns = useMemo(() => ["name", "city"], []);
-    const footerValueColumns = useMemo(() => ["inspection_count", "violation_count"], []);
+    const initialLoadDistinctValueColumns = useMemo(() => ["name", "city","TaxCode"], []);
     useEffect(() => {
-        setFilterPageSortArgs({
-            distinctValueColumns: filterValueColumns,
-            footerValueColumns,
+        //Initial load
+        setRequest({
+            distinctValueColumns: initialLoadDistinctValueColumns,
             filter: { children: [] },
             pagination: { pageSize: 100, currentPage: 1 },
+            reason: FilterPageSortChangeReason.InitialLoad,
         });
-    }, [filterValueColumns, footerValueColumns]);
+    }, [initialLoadDistinctValueColumns]);
     useEffect(() => {
-        if (!filterPageSortArgs) return;
+        if (!request) return;
         const getServerData = async (filterPageSortArgs: FilterPageSortArguments) => {
-            const { pagination } = filterPageSortArgs;
             setLoading(true);
-            const response = await axios.post<ServerResponse<Business>>("/api/businesses", filterPageSortArgs);
-            const newServerInfo: ServerInfo = {
-                currentPageData: response.data.rows,
-                pagination: {
-                    currentPage: pagination?.currentPage || 1,
-                    pageSize: pagination?.pageSize || 100,
-                    totalRecords: response.data.count || 0,
-                    totalPages: Math.ceil(response.data.count / (pagination?.pageSize || 100)),
-                },
-            };
-            if(Object.keys(response.data.filterDistinctValues || {}).length > 0) {
-                newServerInfo.filterDistinctValues = response.data.filterDistinctValues;
-            }
-            if(Object.keys(response.data.footerValues || {}).length > 0) {
-                newServerInfo.footerValues = response.data.footerValues;
-            }
-            dispatch({ type: "SET_SERVER_INFO", payload: newServerInfo });
+            const response = await axios.post<ServerInfo>("/api/businesses", request);
+            const newResponse = response.data;
+            setResponse(s=>{
+                //Merge the new response with the old response.
+                if (Object.keys(response.data.filterDistinctValues || {}).length > 0) {
+                    newResponse.filterDistinctValues = { ...s.filterDistinctValues, ...response.data.filterDistinctValues };
+                }
 
+                return {
+                    ...s,
+                    ...newResponse,
+                };
+            });
             setLoading(false);
         };
-        getServerData(filterPageSortArgs);
-    }, [filterPageSortArgs]);
+        getServerData(request);
+    }, [request]);
 
 
-    return (
+    return (<>
+        {childLoading && <div className="euxdt-dg-loading-message">Loading...</div>}
         <DataGrid style={{height:"100%", }}
         gridOptions={{
-            dataProvider: serverInfo?.currentPageData,
+            cellStyleFunction: (node: VirtualTreeNode) => {
+                if (node.rowPosition?.type === RowType.Header
+                    || node.rowPosition?.type === RowType.Footer
+                    || node.rowPosition?.type === RowType.Filter
+                    || (node.classNames?.indexOf("group-header-cell") || 0) > 0) {
+                    return { background: "#fafafa" };
+                }
+                return { borderRight: "none", };
+            },
+            nodeStyleFunction: (node: VirtualTreeNode) => {
+                //toolbar is neither a row or a cell, so we need to style it separately
+                if (node.key === NodeKeys.Toolbar) {
+                    return { background: "#fafafa" };
+                }
+                return node.styles;
+            },
+            enableFloatingHeaderRows: true,
+            dataProvider: response?.currentPageData,
             filterPageSortMode: FilterPageSortLoadMode.Server,
             enablePaging: true,
-            serverInfo,
+            serverInfo: response,
             toolbarOptions: {
                 enableGlobalSearch: false,
                 enableExcel:true,
                 enablePdf:true,
             },
+            nextLevel:{
+                childrenCountField:"inspection_count",
+                itemLoadMode: FilterPageSortLoadMode.Server,
+                enableFooters: true,    
+                columns:[
+                    {...createColumn("paddingInspection","string", " "),...EMPTY_COL_PROPS, width:36},
+                    {...createColumn("date","string", "Inspection Date"), enableHierarchy:true},
+                    createColumn("type","string", "Inspection Type"),
+                    {...createColumn("Score","number", "Score"), footerOptions:{footerLabel:"Avg:", footerOperation:FooterOperation.Avg}},
+                    {...createColumn("violationCount","number", "Violation Count"), formatterPrecision: 0, footerOptions:{footerOperation:FooterOperation.Sum}},
+                    createColumn("fillInspection","string", " "),
+                ],
+                nextLevel:{
+                    childrenCountField:"violationCount",
+                    itemLoadMode: FilterPageSortLoadMode.Server,
+                    enableFooters: true,
+                    columns:[
+                        {...createColumn("paddingViolation","string", " "),...EMPTY_COL_PROPS, width:108,},
+                        {...createColumn("ViolationTypeID","string", "Violation Type"), width: 150,footerOptions:{footerLabel:"Count:", footerOperation:FooterOperation.Count}},
+                        {...createColumn("risk_category","string", "Risk Category"), width: 150},
+                        createColumn("description","string", "Description"),
+                    ],
+                    
+                },
+            },
             eventBus: {
                 onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
-                    setFilterPageSortArgs({
+                    setRequest({
                         ...args,
-                        distinctValueColumns: [],//don't need distinct values on subsequent calls, footers only need to be updated on filter change
-                        footerValueColumns: reason === FilterPageSortChangeReason.FilterChanged ? footerValueColumns : [],
+                        reason,
+                        distinctValueColumns: [],//don't need distinct values on subsequent calls
                     });
                 },
+                onItemLoadRequested: async(row: RowPositionInfo) => {
+                    setChildLoading(true);
+                    const children = row.level===1?(await axios.get(`/api/inspections?business_id=${row.uniqueIdentifier}`)).data.inspections :
+                    (await axios.get(`/api/violations?inspection_id=${row.uniqueIdentifier}`)).data.violations;
+                    setResponse(s=>{
+                        return {
+                            ...s,
+                            childrenMap: {
+                                ...s.childrenMap,
+                                [row.uniqueIdentifier]: children,
+                            } 
+                        };
+                    });
+                    setChildLoading(false);
+                },
                 onExportPageRequested: async(args) => {
-                    const response =  await axios.post<ServerResponse<Business>>("/api/businesses", args);
-                    return response.data.rows;
+                    const response =  await axios.post<ServerInfo>("/api/businesses", args);
+                    return response.data.currentPageData || [];
                 },
             },
             isLoading: loading,
             uniqueIdentifierOptions,
             columns: [
+                {
+                    ...createColumn("name", "string", "Name"),
+                    filterOptions: createMultiSelectFilterOptions(),
+                    enableHierarchy:true,
+                },
                 {
                     ...createColumn("business_id", "number", "Business_id", "business_id"),
                     filterOptions: createTextInputFilterOptions(FilterOperation.Equals),
@@ -97,7 +147,7 @@ export const RestaurantsDataGrid = () => {
                     textAlign: "right"
                 },
                 {
-                    ...createColumn("name", "string", "Name"),
+                    ...createColumn("TaxCode", "string", "Tax Code"),
                     filterOptions: createMultiSelectFilterOptions()
                 },
                 {
@@ -135,10 +185,6 @@ export const RestaurantsDataGrid = () => {
                     filterOptions: createNumericRangeFilterOptions(),
                 },
                 {
-                    ...createColumn("TaxCode", "string", "Tax Code"),
-                    filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
-                },
-                {
                     ...createColumn("business_certificate", "number", "Business_certificate"),
                     filterOptions: createNumericRangeFilterOptions(),
                 },
@@ -163,6 +209,6 @@ export const RestaurantsDataGrid = () => {
                     filterOptions: createNumericRangeFilterOptions(),
                 }
             ]
-        }} />
+        }} /></>
     );
 };

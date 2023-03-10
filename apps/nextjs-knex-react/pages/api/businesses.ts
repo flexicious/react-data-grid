@@ -1,67 +1,74 @@
-import { Business } from "../../shared/types";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { FilterPageSortArguments, NameValue, resolveExpression, ServerResponse, formatCurrency } from "@euxdt/grid-core";
+import { FilterPageSortArguments, NameValue, resolveExpression, ServerInfo, formatCurrency, FilterPageSortChangeReason } from "@euxdt/grid-core";
 import knex from "../../knex"
 import { buildKnexQuery, } from "../../shared/knex-builder";
+import { keyValueArrayToObject } from "@euxdt/grid-shared";
 const handler = async (
     req: NextApiRequest,
-    res: NextApiResponse<ServerResponse<Business> | { message: string }>
+    res: NextApiResponse<ServerInfo | { message: string }>
 ) => {
     if (req.method === "POST") {
-
-
         const filterPageSort = req.body as FilterPageSortArguments;
-        const { filter, distinctValueColumns, footerValueColumns } = filterPageSort;
-        const count = await buildKnexQuery(knex("businesses").count("* as count"), { filter });
+        const { filter, distinctValueColumns, pagination, reason } = filterPageSort;
+        const footerValueColumns = ["inspection_count", "violation_count"];
+        const response: ServerInfo = {};
+        if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) {
+            const count = await buildKnexQuery(knex("businesses").count("* as count"), { filter });
+            const totalRecords = count[0].count;
+            response.pagination = {
+                ...pagination,
+                totalRecords,
+                totalPages: Math.ceil(totalRecords / pagination.pageSize || 100),
+            }
+        }
+        if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged || reason === FilterPageSortChangeReason.SortChanged
+            || reason === FilterPageSortChangeReason.PageChanged || !reason) {
+            const inspectionSubquery = knex('inspections')
+                .count('business_id')
+                .whereRaw('inspections.business_id = businesses.business_id')
+                .as('inspection_count')
 
-        const inspectionSubquery = knex('inspections')
-            .count('business_id')
-            .whereRaw('inspections.business_id = businesses.business_id')
-            .as('inspection_count')
-
-        const violationSubquery = knex('violations')
-            .count('business_id')
-            .whereRaw('violations.business_id = businesses.business_id')
-            .as('violation_count')
+            const violationSubquery = knex('violations')
+                .count('business_id')
+                .whereRaw('violations.business_id = businesses.business_id')
+                .as('violation_count')
 
 
-        //add counts of inspections and violations by business
-        const businesses = await buildKnexQuery(knex("businesses"), filterPageSort).select('*', inspectionSubquery, violationSubquery)
-
-        const footerValues: [column: string, value: string][] = await Promise.all((footerValueColumns || []).map(async (column) => {
-            const inspectionsQuery = buildKnexQuery(knex("businesses"), { filter }).join("inspections", "businesses.business_id", "inspections.business_id").count("inspections.business_id");
-            const value = column === "inspection_count" ? await inspectionsQuery :
-                await buildKnexQuery(knex("businesses"), { filter }).join("violations", "businesses.business_id", "violations.business_id").count("violations.business_id");
-            return [
-                column,
-                `Total: ${formatCurrency(resolveExpression(value[0], Object.keys(value[0])[0]), 0)}`
-            ]
-        }));
-
-        const distinctValues: [column: string, values: NameValue[]][] = await Promise.all((distinctValueColumns || []).map(async (column) => {
-            const values = await buildKnexQuery(knex("businesses").distinct(column).select(column), { filter });
-            return [
-                column,
-                values.map((value: unknown) => {
-                    return {
-                        name: resolveExpression(value, column),
-                        value: resolveExpression(value, column)
-                    }
-                })
-            ]
-        }));
-        const toObject = (arr: [column: string, values: unknown][]) =>
-            arr.reduce((obj, [column, values]) => {
-                resolveExpression(obj, column, values);
-                return obj;
-            }, {});
+            //add counts of inspections and violations by business
+            const businesses = await buildKnexQuery(knex("businesses"), filterPageSort).select('*', inspectionSubquery, violationSubquery);
+            response.currentPageData = businesses;
+        }
+        if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) {
+            const footerValues: [column: string, value: string][] = await Promise.all((footerValueColumns || []).map(async (column) => {
+                const inspectionsQuery = buildKnexQuery(knex("businesses"), { filter }).join("inspections", "businesses.business_id", "inspections.business_id").count("inspections.business_id");
+                const value = column === "inspection_count" ? await inspectionsQuery :
+                    await buildKnexQuery(knex("businesses"), { filter }).join("violations", "businesses.business_id", "violations.business_id").count("violations.business_id");
+                return [
+                    column,
+                    `Total: ${formatCurrency(resolveExpression(value[0], Object.keys(value[0])[0]), 0)}`
+                ]
+            }));
+            response.footerValues = keyValueArrayToObject(footerValues);
+        }
+        if (reason === FilterPageSortChangeReason.InitialLoad) {
+            const distinctValues: [column: string, values: NameValue[]][] = await Promise.all((distinctValueColumns || []).map(async (column) => {
+                const values = await buildKnexQuery(knex("businesses").distinct(column).select(column), { filter });
+                return [
+                    column,
+                    values.map((value: unknown) => {
+                        return {
+                            name: resolveExpression(value, column),
+                            value: resolveExpression(value, column)
+                        }
+                    })
+                ]
+            }));
+            response.filterDistinctValues = keyValueArrayToObject(distinctValues);
+        }
 
         res.status(200).json(
             {
-                rows: businesses,
-                count: count[0].count,
-                filterDistinctValues: toObject(distinctValues),
-                footerValues: toObject(footerValues)
+                ...response,
             }
         );
     } else {

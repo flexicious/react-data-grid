@@ -13,7 +13,7 @@
     "incremental": true,
     "types": ["jest", "node"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts", "../../libs/grid-shared/src/lib/shared/sql-builder.ts"],
   "exclude": [
     "node_modules",
     "jest.config.ts",
