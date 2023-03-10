@@ -13,7 +13,7 @@ export const NestedLazyLoadGrid = () => {
     const [customLoading, setCustomLoading] = useState(false);
     const [orgs, setOrgs] = useState<Organization[]>([]);
     const [serverInfo, setServerInfo] = useState<ServerInfo>({
-        childrenMap: new Map()
+        childrenMap: {}
     });
     useEffect(() => {
         setIsLoading(true);
@@ -31,8 +31,8 @@ export const NestedLazyLoadGrid = () => {
             //we are an org, we need its deals
             const orgId = (row.data as Organization).id;
             const deals = await getDealsForOrg(orgId);
-            const childrenMap = serverInfo?.childrenMap || new Map();
-            childrenMap.set(orgId.toString(), deals);
+            const childrenMap = serverInfo?.childrenMap || {};
+            childrenMap[orgId.toString()]=  deals;
             setServerInfo({
                 ...serverInfo,
             });

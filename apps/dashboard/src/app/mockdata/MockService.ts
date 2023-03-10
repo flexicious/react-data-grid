@@ -78,7 +78,7 @@ export const getPagedData = async (
         },
         filterDistinctValues,
         footerValues,
-        childrenMap: new Map<string, unknown[]>(),
+        childrenMap: {},
         dataForExport: [],
     };
     await new Promise(resolve => setTimeout(resolve, 1000));

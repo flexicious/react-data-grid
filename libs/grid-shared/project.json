@@ -4,38 +4,6 @@
   "sourceRoot": "libs/grid-shared/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nrwl/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/grid-shared",
-        "format": ["esm", "cjs"],
-        "main": "libs/grid-shared/src/index.ts",
-        "tsConfig": "libs/grid-shared/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "*.mdx",
-            "input": "libs/grid-shared",
-            "output": "."
-          },
-          {
-            "glob": "LICENSE",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "libs/grid-shared/package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies",
-        "generateExportsField": true
-      }
-    },
-    "publish": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node tools/scripts/publish.mjs grid-shared {args.ver} {args.tag}"
-      },
-      "dependsOn": ["build"]
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

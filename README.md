@@ -1,5 +1,8 @@
 # React DataGrid 
 
+This is a monorepo of all the samples and examples for the ReactDataGrid component. If you wish to get started with a smaller example, please see the [ReactDataGrid Starter](https://github.com/flexicious/react-datagrid-cra) repo.
+
+
 ## Installation
 
 To get started, first clone the repo: 
