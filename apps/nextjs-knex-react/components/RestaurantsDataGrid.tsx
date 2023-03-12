@@ -1,7 +1,8 @@
-import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@euxdt/grid-core";
+import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@euxdt/grid-core";
 import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS } from "@euxdt/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
+import { Business, Inspection, Violation } from "../shared/types";
 import { DataGrid } from "./DataGrid";
 
 export const RestaurantsDataGrid = () => {
@@ -104,14 +105,14 @@ export const RestaurantsDataGrid = () => {
                 },
             },
             eventBus: {
-                onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
+                onFilterPageSortChanged: (args, reason) => {
                     setRequest({
                         ...args,
                         reason,
                         distinctValueColumns: [],//don't need distinct values on subsequent calls
                     });
                 },
-                onItemLoadRequested: async(row: RowPositionInfo) => {
+                onItemLoadRequested: async(row) => {
                     setChildLoading(true);
                     const children = row.level===1?(await axios.get(`/api/inspections?business_id=${row.uniqueIdentifier}`)).data.inspections :
                     (await axios.get(`/api/violations?inspection_id=${row.uniqueIdentifier}`)).data.violations;
@@ -209,6 +210,6 @@ export const RestaurantsDataGrid = () => {
                     filterOptions: createNumericRangeFilterOptions(),
                 }
             ]
-        }} /></>
+        } as GridOptions<Business|Violation|Inspection>} /></>
     );
 };
