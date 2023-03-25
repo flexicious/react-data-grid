@@ -1,0 +1,55 @@
+
+
+* {
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px
+}
+header {
+    height: 100px;
+    background-color: #333;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    overflow: hidden;
+}
+header.scroll {
+    height: 30px;
+    background-color: teal
+}
+header nav ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+header nav ul li {
+    display: inline-block;
+    margin: 10px;
+}
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+main {
+    margin-top: 110px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+footer {
+    height: 250px;
+    background-color: #333;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.euxdt-dg-container {
+    background-color: white;
+}
+.euxdt-dg-toolbar {
+    background-color: white;
+}
