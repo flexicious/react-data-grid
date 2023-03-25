@@ -66,6 +66,15 @@ npx nx serve sql-react-datagrid
 This will start both the server side API, and the client side React application. Once the application is running, you can access the application at http://localhost:3000.
 
 
+### Window scroll
+The window-scroll example demonstrates how to use the ReactDataGrid component with a window scroll. This example is a pure React application, with no server side code. The api calls are mocked. The ReactDataGrid component is configured to use the window as the scroll container, and the window scroll is used to scroll the grid. This ensures there is only one scroll bar, and the grid is always in sync with the window scroll. Multiple vertical scroll bars are not a good user experience, and this example demonstrates how to avoid that. What is unique about our ReactDataGrid component is that even with window scroll, the grid retains its virtualization, and only renders the rows that are visible in the window.  
+
+To run the window-scroll example, run the following commands:
+
+```bash
+npx nx serve window-scroll
+```
+
 ## Documentation
 Getting Started Guide:
 https://reactdatagrid.com/docs/intro
