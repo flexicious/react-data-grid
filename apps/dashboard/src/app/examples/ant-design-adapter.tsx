@@ -47,6 +47,13 @@ export const antAdapter: LibraryAdapter = {
         }} onKeyDown={onKeyDown} readOnly={readOnly} placeholder={placeholder} style={style}
          /* ref={ref as Ref<any>} */ />;
     },
+    createTextArea : (props): unknown => {
+        const { onChange, placeholder, onKeyDown,  style, readOnly, onClick, value, defaultValue } = props;
+        return <Input.TextArea value={value} defaultValue={defaultValue} onClick={onClick} onChange={(e) => {
+            onChange?.(e.target.value);
+        }} onKeyDown={onKeyDown} readOnly={readOnly} placeholder={placeholder} style={style}
+         /* ref={ref as Ref<any>} */ />;
+    },
     createCheckBox: (props: GridCheckBoxProps) => {
         const { onChange, value } = props;
         return <Checkbox /* ref={ref as Ref<HTMLInputElement>} */ onChange={(e) => { onChange?.(e.target.checked); }}

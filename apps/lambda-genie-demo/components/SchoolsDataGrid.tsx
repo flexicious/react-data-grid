@@ -1,19 +1,24 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@euxdt/grid-core";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo } from "@euxdt/grid-core";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../lambda-genie-demo/shared/types";
+import { GridConfig } from "../shared/lambda-genie/config-bindings";
 import { DataGrid } from "./DataGrid";
 
+export interface SchoolsDataGridProps {
+    gridConfig?: GridConfig;
+    gridColumnConfig?: ColumnOptions[];
+    colorEvaluator?: (value: number) => string;
+}
 
-export const SchoolsDataGrid = () => {
+export const SchoolsDataGrid = (props:SchoolsDataGridProps) => {
+    const {gridConfig, gridColumnConfig} = props;
+    const columns = useMemo(() => gridColumnConfig, [gridColumnConfig]);
     const [loading, setLoading] = useState<boolean>(true);
     const [request, setRequest] = useState<FilterPageSortArguments>();
     const [response, setResponse] = useState<ServerInfo>({});
 
-    const columns = useMemo(() => ([...schoolColumns,...frpmNewColumns,...satScoreColumns,].map((c) => {
-        return !initialVisibleColumnsFields.includes(c.dataField) ? { ...c, hidden: true } : c;
-    })), []);
+
     const uniqueIdentifierOptions = useMemo(() => ({
         useField: "schools.CDSCode",
     }), []);
@@ -65,6 +70,13 @@ export const SchoolsDataGrid = () => {
                     enableExcel: true,
                     enablePdf: true,
                 },
+                rowStyleFunction: (node) => {
+                    const rowColor = node.rowPosition.data?.['rowColor'];
+                    if(rowColor)
+                        return {backgroundColor: rowColor};
+                        console.log("rowColor", rowColor);
+                    return {};
+                },
                 eventBus: {
                     onFilterDistinctValuesRequested: (col: ColumnOptions) => {
                         setRequest({
@@ -89,6 +101,7 @@ export const SchoolsDataGrid = () => {
                 isLoading: loading,
                 uniqueIdentifierOptions,
                 columns,
-            }} /> 
+                ...gridConfig,
+            } as GridOptions} /> 
     );
 };
