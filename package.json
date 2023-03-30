@@ -4,7 +4,7 @@
   "scripts": {
     "start": "nx serve",
     "build-genie" : "npx nx build lambda-genie-demo",
-    "postbuild-genie" : "cp -r ./dbs ./dist/apps/lambda-genie-demo/.next"
+    "postbuild-genie" : "cp ./dbs/schools.db ./dist/apps/lambda-genie-demo/.next/static"
   },
   "keywords": [
     "react",

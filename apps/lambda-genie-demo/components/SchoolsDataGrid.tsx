@@ -74,7 +74,6 @@ export const SchoolsDataGrid = (props:SchoolsDataGridProps) => {
                     const rowColor = node.rowPosition.data?.['rowColor'];
                     if(rowColor)
                         return {backgroundColor: rowColor};
-                        console.log("rowColor", rowColor);
                     return {};
                 },
                 eventBus: {

@@ -5,7 +5,8 @@ import { loadConfigApi } from "../../shared/lambda-genie/config-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { executeRule } from "@euxdt/node-rules-engine";
 const sqlite3 = require('sqlite3').verbose();
-const getDb = () => new sqlite3.Database('dbs/schools.db');
+const dbLocation = process.env.DB_LOCATION || "dbs/schools.db";
+const getDb = () => new sqlite3.Database(dbLocation);
 
 const handler = async (
     req: NextApiRequest,
