@@ -4,9 +4,35 @@ import { CONFIG } from "../../shared/lambda-genie/config-bindings";
 import { loadConfigApi } from "../../shared/lambda-genie/config-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { executeRule } from "@euxdt/node-rules-engine";
+import fs from 'fs';
+import fetch from 'node-fetch';
+
 const sqlite3 = require('sqlite3').verbose();
-const dbLocation = process.env.DB_LOCATION || "dbs/schools.db";
-const getDb = () => new sqlite3.Database(dbLocation);
+let dbLocation = process.env.DB_LOCATION || "dbs/schools.db";
+const downloadFile = async (url) => {
+    const response = await fetch(url);
+    const fileStream = fs.createWriteStream('/tmp/schools.db');
+    await new Promise((resolve, reject) => {
+      response.body.pipe(fileStream);
+      response.body.on("error", (err) => {
+        reject(err);
+      });
+      fileStream.on("finish", function() {
+        resolve({});
+      });
+    });
+  };
+  
+  
+const getDb = async () =>{ 
+    if(!fs.existsSync(dbLocation)){
+        //download from https://github.com/flexicious/react-data-grid/blob/master/dbs/schools.db
+        //and place in the dbs folder
+        await downloadFile("https://raw.githubusercontent.com/flexicious/react-data-grid/master/dbs/schools.db");
+        dbLocation = "/tmp/schools.db";
+    }
+  return new sqlite3.Database(dbLocation);
+}
 
 const handler = async (
     req: NextApiRequest,
@@ -32,7 +58,7 @@ const handler = async (
         //get total count
         if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) {
             const countSelect = `select count(*) as count ${fromClause} ${noPagingWhereClause}`;
-            const count = await getRowsFromSqlite(getDb(), countSelect, params);
+            const count = await getRowsFromSqlite(await getDb(), countSelect, params);
             const totalRecords = (count[0] as any).count;
             response.pagination = {
                 ...pagination,
@@ -48,7 +74,7 @@ const handler = async (
             ${fromClause}
             ${schoolQuery}`;
             // console.log("schoolSelect", schoolSelect);
-            const schools = await getRowsFromSqlite(getDb(), schoolSelect, params);
+            const schools = await getRowsFromSqlite(await getDb(), schoolSelect, params);
             // console.log("currentPageData", schools.length);
             const colorRule = configApi.configJson.ruleSets.find((ruleSet) => ruleSet.name === CONFIG.RULE_SETS.SCHOOL_ROW_COLOR);
             schools.forEach((school: any) => {
@@ -67,7 +93,7 @@ const handler = async (
             const visibleNumericColumns = visibleColumns.filter((column) => numericColumns.find((col) => col.dataField === column));
             const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column}) as '${column}'`).join(",")}`;
             // console.log("selectClause", params);
-            const footerResult = await getRowsFromSqlite(getDb(), `${selectClause} ${fromClause} ${noPagingWhereClause}`, params);
+            const footerResult = await getRowsFromSqlite(await getDb(), `${selectClause} ${fromClause} ${noPagingWhereClause}`, params);
             for (const column of visibleNumericColumns || []) {
                 const result = footerResult[0][column];
                 if (result)
@@ -82,7 +108,7 @@ const handler = async (
                 const table = column.split(".")[0];
                 const col = column.split(".")[1];
                 const values = `select distinct ${col} from ${table} `;
-                const dbValues = await getRowsFromSqlite(getDb(), values, []);
+                const dbValues = await getRowsFromSqlite(await getDb(), values, []);
                 filterDistinctValues[column] = dbValues.map((value: unknown) => ({ name: (value as any)[col], value: (value as any)[col] }));
             }
             response.filterDistinctValues = filterDistinctValues;

@@ -3,8 +3,7 @@
   "version": "0.0.28",
   "scripts": {
     "start": "nx serve",
-    "build-genie" : "npx nx build lambda-genie-demo",
-    "postbuild-genie" : "cp ./dbs/schools.db ./dist/apps/lambda-genie-demo/.next/static"
+    "build-genie" : "npx nx build lambda-genie-demo"
   },
   "keywords": [
     "react",
