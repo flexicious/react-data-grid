@@ -78,11 +78,14 @@ const handler = async (
             // console.log("currentPageData", schools.length);
             const colorRule = configApi.configJson.ruleSets.find((ruleSet) => ruleSet.name === CONFIG.RULE_SETS.SCHOOL_ROW_COLOR);
             schools.forEach((school: any) => {
-                const colorRuleResult = executeRule(colorRule,
-                    configApi.configJson.predefinedLists, {
-                    PercentEligibleFreeK12: school["frpm_new.PercentEligibleFreeK12"],
-                }, environment);
-                school.rowColor = colorRuleResult?.result || "";
+                if(school["frpm_new.PercentEligibleFreeK12"]){
+                    const colorRuleResult = executeRule(colorRule,
+                        configApi.configJson.predefinedLists, {
+                        PercentEligibleFreeK12: school["frpm_new.PercentEligibleFreeK12"],
+                    }, environment);
+                    console.log("colorRuleResult", school["frpm_new.PercentEligibleFreeK12"],colorRuleResult?.result);
+                    school.rowColor = colorRuleResult?.result || "";
+                }
             });
 
             response.currentPageData = schools;

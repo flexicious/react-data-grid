@@ -70,9 +70,10 @@ export const SchoolsDataGrid = (props:SchoolsDataGridProps) => {
                     enableExcel: true,
                     enablePdf: true,
                 },
-                rowStyleFunction: (node) => {
-                    const rowColor = node.rowPosition.data?.['rowColor'];
-                    if(rowColor)
+                cellStyleFunction: (node) => {
+                    const rowColor = node.rowPosition?.data?.['rowColor'];
+                    const isPercentCol = node.columnPosition.column?.dataField === "frpm_new.PercentEligibleFreeK12";
+                    if(isPercentCol && rowColor)
                         return {backgroundColor: rowColor};
                     return {};
                 },
