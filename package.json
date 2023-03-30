@@ -2,7 +2,9 @@
   "name": "euxdt",
   "version": "0.0.28",
   "scripts": {
-    "start": "nx serve"
+    "start": "nx serve",
+    "build-genie" : "npx nx build lambda-genie-demo",
+    "postbuild-genie" : "cp -r ./dbs ./dist/apps/lambda-genie-demo"
   },
   "keywords": [
     "react",
