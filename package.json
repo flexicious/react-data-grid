@@ -3,7 +3,7 @@
   "version": "0.0.28",
   "scripts": {
     "start": "nx serve",
-    "build-genie" : "npx nx build lambda-genie-demo"
+    "build-genie": "npx nx build lambda-genie-demo"
   },
   "keywords": [
     "react",
@@ -27,6 +27,7 @@
     "@mui/x-date-pickers": "^5.0.20",
     "@nrwl/next": "^15.8.9",
     "@types/styled-components": "^5.1.26",
+    "adm-zip": "^0.5.10",
     "antd": "^5.2.3",
     "apollo-server-micro": "^3.12.0",
     "axios": "^1.3.4",

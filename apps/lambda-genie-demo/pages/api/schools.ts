@@ -4,35 +4,8 @@ import { CONFIG } from "../../shared/lambda-genie/config-bindings";
 import { loadConfigApi } from "../../shared/lambda-genie/config-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { executeRule } from "@euxdt/node-rules-engine";
-import fs from 'fs';
-import fetch from 'node-fetch';
+import { getDb } from "../../shared/downloadDb";
 
-const sqlite3 = require('sqlite3').verbose();
-let dbLocation = process.env.DB_LOCATION || "dbs/schools.db";
-const downloadFile = async (url) => {
-    const response = await fetch(url);
-    const fileStream = fs.createWriteStream('/tmp/schools.db');
-    await new Promise((resolve, reject) => {
-      response.body.pipe(fileStream);
-      response.body.on("error", (err) => {
-        reject(err);
-      });
-      fileStream.on("finish", function() {
-        resolve({});
-      });
-    });
-  };
-  
-  
-const getDb = async () =>{ 
-    if(!fs.existsSync(dbLocation)){
-        //download from https://github.com/flexicious/react-data-grid/blob/master/dbs/schools.db
-        //and place in the dbs folder
-        await downloadFile("https://raw.githubusercontent.com/flexicious/react-data-grid/master/dbs/schools.db");
-        dbLocation = "/tmp/schools.db";
-    }
-  return new sqlite3.Database(dbLocation);
-}
 
 const handler = async (
     req: NextApiRequest,
