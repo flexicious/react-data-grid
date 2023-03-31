@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import AdmZip from "adm-zip";
 
 const sqlite3 = require('sqlite3').verbose();
-let dbLocation = process.env.DB_LOCATION || "tmp/schools.db";
+let dbLocation = process.env.DB_LOCATION || "db/schools.db";
 
 
 
