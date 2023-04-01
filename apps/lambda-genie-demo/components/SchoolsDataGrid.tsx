@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { GridConfig } from "../shared/lambda-genie/config-bindings";
 import { DataGrid } from "./DataGrid";
+import { dummyResponse } from "./dummyResponse";
 
 export interface SchoolsDataGridProps {
     gridConfig?: GridConfig;
@@ -40,7 +41,15 @@ export const SchoolsDataGrid = (props:SchoolsDataGridProps) => {
         const getServerInfo = async (request: FilterPageSortArguments) => {
             if (request.reason !== FilterPageSortChangeReason.FilterDistinctValuesRequested)
                 setLoading(true);
-            const response = await axios.post<ServerInfo>("/api/schools", request);
+                let response;
+                try{
+                    response = await axios.post<ServerInfo>("/api/schools", request);
+                }catch(err){
+                    console.log(err);
+                    response = {
+                        data: dummyResponse,
+                    }
+                }
             const newResponse = response.data;
             setResponse(s=>{
                 //Merge the new response with the old response.
