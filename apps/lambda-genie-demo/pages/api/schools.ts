@@ -1,10 +1,9 @@
 import { buildSqlWhereClause, ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, formatCurrency, NameValue, ServerInfo } from "@euxdt/grid-core";
-import { getRowsFromSqlite } from "@euxdt/grid-shared";
 import { CONFIG } from "../../shared/lambda-genie/config-bindings";
 import { loadConfigApi } from "../../shared/lambda-genie/config-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { executeRule } from "@euxdt/node-rules-engine";
-import { getDb } from "../../shared/downloadDb";
+import { getDataFromPostgres } from "apps/lambda-genie-demo/shared/pg/getData";
 
 
 const handler = async (
@@ -31,7 +30,7 @@ const handler = async (
         //get total count
         if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) {
             const countSelect = `select count(*) as count ${fromClause} ${noPagingWhereClause}`;
-            const count = await getRowsFromSqlite(await getDb(), countSelect, params);
+            const count = await getDataFromPostgres(countSelect, params);
             const totalRecords = (count[0] as any).count;
             response.pagination = {
                 ...pagination,
@@ -43,11 +42,10 @@ const handler = async (
         if (reason !== FilterPageSortChangeReason.FilterDistinctValuesRequested) {
             const schoolQuery = buildSqlWhereClause(filterPageSort, []);
             const schoolSelect = `select 
-            ${allCols.map((column) => `${column.dataField} as '${column.dataField}'`).join(",")}
+            ${allCols.map((column) => `${column.dataField} as "${column.dataField}"`).join(",")}
             ${fromClause}
             ${schoolQuery}`;
-            // console.log("schoolSelect", schoolSelect);
-            const schools = await getRowsFromSqlite(await getDb(), schoolSelect, params);
+            const schools = await getDataFromPostgres(schoolSelect, params);
             // console.log("currentPageData", schools.length);
             const colorRule = configApi.configJson.ruleSets.find((ruleSet) => ruleSet.name === CONFIG.RULE_SETS.SCHOOL_ROW_COLOR);
             schools.forEach((school: any) => {
@@ -56,24 +54,22 @@ const handler = async (
                         configApi.configJson.predefinedLists, {
                         PercentEligibleFreeK12: school["frpm_new.PercentEligibleFreeK12"],
                     }, environment);
-                    console.log("colorRuleResult", school["frpm_new.PercentEligibleFreeK12"],colorRuleResult?.result);
                     school.rowColor = colorRuleResult?.result || "";
                 }
             });
-
             response.currentPageData = schools;
         }
         //get footer values
         if ((reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) && (visibleColumns?.length || 0)) {
             const footerValues: Record<string, string> = {};
             const visibleNumericColumns = visibleColumns.filter((column) => numericColumns.find((col) => col.dataField === column));
-            const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column}) as '${column}'`).join(",")}`;
+            const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column}) as "${column}"`).join(",")}`;
             // console.log("selectClause", params);
-            const footerResult = await getRowsFromSqlite(await getDb(), `${selectClause} ${fromClause} ${noPagingWhereClause}`, params);
+            const footerResult = await getDataFromPostgres(`${selectClause} ${fromClause} ${noPagingWhereClause}`, params);
             for (const column of visibleNumericColumns || []) {
-                const result = footerResult[0][column];
+                const result = footerResult[0][column] || footerResult[0][column.toLowerCase()];
                 if (result)
-                    footerValues[column] = `Avg: ${formatCurrency(footerResult[0][column])}`;
+                    footerValues[column] = `Avg: ${formatCurrency(result)}`;
             }
             response.footerValues = footerValues;
         }
@@ -84,8 +80,8 @@ const handler = async (
                 const table = column.split(".")[0];
                 const col = column.split(".")[1];
                 const values = `select distinct ${col} from ${table} `;
-                const dbValues = await getRowsFromSqlite(await getDb(), values, []);
-                filterDistinctValues[column] = dbValues.map((value: unknown) => ({ name: (value as any)[col], value: (value as any)[col] }));
+                const dbValues = await getDataFromPostgres(values, []);
+                filterDistinctValues[column] = dbValues.map((value: unknown) => ({ name: (value as any)[col] || (value as any)[col.toLowerCase()], value: (value as any)[col] || (value as any)[col.toLowerCase()] }));
             }
             response.filterDistinctValues = filterDistinctValues;
         }
