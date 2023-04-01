@@ -27,7 +27,7 @@ export const getDb = async () => {
         console.log("downloading db");
         await downloadFile("https://raw.githubusercontent.com/flexicious/react-data-grid/master/dbs/schools.db.zip");
         const zip = new AdmZip("/tmp/schools.db.zip");
-        zip.extractAllTo("/tmp/db", true);
+        zip.extractAllTo("/tmp/db", false);
         console.log("writing to /tmp/schools.db");
         dbLocation = "/tmp/db/schools.db";
     }
