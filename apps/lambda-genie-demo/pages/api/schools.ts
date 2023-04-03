@@ -19,6 +19,9 @@ const handler = async (
         const numericColumns = allCols.filter((column) => column.format === "number");
         const filterPageSort = req.body as FilterPageSortArguments;
         const response: ServerInfo = {};
+        if(filterPageSort.globalFilterTree?.children?.length > 0){
+            filterPageSort.filter = filterPageSort.globalFilterTree;
+        }
         const { filter, distinctValueColumns, visibleColumns, pagination, reason } = filterPageSort;
         const fromClause = ` from  schools
         left JOIN satscores ON satscores.cds = schools.CDSCode
