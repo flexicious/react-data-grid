@@ -40,18 +40,18 @@ export interface GridConfig {
     enableFooters?: boolean;
     enablePaging?: boolean;
     sortOptions?: {
-      enableMultiColumnSort?: boolean;
-      [k: string]: unknown;
+        enableMultiColumnSort?: boolean;
+        [k: string]: unknown;
     };
     toolbarOptions?: {
-      enableGlobalSearch?: boolean;
-      enableItemCount?: boolean;
-      enableFilterchips?: boolean;
-      enableQuickFind?: boolean;
-      enablePdf?: boolean;
-      enableExcel?: boolean;
-      enableSettings?: boolean;
-      [k: string]: unknown;
+        enableGlobalSearch?: boolean;
+        enableItemCount?: boolean;
+        enableFilterchips?: boolean;
+        enableQuickFind?: boolean;
+        enablePdf?: boolean;
+        enableExcel?: boolean;
+        enableSettings?: boolean;
+        [k: string]: unknown;
     };
     [k: string]: unknown;
-  }
+}

@@ -1,0 +1,75 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+      "title": "GridConfig",
+    "properties": {
+      "rowHeight": {
+        "type": "number"
+      },
+      "headerRowHeight": {
+        "type": "number"
+      },
+      "footerRowHeight": {
+        "type": "number"
+      },
+      "filterRowHeight": {
+        "type": "number"
+      },
+      "toolbarHeight": {
+        "type": "number"
+      },
+      "enableColumnMenu": {
+        "type": "boolean"
+      },
+      "enableContextMenu": {
+        "type": "boolean"
+      },
+      "enableToolbar": {
+        "type": "boolean"
+      },
+      "enableFilters": {
+        "type": "boolean"
+      },
+      "enableFooters": {
+        "type": "boolean"
+      },
+      "enablePaging": {
+        "type": "boolean"
+      },
+      "sortOptions": {
+        "type": "object",
+        "properties": {
+          "enableMultiColumnSort": {
+            "type": "boolean"
+          }
+        }
+      },
+      "toolbarOptions": {
+        "type": "object",
+        "properties": {
+          "enableGlobalSearch": {
+            "type": "boolean"
+          },
+          "enableItemCount": {
+            "type": "boolean"
+          },
+          "enableFilterchips": {
+            "type": "boolean"
+          },
+          "enableQuickFind": {
+            "type": "boolean"
+          },
+          "enablePdf": {
+            "type": "boolean"
+          },
+          "enableExcel": {
+            "type": "boolean"
+          },
+          "enableSettings": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+  

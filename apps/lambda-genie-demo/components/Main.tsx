@@ -1,5 +1,4 @@
-import { ColumnOptions, FilterOperation } from '@euxdt/grid-core';
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions } from '@euxdt/grid-react';
+import { ColumnOptions } from '@euxdt/grid-core';
 import { AppBar, CircularProgress, Stack, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CONFIG, GridConfig } from '../shared/lambda-genie/config-bindings';
@@ -13,32 +12,11 @@ export const Main = () => {
     const configLoader = async () => {
       const configValue = await fetch("/api/config").then((r) => r.json());
       setGridConfig(configValue[CONFIG.LAMBDA_CONFIGS.GET_SCHOOL_DETAILS.GRID_DEFINITION] as unknown as GridConfig);
-      setGridColumnConfig((configValue[CONFIG.LAMBDA_CONFIGS.GET_SCHOOL_DETAILS.GRID_COLUMN_DEFINITION] as unknown as ColumnOptions[]).map(applyFilterRenderer));
+      setGridColumnConfig(configValue[CONFIG.LAMBDA_CONFIGS.GET_SCHOOL_DETAILS.GRID_COLUMN_DEFINITION] as unknown as ColumnOptions[]);
       setLoading(false);
     };
     configLoader();
   }, []);
-  const applyFilterRenderer = (col: ColumnOptions) => {
-    if(col.filterOptions?.filterOperation === FilterOperation.InList) {
-      col.filterOptions = {
-        ...createMultiSelectFilterOptions(),
-        ...col.filterOptions,
-      }
-    } else if(col.filterOptions?.filterOperation === FilterOperation.Between) {
-      col.filterOptions = {
-        ...createNumericRangeFilterOptions(),
-        ...col.filterOptions,
-      }
-    }
-    else if(col.filterOptions?.filterOperation.length > 0) {
-      col.filterOptions = {
-        ...createTextInputFilterOptions(col.filterOptions.filterOperation),
-        ...col.filterOptions,
-      }
-    }
-    return col;
-  }
-
   return (
     <div className="App" style={{ height: "100vh", width: "100vw" }}>
 
@@ -55,7 +33,7 @@ export const Main = () => {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            California School SAT Performance and Poverty Data Sample with NextJS, Raw SQL, React, and Material-UI
+            California School SAT Performance and Poverty Data Sample with Lambda Genie, NextJS, SQL Builder with PostgreSQL, React, and Material-UI
           </Typography>
         </Toolbar>
       </AppBar>

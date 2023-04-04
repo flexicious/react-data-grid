@@ -75,6 +75,41 @@ To run the window-scroll example, run the following commands:
 npx nx serve window-scroll
 ```
 
+
+### Lambda Genie Demo
+
+The lambda-genie-demo example is a full stack application that integrates the following technologies:
+- [NextJS](https://nextjs.org/) for the server side API
+- [Postgres](https://www.postgresql.org/) for the database. You can use the postgres.lzo file in the root of the application to restore the database. Once you do this, 
+- [LambdaGenie](https://lambdagenie.com) Lambda Genie is a Cloud Native, Serverless solution featuring a Node.js Rules Engine, Intelligent Feature Flags, and Dynamic Configuration Management for AWS Lambda and Node.js Applications. We use this tool to manage our columns to dynamically configure the ReactDataGrid component.
+- [ReactDataGrid](https://reactdatagrid.com) for the client side datagrid.
+
+You can run this application without a Lambda Genie account, because we include a full mock config located at apps/lambda-genie-demo/shared/lambda-genie/mock.ts. But if you wish to run this application with a real Lambda Genie account, you will need to do the following: First ensure you have a lambda genie account, and you have created a project. In this project, use the 
+files in the apps/lambda-genie-demo/shared/lambda-genie/setup folder to create the following features:
+- A Schema Definition called GRID_CONFIG from apps/lambda-genie-demo/shared/lambda-genie/setup/schema/GridConfig.json
+- A Schema Definition called GRID_COLUMNS from apps/lambda-genie-demo/shared/lambda-genie/setup/schema/ColumnConfig.json
+- A Service/Module called GET_SCHOOL_DETAILS, under which you will use the above two schemas to make 2 configuration values:
+    - GRID_DEFINITION of type GRID_CONFIG using the file apps/lambda-genie-demo/shared/lambda-genie/setup/config/GRID_DEFINITION.json
+    - GRID_COLUMN_DEFINITION of type GRID_COLUMNS using the file apps/lambda-genie-demo/shared/lambda-genie/setup/config/GRID_COLUMN_DEFINITION.json
+You can follow the video here to see how this is done.: https://www.youtube.com/watch?v=6ZQY9Z1ZQ0o
+
+Then, you will need to create a .env file in the root of the application, and add the following environment variables:
+
+```bash
+LAMBDA_GENIE_API_KEY=GET_FROM_LAMBDA_GENIE
+PG_CONNECTION_STRING=postgres://USER:PASSWORD@HOST/DATABASE
+```
+
+Once you have done this, you can run the application using the following command:
+
+```bash
+npx nx serve lambda-genie-demo
+```
+
+
+
+
+
 ## Documentation
 Getting Started Guide:
 https://reactdatagrid.com/docs/intro

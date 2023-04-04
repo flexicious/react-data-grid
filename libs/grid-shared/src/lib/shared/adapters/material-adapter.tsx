@@ -1,6 +1,6 @@
 import { CheckBoxState, ElementProps, GridCheckBoxProps, GridIconButton, GridMenuProps, LibraryAdapter, resolveExpression, TreeNodeType, VirtualTreeNode } from "@euxdt/grid-core";
 import {
-    AddCircle, ArrowBack, ArrowForward, Cancel, ChevronRight, DeleteOutline, DoneOutline, Edit, ExpandLess, ExpandMore, FileDownload, FilterAlt, FilterList, FirstPage, GridView, LastPage, PictureAsPdf, RemoveCircle, RestartAlt, Save, Settings,
+    AddCircle, ArrowBack, ArrowForward, Cancel, ChevronRight, ContentPaste, CopyAll, DeleteOutline, DoneOutline, Edit, ExpandLess, ExpandMore, FileDownload, FilterAlt, FilterList, FirstPage, GridView, LastPage, PictureAsPdf, RemoveCircle, RestartAlt, Save, Settings,
     UnfoldLess, UnfoldMore
 } from "@mui/icons-material";
 import { Checkbox, Divider, IconButton, List, MenuItem, Select, TextField, Theme } from "@mui/material";
@@ -175,6 +175,10 @@ export const materialAdapter: LibraryAdapter = {
             return generateIcon(<AddCircle />, props);
         } else if (icon === GridIconButton.Minus) {
             return generateIcon(<RemoveCircle />, props);
+        } else if (icon === GridIconButton.Copy) {
+            return generateIcon(<CopyAll/>, props);
+        } else if (icon === GridIconButton.Paste) {
+            return generateIcon(<ContentPaste />, props);
         }
 
         return { props };

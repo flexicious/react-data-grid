@@ -1,0 +1,263 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://example.com/column-options.schema.json",
+    "title": "ColumnConfig",
+    "type": "object",
+    "properties": {
+        "headerText": {
+            "type": "string"
+        },
+        "dataField": {
+            "type": "string"
+        },
+        "uniqueIdentifier": {
+            "type": "string"
+        },
+        "format": {
+            "type": "string",
+            "enum": [
+                "string",
+                "number",
+                "date",
+                "dateTime",
+                "currency",
+                "boolean"
+            ]
+        },
+        "width": {
+            "type": "number"
+        },
+        "widthMode": {
+            "type": "string",
+            "enum": [
+                "percent",
+                "fixed",
+                "fitToContent"
+            ]
+        },
+        "lockMode": {
+            "type": "string",
+            "enum": [
+                "none",
+                "left",
+                "right"
+            ]
+        },
+        "textAlign": {
+            "type": "string",
+            "enum": [
+                "center",
+                "right"
+            ]
+        },
+        "hidden": {
+            "type": "boolean"
+        },
+        "percentWidth": {
+            "type": "number"
+        },
+        "formatterPrecision": {
+            "type": "number"
+        },
+        "excludeFromPdf": {
+            "type": "boolean"
+        },
+        "excludeFromExcel": {
+            "type": "boolean"
+        },
+        "textWidthAdjustment": {
+            "type": "number"
+        },
+        "enableHierarchy": {
+            "type": "boolean"
+        },
+        "enableSort": {
+            "type": "boolean"
+        },
+        "enableResize": {
+            "type": "boolean"
+        },
+        "enableMove": {
+            "type": "boolean"
+        },
+        "enableDrag": {
+            "type": "boolean"
+        },
+        "excludeFromSettings": {
+            "type": "boolean"
+        },
+        "enableCellClickRowSelect": {
+            "type": "boolean"
+        },
+        "enableFocus": {
+            "type": "boolean"
+        },
+        "enableColumnMenu": {
+            "type": "boolean"
+        },
+        "sortOptions": {
+            "$ref": "#/definitions/SortOptions"
+        },
+        "editOptions": {
+            "$ref": "#/definitions/EditOptions"
+        },
+        "headerOptions": {
+            "$ref": "#/definitions/HeaderOptions"
+        },
+        "footerOptions": {
+            "$ref": "#/definitions/FooterOptions"
+        },
+        "filterOptions": {
+            "$ref": "#/definitions/FilterOptions"
+        },
+        "variableRowHeightOptions": {
+            "$ref": "#/definitions/VariableRowHeightColumnOptions"
+        }
+    },
+    "definitions": {
+        "FooterOptions": {
+            "type": "object",
+            "properties": {
+                "footerOperation": {
+                    "type": "string",
+                    "enum": [
+                        "Sum",
+                        "Avg",
+                        "Min",
+                        "Max",
+                        "Count",
+                        "Median"
+                    ]
+                },
+                "footerOperationPrecision": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "footerLabel": {
+                    "type": "string"
+                },
+                "enableFooterMenu": {
+                    "type": "boolean"
+                },
+                "footerDataField": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "HeaderOptions": {
+            "type": "object",
+            "properties": {
+                "columnGroupText": {
+                    "type": "string"
+                },
+                "columnGroupTooltip": {
+                    "type": "string"
+                },
+                "headerTooltip": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "VariableRowHeightColumnOptions": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
+        "EditOptions": {
+            "type": "object",
+            "properties": {
+                "editStartMode": {
+                    "type": "string",
+                    "enum": [
+                        "Click",
+                        "DoubleClick",
+                        "Excel"
+                    ]
+                },
+                "editorHandlesTabEnter": {
+                    "type": "boolean"
+                },
+                "enableEdit": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
+        "SortOptions": {
+            "type": "object",
+            "properties": {
+                "sorNumeric": {
+                    "type": "boolean"
+                },
+                "sortCaseInsensitive": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
+        "FilterOptions": {
+            "type": "object",
+            "properties": {
+                "filterType": {
+                    "type": "string",
+                    "enum": [
+                        "None",
+                        "Text",
+                        "Number",
+                        "Date",
+                        "Boolean",
+                        "MultiSelect",
+                        "SingleSelect"
+                    ]
+                },
+                "filterExcludeObjectsWithoutMatchField": {
+                    "type": "boolean"
+                },
+                "filterOperation": {
+                    "type": "string",
+                    "enum": [
+                        "None",
+                        "Equals",
+                        "NotEquals",
+                        "BeginsWith",
+                        "Wildcard",
+                        "EndsWith",
+                        "Contains",
+                        "DoesNotContain",
+                        "GreaterThan",
+                        "LessThan",
+                        "GreaterThanEquals",
+                        "LessThanEquals",
+                        "InList",
+                        "NotInList",
+                        "Between",
+                        "IsNotNull",
+                        "IsNull"
+                    ]
+                },
+                "excludeFromQuickFind": {
+                    "type": "boolean"
+                },
+                "filterWaterMark": {
+                    "type": "string"
+                },
+                "delayedChangeDuration": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "useLabelFunctionForFilterCompare": {
+                    "type": "boolean"
+                },
+                "blankValuesLabel": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

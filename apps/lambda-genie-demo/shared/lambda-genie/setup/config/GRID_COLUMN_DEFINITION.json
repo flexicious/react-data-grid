@@ -1,0 +1,962 @@
+[
+    {
+      "dataField": "schools.CDSCode",
+      "headerText": "CDS Code",
+      "uniqueIdentifier": "schools.CDSCode",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      },
+      "lockMode": "none"
+    },
+    {
+      "dataField": "schools.School",
+      "headerText": "School Name",
+      "uniqueIdentifier": "schools.School",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Contains",
+        "filterOperation": "Contains"
+      },
+      "lockMode": "left"
+    },
+    {
+      "dataField": "schools.District",
+      "headerText": "District Name",
+      "uniqueIdentifier": "schools.District",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "*search*",
+        "filterOperation": "Wildcard"
+      },
+      "lockMode": "left"
+    },
+    {
+      "dataField": "schools.NCESDist",
+      "headerText": "NCES District",
+      "uniqueIdentifier": "schools.NCESDist",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "lockMode": "none"
+    },
+    {
+      "dataField": "schools.NCESSchool",
+      "headerText": "NCES School",
+      "uniqueIdentifier": "schools.NCESSchool",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "schools.StatusType",
+      "headerText": "Status",
+      "uniqueIdentifier": "schools.StatusType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.County",
+      "headerText": "County",
+      "uniqueIdentifier": "schools.County",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.Street",
+      "headerText": "Street",
+      "uniqueIdentifier": "schools.Street",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": false,
+      "children": [
+        {
+          "dataField": "schools.StreetAbr",
+          "headerText": "Street Abr",
+          "uniqueIdentifier": "schools.StreetAbr",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        },
+        {
+          "dataField": "schools.City",
+          "headerText": "City",
+          "uniqueIdentifier": "schools.City",
+          "format": "string",
+          "filterOptions": {
+            "filterOperation": "InList",
+            "filterComboBoxBuildFromGrid": true
+          },
+          "hidden": true
+        },
+        {
+          "dataField": "schools.State",
+          "headerText": "State",
+          "uniqueIdentifier": "schools.State",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        },
+        {
+          "dataField": "schools.Zip",
+          "headerText": "Zip",
+          "uniqueIdentifier": "schools.Zip",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "dataField": "schools.MailStreet",
+      "headerText": "Mail Street",
+      "uniqueIdentifier": "schools.MailStreet",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": false,
+      "children": [
+        {
+          "dataField": "schools.MailStrAbr",
+          "headerText": "Mail Str Abr",
+          "uniqueIdentifier": "schools.MailStrAbr",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        },
+        {
+          "dataField": "schools.MailCity",
+          "headerText": "Mail City",
+          "uniqueIdentifier": "schools.MailCity",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        },
+        {
+          "dataField": "schools.MailState",
+          "headerText": "Mail State",
+          "uniqueIdentifier": "schools.MailState",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        },
+        {
+          "dataField": "schools.MailZip",
+          "headerText": "Mail Zip",
+          "uniqueIdentifier": "schools.MailZip",
+          "format": "string",
+          "filterOptions": {
+            "filterWaterMark": "Begins With",
+            "filterOperation": "BeginsWith"
+          },
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "dataField": "schools.Phone",
+      "headerText": "Phone",
+      "uniqueIdentifier": "schools.Phone",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.Ext",
+      "headerText": "Ext",
+      "uniqueIdentifier": "schools.Ext",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.Website",
+      "headerText": "Website",
+      "uniqueIdentifier": "schools.Website",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.OpenDate",
+      "headerText": "Open Date",
+      "uniqueIdentifier": "schools.OpenDate",
+      "format": "date",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.ClosedDate",
+      "headerText": "Closed Date",
+      "uniqueIdentifier": "schools.ClosedDate",
+      "format": "date",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.Charter",
+      "headerText": "Charter",
+      "uniqueIdentifier": "schools.Charter",
+      "format": "boolean",
+      "textAlign": "center",
+      "filterOptions": {
+        "filterOperation": "Equals",
+        "filterComparisonType": "Boolean"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.CharterNum",
+      "headerText": "Charter Num",
+      "uniqueIdentifier": "schools.CharterNum",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.FundingType",
+      "headerText": "Funding Type",
+      "uniqueIdentifier": "schools.FundingType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.DOC",
+      "headerText": "DOC",
+      "uniqueIdentifier": "schools.DOC",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.DOCType",
+      "headerText": "DOC Type",
+      "uniqueIdentifier": "schools.DOCType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.SOC",
+      "headerText": "SOC",
+      "uniqueIdentifier": "schools.SOC",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.SOCType",
+      "headerText": "SOC Type",
+      "uniqueIdentifier": "schools.SOCType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.EdOpsCode",
+      "headerText": "Ed Ops Code",
+      "uniqueIdentifier": "schools.EdOpsCode",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.EdOpsName",
+      "headerText": "Ed Ops Name",
+      "uniqueIdentifier": "schools.EdOpsName",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.EILCode",
+      "headerText": "EIL Code",
+      "uniqueIdentifier": "schools.EILCode",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.EILName",
+      "headerText": "EIL Name",
+      "uniqueIdentifier": "schools.EILName",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.GSoffered",
+      "headerText": "G Soffered",
+      "uniqueIdentifier": "schools.GSoffered",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.GSserved",
+      "headerText": "G Sserved",
+      "uniqueIdentifier": "schools.GSserved",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.Virtual",
+      "headerText": "Virtual",
+      "uniqueIdentifier": "schools.Virtual",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "schools.Magnet",
+      "headerText": "Magnet",
+      "uniqueIdentifier": "schools.Magnet",
+      "format": "boolean",
+      "textAlign": "center",
+      "filterOptions": {
+        "filterOperation": "Equals",
+        "filterComparisonType": "Boolean"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.Latitude",
+      "headerText": "Latitude",
+      "uniqueIdentifier": "schools.Latitude",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.Longitude",
+      "headerText": "Longitude",
+      "uniqueIdentifier": "schools.Longitude",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmFName1",
+      "headerText": "Adm F Name1",
+      "uniqueIdentifier": "schools.AdmFName1",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmLName1",
+      "headerText": "Adm L Name1",
+      "uniqueIdentifier": "schools.AdmLName1",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmEmail1",
+      "headerText": "Adm Email1",
+      "uniqueIdentifier": "schools.AdmEmail1",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmFName2",
+      "headerText": "Adm F Name2",
+      "uniqueIdentifier": "schools.AdmFName2",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmLName2",
+      "headerText": "Adm L Name2",
+      "uniqueIdentifier": "schools.AdmLName2",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmEmail2",
+      "headerText": "Adm Email2",
+      "uniqueIdentifier": "schools.AdmEmail2",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmFName3",
+      "headerText": "Adm F Name3",
+      "uniqueIdentifier": "schools.AdmFName3",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmLName3",
+      "headerText": "Adm L Name3",
+      "uniqueIdentifier": "schools.AdmLName3",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.AdmEmail3",
+      "headerText": "Adm Email3",
+      "uniqueIdentifier": "schools.AdmEmail3",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "schools.LastUpdate",
+      "headerText": "Last Update",
+      "uniqueIdentifier": "schools.LastUpdate",
+      "format": "date",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "frpm_new.AcademicYear",
+      "headerText": "Academic Year",
+      "uniqueIdentifier": "frpm_new.AcademicYear",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "frpm_new.CountyCode",
+      "headerText": "County Code",
+      "uniqueIdentifier": "frpm_new.CountyCode",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "frpm_new.DistrictCode",
+      "headerText": "District Code",
+      "uniqueIdentifier": "frpm_new.DistrictCode",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "frpm_new.SchoolCode",
+      "headerText": "School Code",
+      "uniqueIdentifier": "frpm_new.SchoolCode",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "frpm_new.CountyName",
+      "headerText": "County Name",
+      "uniqueIdentifier": "frpm_new.CountyName",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "frpm_new.DistrictName",
+      "headerText": "District Name",
+      "uniqueIdentifier": "frpm_new.DistrictName",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "frpm_new.SchoolName",
+      "headerText": "School Name",
+      "uniqueIdentifier": "frpm_new.SchoolName",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "frpm_new.DistrictType",
+      "headerText": "District Type",
+      "uniqueIdentifier": "frpm_new.DistrictType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "frpm_new.SchoolType",
+      "headerText": "School Type",
+      "uniqueIdentifier": "frpm_new.SchoolType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "frpm_new.EducationalOptionType",
+      "headerText": "Educational Option Type",
+      "uniqueIdentifier": "frpm_new.EducationalOptionType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "frpm_new.NSLPProvisionStatus",
+      "headerText": "NSLP Provision Status",
+      "uniqueIdentifier": "frpm_new.NSLPProvisionStatus",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "frpm_new.CharterSchoolYN",
+      "headerText": "Charter School YN",
+      "uniqueIdentifier": "frpm_new.CharterSchoolYN",
+      "format": "boolean",
+      "textAlign": "center",
+      "filterOptions": {
+        "filterOperation": "Equals",
+        "filterComparisonType": "Boolean"
+      }
+    },
+    {
+      "dataField": "frpm_new.CharterSchoolNumber",
+      "headerText": "Charter School Number",
+      "uniqueIdentifier": "frpm_new.CharterSchoolNumber",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "frpm_new.CharterFundingType",
+      "headerText": "Charter Funding Type",
+      "uniqueIdentifier": "frpm_new.CharterFundingType",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "frpm_new.IRC",
+      "headerText": "IRC",
+      "uniqueIdentifier": "frpm_new.IRC",
+      "format": "boolean",
+      "textAlign": "center",
+      "filterOptions": {
+        "filterOperation": "Equals",
+        "filterComparisonType": "Boolean"
+      }
+    },
+    {
+      "dataField": "frpm_new.LowGrade",
+      "headerText": "Low Grade",
+      "uniqueIdentifier": "frpm_new.LowGrade",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "frpm_new.HighGrade",
+      "headerText": "High Grade",
+      "uniqueIdentifier": "frpm_new.HighGrade",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true
+    },
+    {
+      "dataField": "frpm_new.EnrollmentK12",
+      "headerText": "Enrollment K12",
+      "uniqueIdentifier": "frpm_new.EnrollmentK12",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      }
+    },
+    {
+      "dataField": "frpm_new.FreeMealCountK12",
+      "headerText": "Free Meal Count K12",
+      "uniqueIdentifier": "frpm_new.FreeMealCountK12",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      }
+    },
+    {
+      "dataField": "frpm_new.PercentEligibleFreeK12",
+      "headerText": "Percent Eligible Free K12",
+      "uniqueIdentifier": "frpm_new.PercentEligibleFreeK12",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "lockMode": "right",
+      "width": 75
+    },
+    {
+      "dataField": "frpm_new.FRPMCountK12",
+      "headerText": "FRPM Count K12",
+      "uniqueIdentifier": "frpm_new.FRPMCountK12",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "width": 75
+    },
+    {
+      "dataField": "frpm_new.PercentEligibleFRPMK12",
+      "headerText": "Percent Eligible FRPMK12",
+      "uniqueIdentifier": "frpm_new.PercentEligibleFRPMK12",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "lockMode": "right",
+      "width": 75
+    },
+    {
+      "dataField": "frpm_new.EnrollmentAges517",
+      "headerText": "Enrollment Ages517",
+      "uniqueIdentifier": "frpm_new.EnrollmentAges517",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      }
+    },
+    {
+      "dataField": "frpm_new.FreeMealCountAges517",
+      "headerText": "Free Meal Count Ages517",
+      "uniqueIdentifier": "frpm_new.FreeMealCountAges517",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "width": 75
+    },
+    {
+      "dataField": "frpm_new.PercentEligibleFreeAges517",
+      "headerText": "Percent Eligible Free Ages517",
+      "uniqueIdentifier": "frpm_new.PercentEligibleFreeAges517",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "lockMode": "right",
+      "width": 75
+    },
+    {
+      "dataField": "frpm_new.FRPMCountAges517",
+      "headerText": "FRPM Count Ages517",
+      "uniqueIdentifier": "frpm_new.FRPMCountAges517",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "width": 75
+    },
+    {
+      "dataField": "frpm_new.PercentEligibleFRPMAges517",
+      "headerText": "Percent Eligible FRPM Ages517",
+      "uniqueIdentifier": "frpm_new.PercentEligibleFRPMAges517",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "lockMode": "right",
+      "width": 75
+    },
+    {
+      "dataField": "satscores.cds",
+      "headerText": "Cds",
+      "uniqueIdentifier": "satscores.cds",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      },
+      "hidden": true,
+      "lockMode": "none"
+    },
+    {
+      "dataField": "satscores.rtype",
+      "headerText": "Rtype",
+      "uniqueIdentifier": "satscores.rtype",
+      "format": "string",
+      "filterOptions": {
+        "filterOperation": "InList",
+        "filterComboBoxBuildFromGrid": true
+      }
+    },
+    {
+      "dataField": "satscores.sname",
+      "headerText": "Sname",
+      "uniqueIdentifier": "satscores.sname",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "satscores.dname",
+      "headerText": "Dname",
+      "uniqueIdentifier": "satscores.dname",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "satscores.cname",
+      "headerText": "Cname",
+      "uniqueIdentifier": "satscores.cname",
+      "format": "string",
+      "filterOptions": {
+        "filterWaterMark": "Begins With",
+        "filterOperation": "BeginsWith"
+      }
+    },
+    {
+      "dataField": "satscores.enroll12",
+      "headerText": "Enroll12",
+      "uniqueIdentifier": "satscores.enroll12",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "formatterPrecision": 0
+    },
+    {
+      "dataField": "satscores.numTstTakr",
+      "headerText": "Num Tst Takr",
+      "uniqueIdentifier": "satscores.numTstTakr",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "formatterPrecision": 0
+    },
+    {
+      "dataField": "satscores.avgScrRead",
+      "headerText": "Avg Scr Read",
+      "uniqueIdentifier": "satscores.avgScrRead",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "formatterPrecision": 0,
+      "lockMode": "none"
+    },
+    {
+      "dataField": "satscores.avgScrMath",
+      "headerText": "Avg Scr Math",
+      "uniqueIdentifier": "satscores.avgScrMath",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "formatterPrecision": 0,
+      "lockMode": "none"
+    },
+    {
+      "dataField": "satscores.avgScrWrite",
+      "headerText": "Avg Scr Write",
+      "uniqueIdentifier": "satscores.avgScrWrite",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "formatterPrecision": 0,
+      "lockMode": "none"
+    },
+    {
+      "dataField": "satscores.numGE1500",
+      "headerText": "Num GE1500",
+      "uniqueIdentifier": "satscores.numGE1500",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "lockMode": "none",
+      "width": 90,
+      "formatterPrecision": 0
+    },
+    {
+      "dataField": "satscores.pctGE1500",
+      "headerText": "Pct GE1500",
+      "uniqueIdentifier": "satscores.pctGE1500",
+      "format": "number",
+      "textAlign": "right",
+      "filterOptions": {
+        "filterOperation": "Between"
+      },
+      "lockMode": "none",
+      "width": 90,
+      "formatterPrecision": 0
+    }
+  ]
