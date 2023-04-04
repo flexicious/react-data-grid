@@ -55,7 +55,6 @@ export const materialAdapter: LibraryAdapter = {
         } else if ((node.key).indexOf("add-circle-icon") >= 0) {
             return generateIcon(<AddCircle />, props);
         } else if ((node.key).indexOf("expand-one-icon") >= 0) {
-            console.log("expand-one-icon", props);
             return generateIcon(<ChevronRight />, props);
         } else if ((node.key).indexOf("collapse-one-icon") >= 0) {
             return generateIcon(<ExpandMore />, props);
