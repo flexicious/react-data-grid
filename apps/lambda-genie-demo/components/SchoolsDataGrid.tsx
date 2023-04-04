@@ -36,9 +36,6 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [request, setRequest] = useState<FilterPageSortArguments>();
     const [response, setResponse] = useState<ServerInfo>({});
-    const [chatGptQuery, setChatGptQuery] = useState<string>("");
-
-
     const uniqueIdentifierOptions = useMemo(() => ({
         useField: "schools.CDSCode",
     }), []);
@@ -125,9 +122,6 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
                 onExportPageRequested: async (args) => {
                     const result = await axios.post<ServerInfo>("/api/schools", args);
                     return result.data.currentPageData || [];
-                },
-                onColumnDragEnd: (col: ColumnOptions) => {
-                    setChatGptQuery(chatGptQuery + col.dataField);
                 },
             },
             isLoading: loading,
