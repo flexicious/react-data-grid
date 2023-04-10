@@ -1,7 +1,8 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, DateRangeType, FilterOperation, formatCurrency, getApi, getDateRange, HorizontalScrollMode, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, DateRangeType, FilterOperation, formatCurrency, getApi, getDateRange, GridOptions, HorizontalScrollMode, RendererProps, resolveExpression } from "@euxdt/grid-core";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
 import { useRef, useState, FC } from "react";
 import Employee from "../mockdata/Employee";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 const PhoneNumberFilter: FC<RendererProps> = ({ node }) => {
     const api = getApi(node);
@@ -34,8 +35,8 @@ const PhoneNumberFilter: FC<RendererProps> = ({ node }) => {
 };
 
 export const FilterOptions = () => {
-    const apiRef = useRef<ApiContext | null>(null);
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
     const anniversaryRef = useRef<HTMLSelectElement>(null);
     return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
         dataProvider: data,
@@ -44,7 +45,7 @@ export const FilterOptions = () => {
         },
         headerRowHeight: 150,
         enableFooters: false,
-        horizontalScroll: HorizontalScrollMode.Off,
+        horizontalScroll: getScrollOffBelow(),
         behaviors: [
             createFilterBehavior({
                 globalFilterMatchFunction: (item: unknown) => {
@@ -146,7 +147,7 @@ export const FilterOptions = () => {
             {
                 filterOptions: {
                     filterRenderer: PhoneNumberFilter,
-                    filterCompareFunction: (item: unknown, col: ColumnOptions, value: unknown) => {
+                    filterCompareFunction: (item: Employee, col: ColumnOptions, value: unknown) => {
                         const phoneFilter = value as string;
                         const phoneItem = resolveExpression(item, col.dataField) as string;
                         if (phoneFilter && phoneItem) {
@@ -178,5 +179,5 @@ export const FilterOptions = () => {
                 filterOptions: createMultiSelectFilterOptions(),
             }
         ]
-    }}></ReactDataGrid>;
+    } as GridOptions<Employee>}></ReactDataGrid>;
 };

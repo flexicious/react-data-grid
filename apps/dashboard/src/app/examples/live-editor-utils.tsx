@@ -313,12 +313,6 @@ export const GRID_PROPS = [
         value: undefined,
     },
     {
-        property: "enableFocusCellHighlight",
-        name: "Enable Focus Cell Highlight",
-        type: "boolean",
-        value: undefined,
-    },
-    {
         property: "selectionMode",
         name: "Selection Mode",
         type: "enum",

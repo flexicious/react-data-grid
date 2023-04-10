@@ -4,6 +4,7 @@ import SampleData from "../mockdata/SampleData";
 
 import { CellSelection, ContextMenuItem, getApi, gridCSSPrefix } from "@euxdt/grid-core";
 import { useRef, FC } from "react";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 export const ContextMenu = () => {
     return <div className="euxdt-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
@@ -11,7 +12,7 @@ export const ContextMenu = () => {
             <b>Context Menu Enabled</b>
             <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
                 dataProvider: SampleData.bookData,
-                horizontalScroll: HorizontalScrollMode.Off,
+                horizontalScroll: getScrollOffBelow(),
                 enableContextMenu: true,
                 enableToolbar: false,
                 uniqueIdentifierOptions: {
@@ -27,7 +28,7 @@ export const ContextMenu = () => {
             <b>Context Menu With CustomItems</b>
             <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
                 dataProvider: SampleData.bookData,
-                horizontalScroll: HorizontalScrollMode.Off,
+                horizontalScroll: getScrollOffBelow(),
                 enableContextMenu: true,
                 enableToolbar: false,
                 uniqueIdentifierOptions: {
@@ -54,7 +55,7 @@ export const ContextMenu = () => {
             <b>Context Menu With Custom Renderer</b>
             <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
                 dataProvider: SampleData.bookData,
-                horizontalScroll: HorizontalScrollMode.Off,
+                horizontalScroll: getScrollOffBelow(),
                 enableContextMenu: true,
                 enableToolbar: false,
                 uniqueIdentifierOptions: {

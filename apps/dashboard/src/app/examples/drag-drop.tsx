@@ -2,6 +2,7 @@ import { createColumn, createDragColumn, HorizontalScrollMode } from "@euxdt/gri
 import { ReactDataGrid } from "@euxdt/grid-react";
 import { useState } from "react";
 import SampleData from "../mockdata/SampleData";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 export const DragDrop = () => {
     const [leftBooks, setLeftBooks] = useState<Record<string, any>[]>(SampleData.bookData.slice(0, 5));
@@ -32,7 +33,7 @@ export const DragDrop = () => {
         <div style={{ flex: 1 }}>
             <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
                 dataProvider: leftBooks,
-                horizontalScroll: HorizontalScrollMode.Off,
+                horizontalScroll: getScrollOffBelow(),
                 enableFilters: false,
                 enableHeightAutoAdjust: true,
                 uniqueIdentifierOptions: {
@@ -55,7 +56,7 @@ export const DragDrop = () => {
         <div style={{ flex: 1 }}>
             <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
                 dataProvider: rightBooks,
-                horizontalScroll: HorizontalScrollMode.Off,
+                horizontalScroll: getScrollOffBelow(),
                 enableFilters: false,
                 enableHeightAutoAdjust: true,
                 uniqueIdentifierOptions: {

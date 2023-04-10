@@ -23,7 +23,7 @@ import {
     SelectionCheckBoxRenderer
 } from "@euxdt/grid-react";
 import { useEffect, useRef, useState } from "react";
-import { antAdapter } from "@euxdt/grid-shared";
+import { antAdapter } from "./ant-design-adapter";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 

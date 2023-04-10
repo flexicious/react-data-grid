@@ -144,13 +144,12 @@ export const GridBuilder = () => {
                         for (const subKey in value) {
                             addAttributes(`${key}.${subKey}`, value[subKey]);
                         }
-                    } else if (type) {
-                        attributes.push({
-                            name: key,
-                            type,
-                            distinctValues: type === "string" ? getDistinctValues(data, key) : undefined,
-                        });
-                    }
+                    } 
+                    attributes.push({
+                        name: key,
+                        type: type ?? "string",
+                        distinctValues: type === "string" ? getDistinctValues(data, key) : undefined,
+                    });
                 };
                 addAttributes(key, first[key]);
             }
@@ -229,10 +228,9 @@ export const GridBuilder = () => {
                 return "date";
             }
             //if number is in string format
-            if (!isNaN(parseInt(value))) {
-                return "number";
-            }
-
+            // if (!isNaN(parseInt(value))) {
+            //     return "number";
+            // }
             return "string";
         } else if (typeof value === "number") {
             return "number";
@@ -279,7 +277,14 @@ export const GridBuilder = () => {
         return `"${value}"`;
     };
 
-
+    const getLambdaGenieConfig = () => `
+    ${JSON.stringify(columns, (key, value) => {
+        if (key === 'filterComboBoxDataProvider') {
+          return undefined; // skip this field
+        }
+        return value;
+      }, 2)}
+    `;
     const getCode = () => `
     import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, createSelectionColumn, createDragColumn } from "@euxdt/grid-core";
     import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, createDeleteColumn, SelectionCheckBoxRenderer, SelectionCheckBoxHeaderRenderer } from "@euxdt/grid-react";
@@ -313,7 +318,6 @@ export const GridBuilder = () => {
                         ${columns.find((c: ColumnOptions) => c.uniqueIdentifier === DRAG_COLUMN_ID) ? "createDragColumn()," : ""}
                         ${columns.find((c: ColumnOptions) => c.uniqueIdentifier === DELETE_COL_UNIQUE_ID) ? `createDeleteColumn((data) => {
                             //TODO - please replace this with your delete logic
-                            console.log("Delete", data);
                         }),` : ""}
                         ${columns.filter(c => [SELECTION_COL_UNIQUE_ID, DRAG_COLUMN_ID, DELETE_COL_UNIQUE_ID].indexOf(c.uniqueIdentifier) === -1).map((c: ColumnOptions) => {
         if (colPropOverrides[c.uniqueIdentifier]) {
@@ -380,6 +384,7 @@ export const GridBuilder = () => {
                     >
                         <Tab label="Live Preview" />
                         <Tab label="Generated Code" />
+                        <Tab label="Lambda Genie Config" />
                     </Tabs>
                     <TabPanel value={tabIndex} index={0}>
                         <ReactDataGrid style={{ width: "100%", height: "400px" }}
@@ -617,6 +622,29 @@ export const GridBuilder = () => {
 
                     </TabPanel>
 
+                    <TabPanel value={tabIndex} index={2}>
+                        <Typography>
+                            Below is the code you can copy and paste into Lambda Genie
+                            <br />
+                            Note that the tool does not support all the properties of the grid, for example, event listeners, function callbacks,
+                            and some of the more advanced properties. There is extensive documentation on the grid properties                            
+                            <a href="https://reactdatagrid.com/docs/intro" target="_blank" rel="noreferrer"> here</a>.
+                            <br />
+                        </Typography>
+                        <Button variant="outlined"
+                            onClick={() => {
+                                pasteToClipboard(getLambdaGenieConfig());
+                            }}
+
+                        >Copy To Clipboard</Button>
+                        <SyntaxHighlighter language="javascript" style={dark} wrapLongLines customStyle={{ width: "100%" }}>
+                            {
+                                getLambdaGenieConfig()
+                            }
+                        </SyntaxHighlighter>
+
+
+                    </TabPanel>
                 </div>
 
             )}

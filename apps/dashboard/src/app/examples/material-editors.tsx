@@ -1,9 +1,10 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, EditInfo, EditStartMode, getApi, getRowColFromNode, HorizontalScrollMode, itemToLabel, RendererProps } from "@euxdt/grid-core";
-import { CheckBoxEditor, DateEditor, ReactDataGrid, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@euxdt/grid-react";
-import { TextField, useTheme } from "@mui/material";
-import { FC, useEffect, useRef, useState, KeyboardEvent } from "react";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, EditInfo, EditStartMode, getApi, getRowColFromNode, GridSelectionMode, HorizontalScrollMode, itemToLabel, RendererProps } from "@euxdt/grid-core";
+import { CheckBoxEditor, DateEditor, ReactDataGrid, SelectEditor, TextInputEditor } from "@euxdt/grid-react";
 import { materialAdapter, materialNodePropsFunction } from "@euxdt/grid-shared";
+import { TextField, useTheme } from "@mui/material";
+import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 const PhoneNumberEditor: FC<RendererProps> = ({ node }) => {
     const api = getApi(node);
@@ -59,12 +60,11 @@ export const MaterialEditors = () => {
         },
         adapter: useMaterialAdapter ? materialAdapter : undefined,
         nodePropsFunction: useMaterialAdapter ? materialNodePropsFunction(theme): undefined,
-
-        enableFocusCellHighlight: true,
+        selectionMode: GridSelectionMode.MultipleCells,
         headerRowHeight: 75,
         enableFooters: false,
         enableFilters: false,
-        horizontalScroll: HorizontalScrollMode.Off,
+        horizontalScroll: getScrollOffBelow(),
         enablePaging: true,
         behaviors: [
             createEditBehavior({}),
@@ -105,12 +105,6 @@ export const MaterialEditors = () => {
                 apiRef.current = ctx;
             }
         }, columns: [
-            {
-                ...createSelectionColumn({
-                    itemRenderer: SelectionCheckBoxRenderer,
-                    headerRenderer: SelectionCheckBoxHeaderRenderer
-                }),
-            },
             {
                 ...createColumn("employeeId", "string", "Id"),
                 textAlign: "right",

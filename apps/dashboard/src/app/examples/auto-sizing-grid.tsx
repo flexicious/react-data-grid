@@ -6,21 +6,16 @@ export const AutoSizingGrid = () => {
     const [data, setData] = useState<any[]>([]);
     const addNewObject = () => ({ number: (data?.length || 0) + 1, value: Math.random() * 1000 });
     useEffect(() => {
-        setData([{
-            number: 1,
-            value: 100
-        },
-        {
-            number: 2,
-            value: 200
-        },
-        {
-            number: 3,
-            value: 300
-        },
+    const data = [];
+    for (let i = 0; i < 5; i++) {
+       data.push( {
+        ...addNewObject(),
+        number: i + 1
 
-    
-    ]);
+       });
+    }
+    setData(data);
+
     }, []);
 
     return <ReactDataGrid style={{ width: "500px" }} gridOptions={{

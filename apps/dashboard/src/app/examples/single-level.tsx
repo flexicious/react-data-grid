@@ -1,4 +1,4 @@
-import { createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GridSelectionMode, LockMode } from "@euxdt/grid-core";
+import { createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridSelectionMode, LockMode } from "@euxdt/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
 import { useEffect, useState } from "react";
@@ -44,6 +44,7 @@ export const SingleLevel = () => {
             {
                 ...createDragColumn(),
                 lockMode: LockMode.Left,
+                hidden: window.innerWidth < GRID_CONSTANTS.MOBILE_CUTOFF,
             },
             {
 

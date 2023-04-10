@@ -174,7 +174,7 @@ export const Grouping = () => {
                             }
                             , lockMode: LockMode.Left,
                             enableHierarchy: true,
-                            width: 250,
+                            width: 200,
                             hidden: groupingFields.length === 0 ? true : !singleGroupingColumn,
                         },
                         {

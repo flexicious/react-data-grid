@@ -1,4 +1,4 @@
-import { ApiContext, createColumn, createEditBehavior, FooterOperation, getApi, GridSelectionMode, LockMode, resolveExpression } from "@euxdt/grid-core";
+import { ApiContext, createColumn, createEditBehavior, FooterOperation, getApi, GridOptions, GridSelectionMode, LockMode, resolveExpression } from "@euxdt/grid-core";
 import { ReactDataGrid } from "@euxdt/grid-react";
 import { createRef, useEffect, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
@@ -6,7 +6,7 @@ import LineItem from "../mockdata/LineItem";
 import SystemConstants from "../mockdata/SystemConstants";
 
 export const ItemRenderers = () => {
-    const apiRef = useRef<ApiContext | null>(null);
+    const apiRef = useRef<ApiContext<LineItem> | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState<LineItem[]>([]);
     useEffect(() => {
@@ -43,7 +43,7 @@ export const ItemRenderers = () => {
             settingsStorageKey: "item-renderers-grid"
         },
         cellTooltipFunction: (cellInfo) => {
-            const lineItem: LineItem = cellInfo?.rowPosition?.data as LineItem;
+            const lineItem: LineItem = cellInfo?.rowPosition?.data!;
             if(cellInfo?.columnIdentifier === "invoice.hasPdf" && lineItem?.invoice.hasPdf){
                 return "Click to open PDF for invoice " + lineItem.lineItemDescription;
             }
@@ -62,7 +62,7 @@ export const ItemRenderers = () => {
                 ...createColumn("invoice.hasPdf", "boolean", "Pdf?"),
 
                 itemRenderer: ({ node }) => {
-                    const lineItem: LineItem = node.rowPosition?.data as LineItem;
+                    const lineItem: LineItem = node.rowPosition!.data!;
                     const openPdf = () => {
                         alert("Opening PDF for invoice " + lineItem?.id);
                     };
@@ -84,7 +84,7 @@ export const ItemRenderers = () => {
                 ...createColumn("invoice.invoiceStatus.name", "string", "Invoice Status"),
 
                 itemRenderer: ({ node }) => {
-                    const lineItem: LineItem = node.rowPosition?.data as LineItem;
+                    const lineItem = node.rowPosition!.data!;
                     const api = getApi(node);
                     const selectRef = createRef<HTMLSelectElement>();
                     const change = api.getChanges().find(c => c.rowIdentifier === lineItem.id.toString());
@@ -111,14 +111,14 @@ export const ItemRenderers = () => {
             {
                 ...createColumn("invoice.deal.customer.legalName", "string", "12 Customer"),
                 itemRenderer: ({ node }) => {
-                    const lineItem: LineItem = node.rowPosition?.data as LineItem;
+                    const lineItem = node.rowPosition!.data!;
                     return <a href={`https://www.google.com/search?q=${lineItem.invoice.deal.customer.legalName}`} target="_blank" rel="noreferrer">{lineItem.invoice.deal.customer.legalName}</a>;
                 }
             },
             {
                 ...createColumn("invoice.deal.customer.id", "string", "Chart"), width: 75,
                 itemRenderer: ({ node }) => {
-                    const lineItem: LineItem = node.rowPosition?.data as LineItem;
+                    const lineItem = node.rowPosition!.data!;
                     return <img alt="Chart for company" src={lineItem.invoice.deal.customer.chartUrl} />;
                 }
             },
@@ -159,5 +159,5 @@ export const ItemRenderers = () => {
 
             },
         ]
-    }} />;
+    } as GridOptions<LineItem>} />;
 };

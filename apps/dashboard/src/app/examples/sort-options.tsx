@@ -2,6 +2,7 @@ import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, create
 import { ReactDataGrid } from "@euxdt/grid-react";
 import { useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 export const SortOptions = () => {
     const apiRef = useRef<ApiContext | null>(null);
@@ -11,7 +12,7 @@ export const SortOptions = () => {
         uniqueIdentifierOptions: {
             useField: "employeeId"
         },
-        horizontalScroll: HorizontalScrollMode.Off,
+        horizontalScroll: getScrollOffBelow(),
         behaviors: [ 
         createFilterBehavior({})
         ],

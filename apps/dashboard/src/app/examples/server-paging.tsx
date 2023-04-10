@@ -137,14 +137,12 @@ export const ServerPaging = () => {
                 {
                     ...createColumn("invoice.deal.customer.headquarterAddress.state.name", "string", "State"),
                     filterOptions: createMultiSelectFilterOptions()
-                    , lockMode: LockMode.Right,
                 },
                 {
                     ...createColumn("invoice.deal.customer.headquarterAddress.country.name", "string", "Country")
                 },
                 {
-                    ...createColumn("invoice.deal.customer.annualRevenue", "currency", "Annual Revenue"),
-                    lockMode: LockMode.Right
+                    ...createColumn("invoice.deal.customer.annualRevenue", "currency", "Annual Revenue")
                     , children: [
                         { ...createColumn("invoice.deal.customer.numEmployees", "number", "Num Employees") },
                         { ...createColumn("invoice.deal.customer.earningsPerShare", "number", "EPS") },

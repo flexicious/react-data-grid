@@ -31,7 +31,6 @@ import {
   materialAdapter,
   materialNodePropsFunction,
 } from "@euxdt/grid-shared";
-
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 import { MaterialWrapper } from "./material/material-wrapper";

@@ -1,18 +1,19 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, FooterOperation, getApi, HorizontalScrollMode } from "@euxdt/grid-core";
+import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, FooterOperation, getApi, GridOptions, HorizontalScrollMode } from "@euxdt/grid-core";
 import { ReactDataGrid } from "@euxdt/grid-react";
 import { useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 export const FooterOptions = () => {
-    const apiRef = useRef<ApiContext | null>(null);
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
+    const gridOptions: GridOptions<Employee> ={
         dataProvider: data,
         enableContextMenu: true,
         uniqueIdentifierOptions: {
             useField: "employeeId"
         },
-        horizontalScroll: HorizontalScrollMode.Off,
+        horizontalScroll: getScrollOffBelow(),
         behaviors: [createGroupingBehavior({}),
         createFilterBehavior({})
         ],
@@ -72,7 +73,7 @@ export const FooterOptions = () => {
             {
                 ...createColumn("phoneNumber", "string", "Phone Number - Custom Footer Label Function"),
                 footerOptions: {
-                    footerLabelFunction: (col: ColumnOptions, dp: unknown[] | undefined) => {
+                    footerLabelFunction: (_, dp) => {
                         const api = apiRef.current?.api;
                         if (!api) return "";
                         const { groupedData } = api.getGroupedDataProvider(dp || [], ["isActive"]);
@@ -99,5 +100,6 @@ export const FooterOptions = () => {
             }
 
         ]
-    }}></ReactDataGrid>;
+    };
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

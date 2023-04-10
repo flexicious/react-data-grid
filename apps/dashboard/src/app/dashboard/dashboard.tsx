@@ -40,12 +40,14 @@ import { SortOptions } from "../examples/sort-options";
 import { StandAloneTreeView } from "../examples/standalone-tree-view";
 import { VariableRowHeight } from "../examples/variable-row-height";
 import {GridBuilder} from "../examples/grid-builder";
+import { PageScroll } from "../examples/page-scroll";
 
 function Dashboard() {
   const examples = [
     { name: "Single Level" },
     { name: "Nested Grid" },
     { name: "Grouping" },
+    { name: "Page Scroll" },
     { name: "Level Renderer" },
     { name: "Level Renderer Locked" },
     { name: "Ant Design Demo" },
@@ -83,7 +85,7 @@ function Dashboard() {
     { name: "Standalone Tree View" },
     { name: "Auto Sizing Grid" },
   ];
-  let [currentRoute, setCurrentRoute] = React.useState("Grouping");
+  let [currentRoute, setCurrentRoute] = React.useState("Single Level");
   useEffect(() => {
     const route = window.location.search.split("=")[1];
     route && setCurrentRoute(route.replace(/_/g, " "));
@@ -142,22 +144,13 @@ function Dashboard() {
               );
             })}
           </select>
-          <a
-            target="_blank"
-            className="header-title"
-            href={`https://github.com/flexicious/react-data-grid/blob/main/src/app/examples/${currentRoute
-              .toLocaleLowerCase()
-              .replace(/ /g, "-")}.tsx`}
-            rel="noreferrer"
-          >
-            View Source
-          </a>
         </header>
         <main className="display-area">
           {currentRoute === "Single Level" && <SingleLevel />}
           {currentRoute === "Nested Grid" && <NestedGrid />}
           {currentRoute === "Server Paging" && <ServerPaging />}
           {currentRoute === "Grouping" && <Grouping />}
+          {currentRoute === "Page Scroll" && <PageScroll />}
           {currentRoute === "Level Renderer" && <LevelRenderer />}
           {currentRoute === "Level Renderer Locked" && <LevelRendererLocked />}
           {currentRoute === "Variable Row Height" && <VariableRowHeight />}

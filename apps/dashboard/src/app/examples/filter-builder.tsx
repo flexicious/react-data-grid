@@ -1,6 +1,7 @@
 import { ColumnWidthMode, createColumn, createFilterBehavior, HorizontalScrollMode } from "@euxdt/grid-core";
-import { FilterBuilder, ReactDataGrid } from "@euxdt/grid-react";
+import { createMultiSelectFilterOptions, FilterBuilder, ReactDataGrid } from "@euxdt/grid-react";
 import Employee from "../mockdata/Employee";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 export const FilterBuilderDemo = () => {
     return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
@@ -8,7 +9,7 @@ export const FilterBuilderDemo = () => {
         uniqueIdentifierOptions: {
             useField: "employeeId"
         },
-        horizontalScroll: HorizontalScrollMode.Off,
+        horizontalScroll: getScrollOffBelow(),
         behaviors: [
             createFilterBehavior({})
         ],
@@ -30,8 +31,8 @@ export const FilterBuilderDemo = () => {
             },
             {
                 ...createColumn("department", "string", "Department"),
+                filterOptions: createMultiSelectFilterOptions(),    
             },
-
             {
                 ...createColumn("phoneNumber", "string", "Phone Number"),
             }, {
@@ -39,6 +40,7 @@ export const FilterBuilderDemo = () => {
             },
             {
                 ...createColumn("stateCode", "string", "State"),
+                filterOptions: createMultiSelectFilterOptions(),    
             },
             {
                 ...createColumn("firstName", "string", "First Name"),

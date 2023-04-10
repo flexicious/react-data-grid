@@ -21,6 +21,7 @@ export default class Employee extends TypedObject {
     this.department = null;
     this.departmentId = null;
     this.addresses = [];
+    this.ssNo = null;
   }
 
   getClassNames() {
@@ -60,6 +61,7 @@ export default class Employee extends TypedObject {
         1000,
         9999
       ).toString()}`;
+    employee.ssNo = `${Employee.getRandom(100, 999).toString()}-${Employee.getRandom( 10, 99).toString()}-${Employee.getRandom(1000, 9999).toString()}`;
     employee.workPhone = `212-${Employee.getRandom(100, 999).toString()}-1234 x ${Employee.getRandom(100, 999).toString()}`;
     employee.isActive = Employee.getRandom(1, 2) === 1;
     employee.annualSalary = Employee.getRandom(50000, 100000);

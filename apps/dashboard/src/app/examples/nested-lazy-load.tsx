@@ -32,7 +32,7 @@ export const NestedLazyLoadGrid = () => {
             const orgId = (row.data as Organization).id;
             const deals = await getDealsForOrg(orgId);
             const childrenMap = serverInfo?.childrenMap || {};
-            childrenMap[orgId.toString()]=  deals;
+            childrenMap[orgId.toString()]= deals;
             setServerInfo({
                 ...serverInfo,
             });

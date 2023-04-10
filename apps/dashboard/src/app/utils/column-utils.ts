@@ -1,4 +1,4 @@
-import { ColumnOptions, createColumn, shortMonthNames } from "@euxdt/grid-core";
+import { ColumnOptions, GRID_CONSTANTS, HorizontalScrollMode, createColumn, shortMonthNames } from "@euxdt/grid-core";
 
 export const createFiscalYearColumnGroup = (years: number[], options?: Partial<ColumnOptions>, dataFieldPrefix?: string, callback?: (c: ColumnOptions) => ColumnOptions, createQuarters?: boolean, createMonths?: boolean) => {
     const colDefaults = options || [];
@@ -39,3 +39,5 @@ export const createFiscalYearColumnGroup = (years: number[], options?: Partial<C
     });
     return yearColumns;
 };
+
+export const getScrollOffBelow =  (cutoff=GRID_CONSTANTS.MOBILE_CUTOFF) => window.innerWidth < cutoff ? HorizontalScrollMode.On : HorizontalScrollMode.Off;

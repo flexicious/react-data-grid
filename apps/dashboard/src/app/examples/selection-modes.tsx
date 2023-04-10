@@ -1,18 +1,19 @@
-import { CellSelection, createColumn, getApi, GridSelectionMode, HorizontalScrollMode } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { CellSelection, ColumnOptions, createColumn, createSelectionColumn, getApi, GridSelectionMode, HorizontalScrollMode } from "@euxdt/grid-core";
+import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
 import { useState } from "react";
 import Employee from "../mockdata/Employee";
+import { getScrollOffBelow } from "../utils/column-utils";
 
 export const SelectionModes = () => {
     const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
-    const [selectionMode, setSelectionMode] = useState<GridSelectionMode>(GridSelectionMode.None);
+    const [selectionMode, setSelectionMode] = useState<GridSelectionMode>(GridSelectionMode.MultipleRows);
     const [useExcelLikeShiftAndCtrlKeys, setUseExcelLikeShiftAndCtrlKeys] = useState<boolean>(true);
     return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
         },
-        horizontalScroll: HorizontalScrollMode.Off,
+        horizontalScroll: getScrollOffBelow(),
         selectionMode,
         selectionOptions: {
             rowSelectableFunction: (rowId: string) => rowId !== "1",
@@ -66,6 +67,10 @@ export const SelectionModes = () => {
             }
         },
         enableFilters: false, columns: [
+            (selectionMode === GridSelectionMode.MultipleRows ?  createSelectionColumn({
+                itemRenderer:SelectionCheckBoxRenderer,
+                headerRenderer: SelectionCheckBoxHeaderRenderer
+            }) : undefined),
             {
                 ...createColumn("employeeId", "string", "Id 1 Not Selectable"),
                 enableCellClickRowSelect: true,
@@ -87,6 +92,6 @@ export const SelectionModes = () => {
                 enableCellClickRowSelect: true,
             },
 
-        ]
+        ].filter(c=>c != undefined) as ColumnOptions[]
     }}></ReactDataGrid>;
 };
