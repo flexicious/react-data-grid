@@ -1,6 +1,6 @@
 import { buildSqlWhereClause, FilterPageSortArguments, FilterPageSortChangeReason, formatCurrency, NameValue, ServerInfo } from "@euxdt/grid-core";
 import { getRowsFromSqlite } from "@euxdt/grid-shared";
-import { frpmNewColumns, numericColumns, satScoreColumns, School, schoolColumns } from "apps/sql-react-datagrid/shared/types";
+import { frpmNewColumns, numericColumns, satScoreColumns, School, schoolColumns } from "../../../../libs/grid-shared/src/lib/shared/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 const sqlite3 = require('sqlite3').verbose();
 const getDb = () => new sqlite3.Database('dbs/schools.db');

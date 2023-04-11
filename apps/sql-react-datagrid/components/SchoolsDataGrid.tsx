@@ -2,7 +2,7 @@
 import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@euxdt/grid-core";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../lambda-genie-demo/shared/types";
+import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../../libs/grid-shared/src/lib/shared/types";
 import { DataGrid } from "./DataGrid";
 
 
