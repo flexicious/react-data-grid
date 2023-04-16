@@ -2,7 +2,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import viteTsConfigPaths from "vite-tsconfig-paths";
-
+const mode = process.env.APP_ENV // This now exists.
+console.log("mode", mode);
 export default defineConfig({
   cacheDir: "../../node_modules/.vite/dashboard",
 
@@ -10,7 +11,7 @@ export default defineConfig({
     port: 4200,
     host: "localhost",
   },
-
+  base : mode === 'production' ? '/react-data-grid/' : '/',
   preview: {
     port: 4300,
     host: "localhost",

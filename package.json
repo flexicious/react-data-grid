@@ -3,7 +3,8 @@
   "version": "0.0.28",
   "scripts": {
     "start": "nx serve",
-    "build-genie": "npx nx build lambda-genie-demo"
+    "build-genie": "npx nx build lambda-genie-demo",
+    "build-dashboard":"APP_ENV=production npx nx build dashboard"
   },
   "keywords": [
     "react",
