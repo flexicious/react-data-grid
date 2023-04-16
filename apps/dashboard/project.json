@@ -16,7 +16,8 @@
           "mode": "development"
         },
         "production": {
-          "mode": "production"
+          "mode": "production",
+          "base": "/react-data-grid"
         }
       }
     },
