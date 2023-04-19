@@ -1,8 +1,8 @@
 
-import { ApiContext, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
+import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode } from "@euxdt/grid-core";
 import { createTextInputFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
 import { useEffect, useRef, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 import CustomerOrganization from "../mockdata/CustomerOrganization";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 
@@ -27,7 +27,7 @@ export const LevelRenderer = () => {
     }, [data]);
 
     return (
-        <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+        <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
             dataProvider: data,
             isLoading,
             uniqueIdentifierOptions: {
@@ -40,12 +40,6 @@ export const LevelRenderer = () => {
 
             },
             selectionMode: GridSelectionMode.MultipleRows,
-            behaviors: [
-                createFilterBehavior({ clearSelectionOnFilter: true }),
-                createEditBehavior({}),
-                createPdfBehavior({}),
-                createExcelBehavior({}),
-            ],
             toolbarOptions: {
                 enablePdf: true,
                 enableExcel: true,

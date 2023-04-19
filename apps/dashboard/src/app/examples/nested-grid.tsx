@@ -1,8 +1,8 @@
 
-import { ApiContext, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FooterOperation, GridSelectionMode, LockMode, NodeKeys, RowType, VirtualTreeNode } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
-import { createTextInputFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridSelectionMode, LockMode, NodeKeys, RowType, VirtualTreeNode } from "@euxdt/grid-core";
+import { createTextInputFilterOptions } from "@euxdt/grid-react";
 import { useEffect, useRef, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
@@ -29,7 +29,7 @@ export const NestedGrid = () => {
     }, [dataProvider]);
 
     return (
-        <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+        <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
             dataProvider,
             isLoading,
             enableFloatingHeaderRows: true,
@@ -67,12 +67,6 @@ export const NestedGrid = () => {
                 useField: "id"
             },
             selectionMode: GridSelectionMode.MultipleRows,
-            behaviors: [
-                createFilterBehavior({ clearSelectionOnFilter: true }),
-                createEditBehavior({}),
-                createPdfBehavior({}),
-                createExcelBehavior({}),
-            ],
             toolbarOptions: {
                 enablePdf: true,
                 enableExcel: true,

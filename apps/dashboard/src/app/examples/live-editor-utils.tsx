@@ -1,22 +1,9 @@
 import { NameValue, RendererProps, ColumnOptions, CheckBoxState, debounce, EditStartMode, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode, LockMode } from "@euxdt/grid-core";
-import { TriStateCheckBox } from "@euxdt/grid-react";
+import { GridProperty, TriStateCheckBox } from "@euxdt/grid-react";
 import { TextField, MenuItem, Box, Select } from "@mui/material";
 import { ReactNode } from "react";
 
-export interface Attribute {
-    name: string;
-    type: string;
-    distinctValues?: string[];
-}
 
-export interface GridProperty {
-    name: string;
-    property: string;
-    type: "string" | "number" | "boolean" | "enum" | "button" | "object";
-    value: any;
-    options?: NameValue[];
-    children?: GridProperty[];
-}
 
 interface ColumnConfigRenderer extends RendererProps {
     onChange: (dt: GridProperty) => void;

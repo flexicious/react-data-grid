@@ -1,7 +1,7 @@
-import { createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridSelectionMode, LockMode } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
-import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridSelectionMode, LockMode } from "@euxdt/grid-core";
+import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
 import { useEffect, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 
@@ -19,7 +19,7 @@ export const SingleLevel = () => {
         };
         getLineItems();
     }, []);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+    return <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
         dataProvider: data,
         isLoading,
         uniqueIdentifierOptions: {
@@ -27,12 +27,6 @@ export const SingleLevel = () => {
         },
         enablePaging: true,
         selectionMode: GridSelectionMode.MultipleRows,
-        behaviors: [
-            createFilterBehavior({ clearSelectionOnFilter: true }),
-            createEditBehavior({}),
-            createPdfBehavior({}),
-            createExcelBehavior({}),
-        ],
         toolbarOptions: {
             enablePdf: true,
             enableExcel: true,
@@ -114,18 +108,17 @@ export const SingleLevel = () => {
             {
                 ...createColumn("invoice.deal.customer.headquarterAddress.state.name", "string", "State"),
                 filterOptions: createMultiSelectFilterOptions()
-                , lockMode: LockMode.Right,
             },
             {
                 ...createColumn("invoice.deal.customer.headquarterAddress.city.name", "string", "City"),
                 filterOptions: {
                     ...createMultiSelectFilterOptions(),
                     useLabelFunctionForFilterCompare: true,
-                }, lockMode: LockMode.Right
+                }
             },
 
             {
-                ...createColumn("invoice.deal.customer.headquarterAddress.country.name", "string", "Country"), lockMode: LockMode.Right
+                ...createColumn("invoice.deal.customer.headquarterAddress.country.name", "string", "Country")
             },
             {
                 ...createColumn("invoice.deal.customer.annualRevenue", "currency", "Annual Revenue")

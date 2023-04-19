@@ -1,36 +1,33 @@
 import {
   ApiContext,
-  createColumn,
-  createDragColumn,
-  createEditBehavior,
-  createFilterBehavior,
-  createSelectionColumn,
   DateRangeType,
-  GRID_CONSTANTS,
   FilterOperation,
   FooterOperation,
+  GRID_CONSTANTS,
   GridSelectionMode,
   LockMode,
+  createColumn,
+  createDragColumn,
+  createSelectionColumn
 } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
 import {
+  SelectionCheckBoxHeaderRenderer,
+  SelectionCheckBoxRenderer,
   createDateFilterOptions,
   createMultiSelectFilterOptions,
   createNumericRangeFilterOptions,
   createSelectFilterOptions,
   createTextInputFilterOptions,
-  createTriStateCheckBoxFilterOptions,
-  ReactDataGrid,
-  SelectionCheckBoxHeaderRenderer,
-  SelectionCheckBoxRenderer,
+  createTriStateCheckBoxFilterOptions
 } from "@euxdt/grid-react";
-import { Expand } from "@mui/icons-material";
-import { IconButton, useTheme } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
 import {
   materialAdapter,
   materialNodePropsFunction,
 } from "@euxdt/grid-shared";
+import { Expand } from "@mui/icons-material";
+import { IconButton, useTheme } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 import { MaterialWrapper } from "./material/material-wrapper";
@@ -62,7 +59,7 @@ export const Demo = () => {
     apiRef.current?.api?.propsUpdated();
   };
   return (
-    <ReactDataGrid
+    <DataGrid
       style={{ height: "100%", width: "100%" }}
       id="bigGrid"
       gridOptions={{
@@ -86,12 +83,6 @@ export const Demo = () => {
           : undefined,
         enablePaging: true,
         selectionMode: GridSelectionMode.MultipleRows,
-        behaviors: [
-          createFilterBehavior({ clearSelectionOnFilter: true }),
-          createEditBehavior({}),
-          createPdfBehavior({}),
-          createExcelBehavior({}),
-        ],
         toolbarOptions: {
           enablePdf: true,
           enableExcel: true,

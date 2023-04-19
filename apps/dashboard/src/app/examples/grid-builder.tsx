@@ -1,6 +1,6 @@
-import { ApiContext, camelCaseToSpace, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@euxdt/grid-core";
+import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridIconButton, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@euxdt/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
-import { createDeleteColumn, DELETE_COL_UNIQUE_ID, getFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@euxdt/grid-react";
+import { CalculatedFieldEditor, createDeleteColumn, createIconColumn, DELETE_COL_UNIQUE_ID, generateColumnsFromJson, GridProperty, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@euxdt/grid-react";
 import { Button, MenuItem, Select, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -9,7 +9,7 @@ import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { materialAdapter } from "@euxdt/grid-shared";
 import Employee from "../mockdata/Employee";
 import SampleData from "../mockdata/SampleData";
-import { Attribute, colProps, ConfigRenderer, getFilterOptionsString, GridProperty, GRID_PROPS, TabPanel } from "./live-editor-utils";
+import { colProps, ConfigRenderer, getFilterOptionsString, GRID_PROPS, TabPanel } from "./live-editor-utils";
 
 export const GridBuilder = () => {
     const jsonRef = React.useRef<HTMLInputElement>(null);
@@ -17,6 +17,7 @@ export const GridBuilder = () => {
     const [step, setStepInner] = useState(1);
     const [tabIndex, setTabIndexInner] = useState(0);
     const [subTabIndex, setSubTabIndex] = useState(0);
+    const [showFormulaEditor, setShowFormulaEditor] = useState(false);
 
     const [dataProvider, setDataProvider] = useState([]);
     const [columns, setColumns] = useState<ColumnOptions[]>([]);
@@ -85,7 +86,7 @@ export const GridBuilder = () => {
     };
     useEffect(() => {
         onGenerate((rawJson));
-    }, [gridPropOverrides, colPropOverrides, additionalColumns,rawJson]);
+    }, [gridPropOverrides, colPropOverrides, additionalColumns, rawJson]);
 
 
     const handleSampleDataChange = (idx: string) => {
@@ -129,70 +130,7 @@ export const GridBuilder = () => {
         }
         try {
             let data = JSON.parse(json);
-            if (!Array.isArray(data)) {
-                data = [data];
-            }
-            const attributes: Attribute[] = [];
-            const first = data[0];
-            for (const key in first) {
-                const addAttributes = (key: string, value: any) => {
-                    const type = getType(value);
-                    if(Array.isArray(value)) {
-                        //ignore arrays
-                    }
-                    else if (type === "object") {
-                        for (const subKey in value) {
-                            addAttributes(`${key}.${subKey}`, value[subKey]);
-                        }
-                    } 
-                    attributes.push({
-                        name: key,
-                        type: type ?? "string",
-                        distinctValues: type === "string" ? getDistinctValues(data, key) : undefined,
-                    });
-                };
-                addAttributes(key, first[key]);
-            }
-
-            const applyColPropOverrides = (props: GridProperty[], target: Record<string, unknown>, col: ColumnOptions) => {
-                for (const prop of props) {
-                    if (prop.children) {
-                        target[prop.property] = {};
-                        applyColPropOverrides(prop.children, target[prop.property] as Record<string, unknown>, col);
-                    } else {
-                        const value = colPropOverrides[col.uniqueIdentifier]?.[prop.property];
-                        if (value !== undefined) {
-                            if (prop.type === "boolean") {
-                                
-                                if (value === "true")
-                                    target[prop.property] = true;
-                                else if (value === "false")
-                                    target[prop.property] = false;
-                            }
-                            else if (prop.type === "number" && !isNaN(parseInt(value)))
-                                target[prop.property] = parseInt(value);
-                            else if (value)
-                                target[prop.property] = value;
-
-                        }
-
-                    }
-                }
-            };
-
-            const cols: ColumnOptions[] = [];
-            for (const attribute of attributes) {
-                const name = attribute.name.split(".").pop() || attribute.name;
-                const col: ColumnOptions = {
-                    dataField: `${attribute.name}`,
-                    headerText: `${camelCaseToSpace(name)}`,
-                    uniqueIdentifier: `${attribute.name}`,
-                    format: attribute.type as any,
-                    filterOptions: { ...getFilterOptions(attribute), filterExcludeObjectsWithoutMatchField: true },
-                };
-                applyColPropOverrides(colProps, col as unknown as Record<string, unknown>, col);
-                cols.push(col);
-            }
+            const cols = generateColumnsFromJson(data,colPropOverrides,colProps);
             setColumns([...additionalColumns, ...cols]);
             setDataProvider(data);
             setGridProps([...gridProps]);
@@ -203,44 +141,6 @@ export const GridBuilder = () => {
     };
 
 
-    
-    const getDistinctValues = (data: any[], key: string) => {
-        const values = new Set<string>();
-        for (const item of data) {
-            values.add(resolveExpression(item, key) || "");
-        }
-        const result = Array.from(values);
-        if (result.length === 1 || result.length > data.length / 2) {
-            return [];
-        }
-        return result;
-    };
-
-    const getType = (value: any) => {
-        if (value instanceof Date) {
-            return "date";
-        } else if (typeof value === "string") {
-            if (value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/)) {
-                return "date";
-            }
-            //if yyyy-mm-dd
-            if (value.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                return "date";
-            }
-            //if number is in string format
-            // if (!isNaN(parseInt(value))) {
-            //     return "number";
-            // }
-            return "string";
-        } else if (typeof value === "number") {
-            return "number";
-        } else if (typeof value === "boolean") {
-            return "boolean";
-        } else if (typeof value === "object" && value !== null) {
-            return "object";
-        }
-        return undefined;
-    };
     const writeProperty = (obj: any) => {
         if (Object.keys(obj).length === 0)
             return "";
@@ -280,10 +180,10 @@ export const GridBuilder = () => {
     const getLambdaGenieConfig = () => `
     ${JSON.stringify(columns, (key, value) => {
         if (key === 'filterComboBoxDataProvider') {
-          return undefined; // skip this field
+            return undefined; // skip this field
         }
         return value;
-      }, 2)}
+    }, 2)}
     `;
     const getCode = () => `
     import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, createSelectionColumn, createDragColumn } from "@euxdt/grid-core";
@@ -343,15 +243,18 @@ export const GridBuilder = () => {
     //remove quotes around true and false
     return (
         <div style={{ width: "100%" }}>
+            {
+                showFormulaEditor && <CalculatedFieldEditor onClose={() => setShowFormulaEditor(false)} allFields={columns.map(d => resolveExpression(d,"dataField")).filter(f=> f.indexOf("json")==-1)} />
+            }
             {step === 1 && (
                 <>
                     <p>
                         This tool allows you to enter some JSON data and generate a React DataGrid for it. You can also choose from some sample data below.
-                        No data is sent to any server. The grid is generated entirely in the browser. This tool also does not configure any 
+                        No data is sent to any server. The grid is generated entirely in the browser. This tool also does not configure any
                         styling or theming. Styling is best done using a combination of&nbsp;
-                            <a target="_blank" rel="noreferrer"   href="https://reactdatagrid.com/examples/?example=CSS_Styling">CSS</a>, &nbsp;
-                            <a target="_blank" rel="noreferrer"  href="https://reactdatagrid.com/examples/?example=Material_Demo">Theming</a>,&nbsp;and &nbsp;
-                            <a target="_blank" rel="noreferrer"  href="https://reactdatagrid.com/examples/?example=Cell_Formatting">Custom function call backs</a>. 
+                        <a target="_blank" rel="noreferrer" href="https://reactdatagrid.com/examples/?example=CSS_Styling">CSS</a>, &nbsp;
+                        <a target="_blank" rel="noreferrer" href="https://reactdatagrid.com/examples/?example=Material_Demo">Theming</a>,&nbsp;and &nbsp;
+                        <a target="_blank" rel="noreferrer" href="https://reactdatagrid.com/examples/?example=Cell_Formatting">Custom function call backs</a>.
                     </p>
                     <p> NOTE: This tool is in BETA testing, so please report any issues you find.
                         You can use the <a href="https://reactdatagrid.com/docs/contact">contact form</a> to report any issues.</p>
@@ -476,7 +379,7 @@ export const GridBuilder = () => {
                                                                         itemRenderer: SelectionCheckBoxRenderer,
                                                                         headerRenderer: SelectionCheckBoxHeaderRenderer,
                                                                     }), ...additionalColumns]);
-                                                                    doPropUpdate();
+                                                                doPropUpdate();
 
                                                             } else if (dt.name === "Drag Column") {
                                                                 setAdditionalColumns([createDragColumn(), ...additionalColumns]);
@@ -545,6 +448,13 @@ export const GridBuilder = () => {
                                         behaviors: [
                                             createEditBehavior({})
                                         ],
+                                        toolbarOptions :{
+                                            leftToolbarRenderer: () => {
+                                                return <Button variant="outlined" onClick={() => {
+                                                    setShowFormulaEditor(true);
+                                                }}>Formula Editor</Button>;
+                                            }
+                                        },
                                         uniqueIdentifierOptions: {
                                             useField: "uniqueIdentifier"
                                         },
@@ -558,7 +468,7 @@ export const GridBuilder = () => {
                                                 lockMode: LockMode.Left,
                                             },
                                             createColumn("dataField", "string", "Data Field"),
-                                            createColumn("headerText", "string", "Header Text"),
+                                            createColumn("headerText", "string", "Header Text"),                                            
                                             ...colProps.map(p => {
                                                 const colPropToColumn = (prop: GridProperty, parent: ColumnOptions | null = null, parentProperty: GridProperty | null) => {
                                                     const col = createColumn(`${parent ? parent.dataField + "." : ""}${prop.name}`, "string", prop.name);
@@ -627,7 +537,7 @@ export const GridBuilder = () => {
                             Below is the code you can copy and paste into Lambda Genie
                             <br />
                             Note that the tool does not support all the properties of the grid, for example, event listeners, function callbacks,
-                            and some of the more advanced properties. There is extensive documentation on the grid properties                            
+                            and some of the more advanced properties. There is extensive documentation on the grid properties
                             <a href="https://reactdatagrid.com/docs/intro" target="_blank" rel="noreferrer"> here</a>.
                             <br />
                         </Typography>

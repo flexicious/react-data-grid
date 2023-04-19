@@ -48,7 +48,7 @@ export const EditOptions = () => {
     const apiRef = useRef<ApiContext | null>(null);
     const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
     const [editMode, setEditMode] = useState<boolean>(true);
-    const [editStart, setEditStart] = useState<EditStartMode>(EditStartMode.Click);
+    const [editStart, setEditStart] = useState<EditStartMode>(EditStartMode.DoubleClick);
     return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
         dataProvider: data,
         uniqueIdentifierOptions: {

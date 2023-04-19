@@ -1,7 +1,7 @@
-import { ApiContext, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, GridOptions, GridSelectionMode, LockMode, TreeNodeType } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
+import { ApiContext, createColumn, FilterOperation, GridOptions, GridSelectionMode, LockMode, TreeNodeType } from "@euxdt/grid-core";
 import { createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, Expander, Exporter, FilterChips, Paginator, ReactDataGrid, Selection, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, SettingsMenu, ToolbarRight } from "@euxdt/grid-react";
 import { useRef, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 import SampleData from "../mockdata/SampleData";
 
 const createNode = (gridOptions: GridOptions) => ({
@@ -44,7 +44,7 @@ export const CustomToolbar = () => {
                 </div>
             </div>
         }
-        <ReactDataGrid style={{ flex: 1 }} gridOptions={{
+        <DataGrid style={{ flex: 1 }} gridOptions={{
             dataProvider: SampleData.networkData,
             enablePaging: true,
             uniqueIdentifierOptions: {
@@ -70,12 +70,6 @@ export const CustomToolbar = () => {
             },
             enableFooters: false,
             enableFilters: true,
-            behaviors: [
-                createEditBehavior({}),
-                createFilterBehavior({}),
-                createPdfBehavior({}),
-                createExcelBehavior({}),
-            ],
             eventBus: {
                 onApiContextReady: (ctx) => {
                     apiRef.current = ctx;
@@ -126,6 +120,6 @@ export const CustomToolbar = () => {
                 },
 
             ]
-        }}></ReactDataGrid>
+        }}/>
     </div >;
 };

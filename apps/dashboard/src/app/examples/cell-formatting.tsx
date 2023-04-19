@@ -1,8 +1,8 @@
 
-import { ApiContext, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FooterOperation, formatCurrency, GridSelectionMode, LockMode, NodeKeys, resolveExpression, RowType, VirtualTreeNode } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
-import { createTextInputFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, createColumn, FilterOperation, FooterOperation, formatCurrency, GridSelectionMode, LockMode, NodeKeys, resolveExpression, RowType, VirtualTreeNode } from "@euxdt/grid-core";
+import { createTextInputFilterOptions } from "@euxdt/grid-react";
 import { useEffect, useRef, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
 
@@ -22,7 +22,7 @@ export const CellFormatting = () => {
         getOrgs();
     }, []);
 
-    return (<ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+    return (<DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
         dataProvider,
         isLoading,
         enableFloatingHeaderRows: true,
@@ -69,12 +69,6 @@ export const CellFormatting = () => {
             useField: "id"
         },
         selectionMode: GridSelectionMode.MultipleRows,
-        behaviors: [
-            createFilterBehavior({ clearSelectionOnFilter: true }),
-            createEditBehavior({}),
-            createPdfBehavior({}),
-            createExcelBehavior({}),
-        ],
         toolbarOptions: {
             enablePdf: true,
             enableExcel: true,
