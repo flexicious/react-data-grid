@@ -89,6 +89,7 @@ input PaginationRequestInput {
 
 input SortInfoInput {
   sortColumn: String
+  sortColumnIdentifier: String
   isAscending: Boolean
 }
 
