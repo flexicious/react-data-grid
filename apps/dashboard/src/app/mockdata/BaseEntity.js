@@ -1,4 +1,4 @@
-import { isPrimitive } from "@euxdt/grid-core";
+import { isPrimitive } from "@ezgrid/grid-core";
 import { TypedObject } from "./TypedObject";
 export default class BaseEntity extends TypedObject {
   constructor() {

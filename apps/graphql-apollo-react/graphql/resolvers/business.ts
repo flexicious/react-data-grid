@@ -1,5 +1,5 @@
-import { buildSqlWhereClause, FilterPageSortArguments, FilterPageSortChangeReason, NameValue, ServerInfo } from '@euxdt/grid-core';
-import { getRowsFromSqlite } from '@euxdt/grid-shared';
+import { buildSqlWhereClause, FilterPageSortArguments, FilterPageSortChangeReason, NameValue, ServerInfo } from '@ezgrid/grid-core';
+import { getRowsFromSqlite } from '@ezgrid/grid-shared';
 import { Business } from 'apps/graphql-apollo-react/shared/types';
 const sqlite3 = require('sqlite3').verbose();
 const getDb = () => new sqlite3.Database('dbs/sf-restaurants.db');

@@ -1,4 +1,4 @@
-import { Box, calculateFooterValue, ColumnMenuItem, FooterOperation, formatValue, getApi, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { Box, calculateFooterValue, ColumnMenuItem, FooterOperation, formatValue, getApi, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FC, useRef, useState } from "react";
 import { createMenu } from "../adapter";
 import { Popup, PopupButton } from "../shared/PopupButton";
@@ -43,12 +43,12 @@ const FooterMenu : FC<RendererProps> = ({ node }) => {
     return <><div ref={divRef} >
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
             popupVisible={popupVisible} popupWidth={200} useMouseXY popupHeight={225}
-            className="euxdt-dg-footer-menu"
+            className="ezgrid-dg-footer-menu"
             boundingRect={divRef.current?.getBoundingClientRect()} />
             </div>
                 {
                     popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={setPopupVisible}>
-                        <div className="euxdt-dg-header-hamburger-menu">
+                        <div className="ezgrid-dg-header-hamburger-menu">
                         {
                             createMenu(node.gridOptions, {
                                 ...node,

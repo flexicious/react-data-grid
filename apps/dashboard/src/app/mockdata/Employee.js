@@ -1,5 +1,5 @@
 import { TypedObject } from "./TypedObject";
-import { formatDate, formatCurrency } from "@euxdt/grid-core";
+import { formatDate, formatCurrency } from "@ezgrid/grid-core";
 /**
  * Typical model class, Employee with typical properties
  * @constructor

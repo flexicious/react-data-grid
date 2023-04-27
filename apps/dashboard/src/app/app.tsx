@@ -1,7 +1,7 @@
 import NxWelcome from "./nx-welcome";
 export function App() {
   return (
-    <NxWelcome title="euxdt" />
+    <NxWelcome title="ezgrid" />
   );
 }
 

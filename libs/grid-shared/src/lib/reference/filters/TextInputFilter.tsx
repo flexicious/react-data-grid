@@ -1,4 +1,4 @@
-import { debounce, FilterOperation, FilterOptions, getApi, RendererProps, GRID_CONSTANTS, camelCaseToSpace } from "@euxdt/grid-core";
+import { debounce, FilterOperation, FilterOptions, getApi, RendererProps, GRID_CONSTANTS, camelCaseToSpace } from "@ezgrid/grid-core";
 import { FC, useEffect, useRef } from "react";
 import { createTextField } from "../adapter";
 

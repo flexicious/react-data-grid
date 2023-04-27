@@ -1,4 +1,4 @@
-import { ColumnOptions } from '@euxdt/grid-core';
+import { ColumnOptions } from '@ezgrid/grid-core';
 import { AppBar, CircularProgress, Stack, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CONFIG, GridConfig } from '../shared/lambda-genie/config-bindings';

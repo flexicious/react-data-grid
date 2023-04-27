@@ -1,6 +1,6 @@
 
-import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode, LockMode } from "@euxdt/grid-core";
-import { createTextInputFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode, LockMode } from "@ezgrid/grid-core";
+import { createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import CustomerOrganization from "../mockdata/CustomerOrganization";

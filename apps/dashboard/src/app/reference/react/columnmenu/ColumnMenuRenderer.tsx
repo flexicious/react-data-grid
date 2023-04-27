@@ -1,4 +1,4 @@
-import { Behaviors, Box, ColumnMenuItem, getApi, getLockMode, HorizontalScrollMode, LABELS, LockMode, RendererProps } from "@euxdt/grid-core";
+import { Behaviors, Box, ColumnMenuItem, getApi, getLockMode, HorizontalScrollMode, LABELS, LockMode, RendererProps } from "@ezgrid/grid-core";
 import { FC, MouseEvent, useRef, useState } from "react";
 import { createMenu } from "../adapter";
 import { Popup, PopupButton } from "../shared/PopupButton";
@@ -50,12 +50,12 @@ const ColumnOptionsMenu: FC<RendererProps> = ({ node }) => {
     return <><div ref={divRef} >
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
             popupVisible={popupVisible} popupWidth={300} useMouseXY
-            className="euxdt-dg-header-hamburger"
+            className="ezgrid-dg-header-hamburger"
             boundingRect={divRef.current?.getBoundingClientRect()} />
             </div>
                 {
                     popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={setPopupVisible}>
-                        <div className="euxdt-dg-header-hamburger-menu">
+                        <div className="ezgrid-dg-header-hamburger-menu">
                         {
                             createMenu(node.gridOptions, {
                                 ...node,

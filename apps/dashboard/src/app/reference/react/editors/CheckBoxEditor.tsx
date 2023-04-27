@@ -1,4 +1,4 @@
-import { EditorProps, EditStartMode, getApi, getRowColFromNode, GridIconButton, parseBoolean, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { EditorProps, EditStartMode, getApi, getRowColFromNode, GridIconButton, parseBoolean, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FunctionComponent, useRef, useState } from "react";
 import { createCheckBox } from "../adapter";
 import { buttonCreator, createEditor } from "../shared/shared-props";
@@ -22,7 +22,7 @@ export const CheckBoxEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdi
     const applyBulkEdit = () => {
         applyEditedValue(node, isCheck, rowsToEdit); 
     }
-    return <div className="euxdt-dg-toolbar-section" >
+    return <div className="ezgrid-dg-toolbar-section" >
     {
         createEditor(createCheckBox(node.gridOptions, { ref: inputRef, onChange: handleChange, value:isBulkEdit?isCheck:parseBoolean(checked?.toString()) }), inputRef, rowIdentifier, {
             display: "flex",

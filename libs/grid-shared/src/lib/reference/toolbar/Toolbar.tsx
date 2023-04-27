@@ -1,4 +1,4 @@
-import {  GRID_CONSTANTS, RendererProps } from "@euxdt/grid-core";
+import {  GRID_CONSTANTS, RendererProps } from "@ezgrid/grid-core";
 import { ToolbarLeft } from "./ToolbarLeft";
 import { ToolbarRight } from "./ToolbarRight";
 import { FC,useRef } from "react";

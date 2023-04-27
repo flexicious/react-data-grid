@@ -4,8 +4,8 @@ import * as ExcelJS from "exceljs";
 import pkg from 'file-saver';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { ReactDataGridOptions, ReactDataGrid, getEditOptions, getFilterOptions, createMultiSelectFilterOptions, createSelectEditorOptions } from "@euxdt/grid-react";
-import { createFilterBehavior, createEditBehavior, GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions, createColumn, resolveExpression } from "@euxdt/grid-core";
+import { ReactDataGridOptions, ReactDataGrid, getEditOptions, getFilterOptions, createMultiSelectFilterOptions, createSelectEditorOptions } from "@ezgrid/grid-react";
+import { createFilterBehavior, createEditBehavior, GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions, createColumn, resolveExpression } from "@ezgrid/grid-core";
 const { saveAs } = pkg;
 
 

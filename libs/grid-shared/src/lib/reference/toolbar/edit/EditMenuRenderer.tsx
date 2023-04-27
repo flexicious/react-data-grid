@@ -1,4 +1,4 @@
-import { Box, ColumnOptions, ColumnWidthMode, createColumn, dataToLabel, EditInfo, getApi, gridCSSPrefix, GridIconButton, GridSelectionMode, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { Box, ColumnOptions, ColumnWidthMode, createColumn, dataToLabel, EditInfo, getApi, gridCSSPrefix, GridIconButton, GridSelectionMode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FC, useRef, useState } from "react";
 import { ReactDataGrid } from "../../ReactDataGrid";
 import { Popup, PopupButton } from "../../shared";
@@ -43,8 +43,8 @@ export const EditMenu: FC<RendererProps> = ({ node }) => {
         if (!oCol) return val?.toString() || "";
         return dataToLabel(val, oCol);
     };
-    return <><div ref={divRef} className="euxdt-dg-toolbar-section" key="settings" onClick={onTogglePopup}>
-        <PopupButton node={node} className="euxdt-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setPopupVisible} popupWidth={750}
+    return <><div ref={divRef} className="ezgrid-dg-toolbar-section" key="settings" onClick={onTogglePopup}>
+        <PopupButton node={node} className="ezgrid-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setPopupVisible} popupWidth={750}
             popupVisible={popupVisible} useMouseXY trigger={<>|{buttonCreator(node, "edit-icon", "Current Edits", () => setPopupVisible(true),
                 GridIconButton.Edit)} ({dataProvider.length})</>}
         />

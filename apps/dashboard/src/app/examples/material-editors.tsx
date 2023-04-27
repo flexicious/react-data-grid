@@ -1,6 +1,6 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, EditInfo, EditStartMode, getApi, getRowColFromNode, GridSelectionMode, HorizontalScrollMode, itemToLabel, RendererProps } from "@euxdt/grid-core";
-import { CheckBoxEditor, DateEditor, ReactDataGrid, SelectEditor, TextInputEditor } from "@euxdt/grid-react";
-import { materialAdapter, materialNodePropsFunction } from "@euxdt/grid-shared";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, EditInfo, EditStartMode, getApi, getRowColFromNode, GridSelectionMode, HorizontalScrollMode, itemToLabel, RendererProps } from "@ezgrid/grid-core";
+import { CheckBoxEditor, DateEditor, ReactDataGrid, SelectEditor, TextInputEditor } from "@ezgrid/grid-react";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
 import { TextField, useTheme } from "@mui/material";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
@@ -36,7 +36,7 @@ const PhoneNumberEditor: FC<RendererProps> = ({ node }) => {
             }
         }
     };
-    return <div className="euxdt-dg-toolbar-section">
+    return <div className="ezgrid-dg-toolbar-section">
         <TextField inputProps={{ maxLength: 3, ref: areaCodeRef }} style={{ width: "25% " }} value={areaCode} onChange={handleChange}
             onKeyDown={handleKeyDown} variant="standard" />-
         <TextField inputProps={{ maxLength: 3, ref: prefixRef }} style={{ width: "25%" }} value={prefix} onChange={handleChange}
@@ -75,7 +75,7 @@ export const MaterialEditors = () => {
             enableQuickFind: false,
             rightToolbarRenderer: ({ node }) => {
                 const api = getApi(node);
-                return <div className="euxdt-dg-toolbar-section">
+                return <div className="ezgrid-dg-toolbar-section">
 
                     <button
                     onClick={() => {

@@ -9,8 +9,8 @@ import {
     FooterOperation,
     GridSelectionMode,
     LockMode
-} from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
+} from "@ezgrid/grid-core";
+import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
 import {
     createDateFilterOptions,
     createMultiSelectFilterOptions,
@@ -21,7 +21,7 @@ import {
     ReactDataGrid,
     SelectionCheckBoxHeaderRenderer,
     SelectionCheckBoxRenderer
-} from "@euxdt/grid-react";
+} from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 import { antAdapter } from "./ant-design-adapter";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
@@ -74,7 +74,7 @@ export const AntDesignDemo = () => {
           enablePdf: true,
           enableExcel: true,
           rightToolbarRenderer: () => (
-            <div className="euxdt-dg-toolbar-section">
+            <div className="ezgrid-dg-toolbar-section">
               <button
                 onClick={() => {
                   setUseAntAdapter(!useAntAdapter);

@@ -1,4 +1,4 @@
-import { Behaviors, ColumnOptions, GridOptions, itemToLabel, PdfBehavior, PdfBehaviorOptions } from "@euxdt/grid-core";
+import { Behaviors, ColumnOptions, GridOptions, itemToLabel, PdfBehavior, PdfBehaviorOptions } from "@ezgrid/grid-core";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 

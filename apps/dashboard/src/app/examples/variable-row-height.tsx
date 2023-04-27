@@ -1,5 +1,5 @@
-import { HorizontalScrollMode, createSelectionColumn, createColumn } from "@euxdt/grid-core";
-import { ReactDataGrid, SelectionCheckBoxRenderer, SelectionCheckBoxHeaderRenderer } from "@euxdt/grid-react";
+import { HorizontalScrollMode, createSelectionColumn, createColumn } from "@ezgrid/grid-core";
+import { ReactDataGrid, SelectionCheckBoxRenderer, SelectionCheckBoxHeaderRenderer } from "@ezgrid/grid-react";
 import SampleData from "../mockdata/SampleData";
 
 export const VariableRowHeight = () => {

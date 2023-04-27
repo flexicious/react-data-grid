@@ -1,4 +1,4 @@
-import { Box, getApi, getRectFromDom, GridIconButton, RendererProps } from "@euxdt/grid-core";
+import { Box, getApi, getRectFromDom, GridIconButton, RendererProps } from "@ezgrid/grid-core";
 import { FC, useState } from "react";
 import { Popup, PopupButton } from "../../shared/PopupButton";
 import { buttonCreator } from "../../shared/shared-props";
@@ -18,7 +18,7 @@ export const SettingsMenu: FC<RendererProps> = ({ node }) => {
             setRectangle({ ...rect, width: undefined });
         }
     };
-    return <div className="euxdt-dg-toolbar-section">
+    return <div className="ezgrid-dg-toolbar-section">
         <PopupButton node={node} popupVisible={settingsVisible} setPopupVisible={setSettingsVisible}
             trigger={buttonCreator(node, "page-settings-icon", "Settings", setBoundingRect, GridIconButton.Settings)}
         />

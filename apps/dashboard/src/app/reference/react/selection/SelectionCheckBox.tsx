@@ -1,4 +1,4 @@
-import { CheckBoxState, getApi, getUniqueRowIdentifier, RendererProps } from "@euxdt/grid-core";
+import { CheckBoxState, getApi, getUniqueRowIdentifier, RendererProps } from "@ezgrid/grid-core";
 import { FC, useEffect } from "react";
 import { TriStateCheckBox } from "../TriStateCheckBox";
 

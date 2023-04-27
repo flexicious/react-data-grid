@@ -1,4 +1,4 @@
-import { Behaviors, debounce, getApi, GridIconButton, isCtrlOrMeta, RendererProps, stopPrevent, GRID_CONSTANTS } from "@euxdt/grid-core";
+import { Behaviors, debounce, getApi, GridIconButton, isCtrlOrMeta, RendererProps, stopPrevent, GRID_CONSTANTS } from "@ezgrid/grid-core";
 import { useEffect, useRef, FC, KeyboardEvent } from "react";
 import { createTextField } from "../adapter";
 import { buttonCreator } from "../shared";
@@ -46,7 +46,7 @@ export const ToolbarRight: FC<RendererProps> = ({ node }) => {
     }, [quickFindValue]);
     const textBoxWidth = window.innerWidth < GRID_CONSTANTS.MOBILE_CUTOFF ? "75px" : "150px";
 
-    return <div className="euxdt-dg-toolbar-section">
+    return <div className="ezgrid-dg-toolbar-section">
         <><>{node.gridOptions.toolbarOptions?.rightToolbarRenderer && node.gridOptions.toolbarOptions.rightToolbarRenderer({ node })}</></>
         {options?.enableGlobalSearch !== false && hasFilterBehavior
             && createTextField(node.gridOptions, {

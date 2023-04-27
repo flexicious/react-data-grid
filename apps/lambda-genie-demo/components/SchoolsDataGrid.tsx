@@ -1,6 +1,6 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridSelectionMode, resolveExpression, ServerInfo } from "@euxdt/grid-core";
-import { createMultiSelectFilterOptions, FilterBuilder, getFilterOptions } from "@euxdt/grid-react";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, FilterBuilder, getFilterOptions } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { DataGrid } from "./DataGrid";

@@ -1,13 +1,13 @@
-import { Behaviors, Box, ColumnMenuItem, ColumnWidthMode, createColumn, getLockMode, HorizontalScrollMode, LABELS, LockMode, RendererProps } from "@euxdt/grid-core";
-import { ReactDataGrid, PopupButton, Popup } from "@euxdt/grid-react";
+import { Behaviors, Box, ColumnMenuItem, ColumnWidthMode, createColumn, getLockMode, HorizontalScrollMode, LABELS, LockMode, RendererProps } from "@ezgrid/grid-core";
+import { ReactDataGrid, PopupButton, Popup } from "@ezgrid/grid-react";
 import SampleData from "../mockdata/SampleData";
 
-import { getApi, gridCSSPrefix } from "@euxdt/grid-core";
+import { getApi, gridCSSPrefix } from "@ezgrid/grid-core";
 import { MouseEvent, useRef, useState, FC, ReactNode } from "react";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const ColumnMenu = () => {
-    return <div className="euxdt-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
+    return <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu Enabled</b>
             <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
@@ -131,12 +131,12 @@ const ColumnOptionsMenu: FC<RendererProps> = ({ node }) => {
     return <><div ref={divRef} >
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
             popupVisible={popupVisible} popupWidth={300} useMouseXY
-            className="euxdt-dg-header-hamburger"
+            className="ezgrid-dg-header-hamburger"
             boundingRect={divRef.current?.getBoundingClientRect()} />
     </div>
         {
             popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={setPopupVisible}>
-                <div className="euxdt-dg-header-hamburger-menu">
+                <div className="ezgrid-dg-header-hamburger-menu">
                     {customItems.map((x, i) => {
                         const menuItem = x as ColumnMenuItem;
                         return x ? <div key={i}><div className={gridCSSPrefix(menuItem.className)}

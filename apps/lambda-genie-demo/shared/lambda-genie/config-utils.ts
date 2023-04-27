@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
-import { ConfigJson } from "@euxdt/node-rules-engine";
-import { getNodeJsConfigApi, ConfigApi } from "@euxdt/node-rules-engine";
+import { ConfigJson } from "@ezgrid/node-rules-engine";
+import { getNodeJsConfigApi, ConfigApi } from "@ezgrid/node-rules-engine";
 import { CONFIG } from "./config-bindings";
 import { mockConfig } from "./mock";
 

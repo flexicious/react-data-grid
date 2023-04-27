@@ -1,4 +1,4 @@
-import { ApiContext, Box, camelCaseToSpace, ColumnOptions, createColumn, createFilterBehavior, Filter, FilterExpression, FilterOperation, FILTER_OPERATION_TYPE_PREDEFINED_LIST, getApi, getChatGptPrompt, getContext, getFlat, getRectFromDom, gridCSSPrefix, GridIconButton, GridSelectionMode, GRID_CONSTANTS, HorizontalScrollMode, isFilter, isFilterExpression, nullifyParent, pasteToClipboard, RendererProps } from "@euxdt/grid-core";
+import { ApiContext, Box, camelCaseToSpace, ColumnOptions, createColumn, createFilterBehavior, Filter, FilterExpression, FilterOperation, FILTER_OPERATION_TYPE_PREDEFINED_LIST, getApi, getChatGptPrompt, getContext, getFlat, getRectFromDom, gridCSSPrefix, GridIconButton, GridSelectionMode, GRID_CONSTANTS, HorizontalScrollMode, isFilter, isFilterExpression, nullifyParent, pasteToClipboard, RendererProps } from "@ezgrid/grid-core";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { createDateField, createSelectField, createTextArea, createTextField } from "../adapter";
 import { ReactDataGrid } from "../ReactDataGrid";
@@ -247,10 +247,10 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
     return <>{!openOnMount &&
         <div className={gridCSSPrefix("toolbar-section")} >
             <PopupButton node={node} popupVisible={popupVisible} setPopupVisible={togglePopup}
-                trigger={<div className="euxdt-dg-toolbar-section">{
+                trigger={<div className="ezgrid-dg-toolbar-section">{
                     buttonCreator(node, "filter-builder-icon", "Filter Builder", setBoundingRect, GridIconButton.FilterBuilder)
                 } {(ctx.modifications.globalFilterTree?.children || []).length > 0 &&
-                    <><div className="euxdt-dg-info-cell" title={api.buildFilterString(ctx.modifications.globalFilterTree as Filter)}></div>
+                    <><div className="ezgrid-dg-info-cell" title={api.buildFilterString(ctx.modifications.globalFilterTree as Filter)}></div>
                         {buttonCreator(node, "delete-icon", "Clear Builder", (e) => {
                             api.clearGlobalFilter();
                             e.stopPropagation();
@@ -301,7 +301,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
                                     enableHierarchy: true,
                                     headerOptions: {
                                         headerRenderer: ({ node }) => {
-                                            return <div className="euxdt-dg-horizontal-flex">
+                                            return <div className="ezgrid-dg-horizontal-flex">
                                                 <div style={{ float: "left" }} >
                                                     Select Criteria
                                                 </div>
@@ -454,11 +454,11 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
                             <pre>{filterString}</pre>
                         </div>
                         }
-                        <div className="euxdt-dg-card" style={{ flex: 1, width:"500px", display: filterBuilderOptions?.enableChatGpt === false ? 'none' : "" }} >
+                        <div className="ezgrid-dg-card" style={{ flex: 1, width:"500px", display: filterBuilderOptions?.enableChatGpt === false ? 'none' : "" }} >
                         
                             <b>Ask ChatGPT!</b>
-                            <div className="euxdt-dg-toolbar-section" style={{ width: "100%", flexDirection: "column" }}>
-                            <div className="euxdt-dg-toolbar-section" >
+                            <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", flexDirection: "column" }}>
+                            <div className="ezgrid-dg-toolbar-section" >
                                 Choose Field to ask Chat GPT:
                                 {
                                     createSelectField(node.gridOptions, {
@@ -481,7 +481,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
                                         }, rows: 4, placeholder: chatGptPlaceholder || "Ask Chat GPT to make a query : E.g. (department is IT or HR) and (salary is greater than 75000 or salary is less than 60000) OR (department is Sales and salary is greater than 90000 and state is in list NY, NJ)"
                                     })
                                 }
-                                <div className="euxdt-dg-toolbar-section" >
+                                <div className="ezgrid-dg-toolbar-section" >
 
                                     {
                                         buttonCreator(node, "copy-icon", "Copy GPT Prompt", async () => {

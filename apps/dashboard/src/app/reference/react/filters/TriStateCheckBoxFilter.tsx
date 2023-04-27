@@ -1,4 +1,4 @@
-import { LABELS, CheckBoxState, FilterOptions, getApi, RendererProps, FilterOperation, FilterComparisonType } from "@euxdt/grid-core";
+import { LABELS, CheckBoxState, FilterOptions, getApi, RendererProps, FilterOperation, FilterComparisonType } from "@ezgrid/grid-core";
 import { FC } from "react";
 import { TriStateCheckBox } from "../TriStateCheckBox";
 const TriStateCheckBoxFilter: FC<RendererProps> = ({ node }) => {

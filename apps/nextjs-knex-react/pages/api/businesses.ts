@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { FilterPageSortArguments, NameValue, resolveExpression, ServerInfo, formatCurrency, FilterPageSortChangeReason } from "@euxdt/grid-core";
+import { FilterPageSortArguments, NameValue, resolveExpression, ServerInfo, formatCurrency, FilterPageSortChangeReason } from "@ezgrid/grid-core";
 import knex from "../../knex"
 import { buildKnexQuery, } from "../../shared/knex-builder";
-import { keyValueArrayToObject } from "@euxdt/grid-shared";
+import { keyValueArrayToObject } from "@ezgrid/grid-shared";
 const handler = async (
     req: NextApiRequest,
     res: NextApiResponse<ServerInfo | { message: string }>

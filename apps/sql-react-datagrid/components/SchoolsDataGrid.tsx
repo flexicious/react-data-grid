@@ -1,5 +1,5 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@euxdt/grid-core";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@ezgrid/grid-core";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../../libs/grid-shared/src/lib/shared/types";

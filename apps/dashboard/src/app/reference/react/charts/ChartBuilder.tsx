@@ -1,4 +1,4 @@
-import { Box, ChartType, ColumnOptions, GridIconButton, RendererProps, createColumn, createSelectionColumn, getApi, getContext, getFlat, getRectFromDom, gridCSSPrefix } from "@euxdt/grid-core";
+import { Box, ChartType, ColumnOptions, GridIconButton, RendererProps, createColumn, createSelectionColumn, getApi, getContext, getFlat, getRectFromDom, gridCSSPrefix } from "@ezgrid/grid-core";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { GRID_PROPS, Popup, PopupButton, buttonCreator } from "../shared";
 import { ReactDataGrid } from "../ReactDataGrid";
@@ -61,7 +61,7 @@ export const ChartBuilder: FC<ChartBuilderProps> = ({ node }) => {
     return <>{
         <div className={gridCSSPrefix("toolbar-section")} >
             <PopupButton node={node} popupVisible={popupVisible} setPopupVisible={togglePopup}
-                trigger={<div className="euxdt-dg-toolbar-section">{
+                trigger={<div className="ezgrid-dg-toolbar-section">{
                     buttonCreator(node, "chart-builder-icon", "Filter Builder", setBoundingRect, GridIconButton.ChartBuilder)
                 }   </div>}
             />

@@ -9,7 +9,7 @@ Getting Started Guide:
 ## Install
 
 ```sh
-npm install -D @euxdt/grid-core
+npm install -D @ezgrid/grid-core
 ```
 
 ## Information

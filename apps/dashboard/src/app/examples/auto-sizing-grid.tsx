@@ -1,5 +1,5 @@
-import { createColumn } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { createColumn } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useState } from "react";
 
 export const AutoSizingGrid = () => {
@@ -24,7 +24,7 @@ export const AutoSizingGrid = () => {
         enableFilters: false,
         toolbarOptions: {
             leftToolbarRenderer: ({ node }) => {
-                return <div className="euxdt-dg-toolbar-section">
+                return <div className="ezgrid-dg-toolbar-section">
                     <button onClick={() => {
                         const obj = addNewObject();
                         setData([...data, obj]);

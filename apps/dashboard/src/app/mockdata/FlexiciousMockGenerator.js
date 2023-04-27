@@ -6,7 +6,7 @@ import SystemUser from "./SystemUser";
 import Deal from "./Deal";
 import Invoice from "./Invoice";
 import LineItem from "./LineItem";
-import { shortMonthNames } from "@euxdt/grid-core";
+import { shortMonthNames } from "@ezgrid/grid-core";
 
 /**
  * Flexicious

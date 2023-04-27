@@ -1,4 +1,4 @@
-import { applySettings, createColumn, gridCSSPrefix, GridIconButton, loadSettings, nullifyParent, pasteToClipboard, RendererProps, resolveExpression, saveSettings, SettingsData } from "@euxdt/grid-core";
+import { applySettings, createColumn, gridCSSPrefix, GridIconButton, loadSettings, nullifyParent, pasteToClipboard, RendererProps, resolveExpression, saveSettings, SettingsData } from "@ezgrid/grid-core";
 import { FC, useEffect, useState } from "react";
 
 import { ReactDataGrid } from "../../ReactDataGrid";

@@ -1,4 +1,4 @@
-import { resolveExpression } from "@euxdt/grid-core";
+import { resolveExpression } from "@ezgrid/grid-core";
 
 
 export type Primitive = string | number | Date | boolean;

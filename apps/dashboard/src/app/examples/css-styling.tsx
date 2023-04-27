@@ -1,5 +1,5 @@
-import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, HorizontalScrollMode } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 
 import StyleEditor from "react-style-editor";
@@ -8,44 +8,44 @@ import Employee from "../mockdata/Employee";
 export const CssStyling = () => {
     const style = useRef<HTMLStyleElement | null>(null);
     const defaultCss = `
-    .euxdt-dg-odd-row {
+    .ezgrid-dg-odd-row {
         background-color: #f5f5f5;
         border-top: 1px solid #e0e0e0;
     }
-    .euxdt-dg-even-row {
+    .ezgrid-dg-even-row {
         background-color: #fff;
         border-top: 1px solid #e0e0e0;
     }
-    .euxdt-dg-selected-row,.euxdt-dg-selected-cell {
+    .ezgrid-dg-selected-row,.ezgrid-dg-selected-cell {
         background-color: lightpink;
     }
-    .euxdt-dg-body-scroller .euxdt-dg-active-cell,
-    .euxdt-dg-body-scroller .euxdt-dg-active-row {
+    .ezgrid-dg-body-scroller .ezgrid-dg-active-cell,
+    .ezgrid-dg-body-scroller .ezgrid-dg-active-row {
         background-color: lightblue;
     }
 
-    .euxdt-dg-cell {
+    .ezgrid-dg-cell {
         border-right: none;
     }
-    .euxdt-dg-header-cell {
+    .ezgrid-dg-header-cell {
         background-color: #e0e0e0;
     }
-    .euxdt-dg-header-cell:hover {
+    .ezgrid-dg-header-cell:hover {
         background-color: #f0f0f0;
     }
-    .euxdt-dg-footer-cell {
+    .ezgrid-dg-footer-cell {
         background-color: #e0e0e0;
     }
-    .euxdt-dg-footer-cell:hover {
+    .ezgrid-dg-footer-cell:hover {
         background-color: #f0f0f0;
     }
-    .euxdt-dg-toolbar {
+    .ezgrid-dg-toolbar {
         background-color: #e0e0e0;
     }
-    .euxdt-dg-header-renderer{
+    .ezgrid-dg-header-renderer{
         font-weight: 600;
     }
-    .euxdt-dg-hdivider {
+    .ezgrid-dg-hdivider {
         height: 2px
     }
     

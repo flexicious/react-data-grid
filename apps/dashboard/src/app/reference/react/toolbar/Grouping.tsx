@@ -1,4 +1,4 @@
-import { Behaviors, getApi, gridCSSPrefix, GridIconButton, NameValue,  RendererProps } from "@euxdt/grid-core";
+import { Behaviors, getApi, gridCSSPrefix, GridIconButton, NameValue,  RendererProps } from "@ezgrid/grid-core";
 import { buttonCreator } from "../shared/shared-props";
 import { FC, MouseEvent } from "react";
 
@@ -7,7 +7,7 @@ export const Grouping: FC<RendererProps> = ({ node }) => {
     const hasGrouping = api.hasBehavior(Behaviors.GroupingBehavior);
     const toolbarOptions = node.gridOptions.toolbarOptions;
     const pfx = gridCSSPrefix;
-    const isDragging= ()=>document.getElementsByClassName("euxdt-dg-resize-bar").length > 0;
+    const isDragging= ()=>document.getElementsByClassName("ezgrid-dg-resize-bar").length > 0;
     const addCls = (cls: string) => (e: MouseEvent<HTMLDivElement>) => isDragging() && e.currentTarget.classList.add(pfx(cls));
     const removeCls = (cls: string) => (e: MouseEvent<HTMLDivElement>) => e.currentTarget.classList.remove(pfx(cls));
     const groupingChips = (api.getGroupByFields()).map((nv: NameValue, index) => {

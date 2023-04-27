@@ -1,5 +1,5 @@
-import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, getApi, HorizontalScrollMode, resolveExpression } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, getApi, HorizontalScrollMode, resolveExpression } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";

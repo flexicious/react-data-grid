@@ -1,5 +1,5 @@
-import { createColumn, createDragColumn, HorizontalScrollMode } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { createColumn, createDragColumn, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useState } from "react";
 import SampleData from "../mockdata/SampleData";
 import { getScrollOffBelow } from "../utils/column-utils";

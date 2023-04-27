@@ -1,8 +1,8 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, getApi, getDateRange, RendererProps, resolveExpression } from "@euxdt/grid-core";
-import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, getApi, getDateRange, RendererProps, resolveExpression } from "@ezgrid/grid-core";
+import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { Autocomplete, MenuItem, Select, Slider, TextField, useTheme } from "@mui/material";
 import { FC, ReactNode, useRef, useState } from "react";
-import { materialAdapter, materialNodePropsFunction } from "@euxdt/grid-shared";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
 import Employee from "../mockdata/Employee";
 import { MaterialWrapper } from "./material/material-wrapper";
 
@@ -29,7 +29,7 @@ const PhoneNumberFilter: FC<RendererProps> = ({ node }) => {
 
         }
     };
-    return <div className="euxdt-dg-toolbar-section" style={{ width: "100%", }}>
+    return <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", }}>
         <div>{materialAdapter.createTextField({ placeholder: "Area Code", ref: areaCodeRef, defaultValue: areaCode, onChange: handleChange }) as ReactNode}</div>
         <div>{materialAdapter.createTextField({ placeholder: "Prefix", ref: prefixRef, defaultValue: prefix, onChange: handleChange }) as ReactNode}</div>
         <div>{materialAdapter.createTextField({ placeholder: "Suffix", ref: suffixRef, defaultValue: suffix, onChange: handleChange }) as ReactNode}</div>
@@ -72,7 +72,7 @@ const FilterOptions = () => {
             enableQuickFind: false,
 
             leftToolbarRenderer: () => (
-                <div className="euxdt-dg-toolbar-section">
+                <div className="ezgrid-dg-toolbar-section">
                   <button
                     onClick={() => {
                       setUseMaterialAdapter(!useMaterialAdapter);
@@ -92,8 +92,8 @@ const FilterOptions = () => {
                 ];
                 const api = getApi(node);
                 return <div  >
-                    <div className="euxdt-dg-toolbar-section" style={{ flexDirection: "column", alignItems: "end" }}>
-                        <div className="euxdt-dg-toolbar-section">
+                    <div className="ezgrid-dg-toolbar-section" style={{ flexDirection: "column", alignItems: "end" }}>
+                        <div className="ezgrid-dg-toolbar-section">
                             Department (External Filter + grid filter logic):
                             <Autocomplete
                                 filterSelectedOptions
@@ -113,7 +113,7 @@ const FilterOptions = () => {
                                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select Department" />}
                             />
                         </div>
-                        <div className="euxdt-dg-toolbar-section">
+                        <div className="ezgrid-dg-toolbar-section">
                             Work Anniversary (External Filter + custom filter logic):
                             <Select variant="standard" style={{ width: 300 }} onChange={(e) => {
                                 anniversaryRef.current = e.target.value as string;

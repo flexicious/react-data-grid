@@ -1,7 +1,7 @@
 import {
     applyJsonLogic, pasteToClipboard
-} from "@euxdt/grid-core";
-import { callChatGpt, openChatGpt } from "@euxdt/grid-react";
+} from "@ezgrid/grid-core";
+import { callChatGpt, openChatGpt } from "@ezgrid/grid-react";
 import { Close } from "@mui/icons-material";
 import { AppBar, IconButton, MenuItem, Select, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -52,7 +52,7 @@ export const CalculatedFieldEditor: FC<CalculatedFieldEditorProps> = ({ allField
         <div>
             <Dialog open={true} onClose={onClose} fullScreen>
 
-            {loading && <div className="euxdt-dg-loading-message">Loading...</div>}
+            {loading && <div className="ezgrid-dg-loading-message">Loading...</div>}
                 <AppBar sx={{ position: "relative" }}>
                     <Toolbar>
                         <IconButton
@@ -98,7 +98,7 @@ export const CalculatedFieldEditor: FC<CalculatedFieldEditorProps> = ({ allField
                                 Use the Copy prompt button which will open ChatGPT in a new window.
                                 Once Chat GPT returns the formula, paste it using the Paste Chat GPT Button.
                                 If you have an Open AI key, you can directly click the Ask ChatGPT button
-                                <div className="euxdt-dg-toolbar-section" style={{ justifyContent: "center" }} >
+                                <div className="ezgrid-dg-toolbar-section" style={{ justifyContent: "center" }} >
 
                                     <Button onClick={async () => {
                                         await pasteToClipboard(getChatGptPrompt());
@@ -128,7 +128,7 @@ export const CalculatedFieldEditor: FC<CalculatedFieldEditorProps> = ({ allField
                                     setSampleData(e.target.value);
                                 }} fullWidth multiline rows={2}></TextField>
 
-                                <div className="euxdt-dg-toolbar-section" style={{ justifyContent: "center" }} >
+                                <div className="ezgrid-dg-toolbar-section" style={{ justifyContent: "center" }} >
                                     <Button onClick={() => {
                                         const result = applyJsonLogic(JSON.parse(chatGptResponse), JSON.parse(sampleData));
                                         alert(result);

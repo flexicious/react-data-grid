@@ -1,4 +1,4 @@
-import { Box, getApi, getColumnSettings, GridIconButton, LABELS, RendererProps, TreeNodeType } from "@euxdt/grid-core";
+import { Box, getApi, getColumnSettings, GridIconButton, LABELS, RendererProps, TreeNodeType } from "@ezgrid/grid-core";
 import { useState, FC } from "react";
 import { createCheckBox, createTextField } from "../../adapter";
 import { buttonCreator, Popup, PopupButton } from "../../shared";
@@ -33,8 +33,8 @@ export const SaveSettingsPopup: FC<RendererProps> = ({ node }) => {
                 GridIconButton.SettingsSave)}
         />}
         {popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={setPopupVisible}>
-            <div className="euxdt-dg-save-settings" style={backgroupProps?.style}>
-                <div className="euxdt-dg-save-settings-header">
+            <div className="ezgrid-dg-save-settings" style={backgroupProps?.style}>
+                <div className="ezgrid-dg-save-settings-header">
                     {buttonCreator(node, "save-icon", "Save Setting", onSaveSettings, GridIconButton.SettingsSave)}
                     {buttonCreator(node, "close-icon", "Close Popup", () => setPopupVisible(false), GridIconButton.Cancel)}
                 </div>

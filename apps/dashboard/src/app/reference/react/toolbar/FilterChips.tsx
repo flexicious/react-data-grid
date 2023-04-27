@@ -1,4 +1,4 @@
-import { Box, ColumnWidthMode, createColumn, getApi, GridIconButton, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { Box, ColumnWidthMode, createColumn, getApi, GridIconButton, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FC, useState } from "react";
 import { ReactDataGrid } from "../ReactDataGrid";
 import { Popup, PopupButton } from "../shared/PopupButton";
@@ -25,7 +25,7 @@ export const FilterChips: FC<RendererProps> = ({ node }) => {
     }).filter(f => f !== undefined);
     return <>
         {filterChips.length > 0 && <PopupButton popupWidth={400} popupHeight={300} node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
-            popupVisible={popupVisible} useMouseXY trigger={<div className="euxdt-dg-toolbar-section"> | 
+            popupVisible={popupVisible} useMouseXY trigger={<div className="ezgrid-dg-toolbar-section"> | 
                 {buttonCreator(node, "filter-icon", "Current Filters", () => setPopupVisible(true),
                     GridIconButton.Filter)}({filterChips.length})</div>}
         />}

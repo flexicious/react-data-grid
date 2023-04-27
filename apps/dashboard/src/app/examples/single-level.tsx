@@ -1,5 +1,5 @@
-import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridSelectionMode, LockMode } from "@euxdt/grid-core";
-import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridSelectionMode, LockMode } from "@ezgrid/grid-core";
+import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useEffect, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";

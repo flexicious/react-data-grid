@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, createFilterBehavior, FilterOperation } from "@euxdt/grid-core";
-import { createMultiSelectFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, createColumn, createFilterBehavior, FilterOperation } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 import CustomerOrganization from "../mockdata/CustomerOrganization";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";

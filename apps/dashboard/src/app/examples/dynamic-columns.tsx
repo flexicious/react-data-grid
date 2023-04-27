@@ -1,5 +1,5 @@
-import { createColumn, getApi } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { createColumn, getApi } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";

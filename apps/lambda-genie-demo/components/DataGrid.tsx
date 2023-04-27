@@ -1,12 +1,12 @@
 
 import { useTheme } from "@mui/material";
-import { materialAdapter, materialNodePropsFunction } from "@euxdt/grid-shared";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
 import * as ExcelJS from "exceljs";
 import pkg from 'file-saver';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { ReactDataGridOptions, ReactDataGrid } from "@euxdt/grid-react";
-import {createFilterBehavior, createEditBehavior,  GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions} from "@euxdt/grid-core";
+import { ReactDataGridOptions, ReactDataGrid } from "@ezgrid/grid-react";
+import {createFilterBehavior, createEditBehavior,  GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions} from "@ezgrid/grid-core";
 const { saveAs } = pkg;
 
 

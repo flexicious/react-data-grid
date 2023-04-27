@@ -1,12 +1,12 @@
-import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridIconButton, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@euxdt/grid-core";
-import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export";
-import { CalculatedFieldEditor, createDeleteColumn, createIconColumn, DELETE_COL_UNIQUE_ID, generateColumnsFromJson, GridProperty, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@euxdt/grid-react";
+import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridIconButton, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@ezgrid/grid-core";
+import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
+import { CalculatedFieldEditor, createDeleteColumn, createIconColumn, DELETE_COL_UNIQUE_ID, generateColumnsFromJson, GridProperty, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@ezgrid/grid-react";
 import { Button, MenuItem, Select, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import { materialAdapter } from "@euxdt/grid-shared";
+import { materialAdapter } from "@ezgrid/grid-shared";
 import Employee from "../mockdata/Employee";
 import SampleData from "../mockdata/SampleData";
 import { colProps, ConfigRenderer, getFilterOptionsString, GRID_PROPS, TabPanel } from "./live-editor-utils";
@@ -186,12 +186,12 @@ export const GridBuilder = () => {
     }, 2)}
     `;
     const getCode = () => `
-    import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, createSelectionColumn, createDragColumn } from "@euxdt/grid-core";
-    import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, createDeleteColumn, SelectionCheckBoxRenderer, SelectionCheckBoxHeaderRenderer } from "@euxdt/grid-react";
-    import "@euxdt/grid-core/styles.css"
-    import "@euxdt/grid-core/icons.css"
+    import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, createSelectionColumn, createDragColumn } from "@ezgrid/grid-core";
+    import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, createDeleteColumn, SelectionCheckBoxRenderer, SelectionCheckBoxHeaderRenderer } from "@ezgrid/grid-react";
+    import "@ezgrid/grid-core/styles.css"
+    import "@ezgrid/grid-core/icons.css"
     import * as React from "react"
-    //import { createExcelBehavior, createPdfBehavior } from "@euxdt/grid-export"; //only needed if you are using export. Please see https://reactdatagrid.com/docs/tutorial-basics/pdf-excel for more details  
+    //import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export"; //only needed if you are using export. Please see https://reactdatagrid.com/docs/tutorial-basics/pdf-excel for more details  
     //import { materialAdapter } from "../adapters/material-adapter"; //only needed if you are using material-ui              
     
     export default function App() {

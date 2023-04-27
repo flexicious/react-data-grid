@@ -1,4 +1,4 @@
-import { FilterPageSortLoadMode, getApi, gridCSSPrefix, GridIconButton, isHierarchyEnabled, RendererProps } from "@euxdt/grid-core";
+import { FilterPageSortLoadMode, getApi, gridCSSPrefix, GridIconButton, isHierarchyEnabled, RendererProps } from "@ezgrid/grid-core";
 import { FC } from "react";
 import { buttonCreator } from "../shared/shared-props";
 

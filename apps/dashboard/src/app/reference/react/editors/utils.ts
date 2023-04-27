@@ -1,4 +1,4 @@
-import { VirtualTreeNode, getApi } from "@euxdt/grid-core";
+import { VirtualTreeNode, getApi } from "@ezgrid/grid-core";
 
 export const applyEditedValue = (node:VirtualTreeNode, value:unknown, rowsToEdit?:string[]) => {
     const api = getApi(node);

@@ -1,4 +1,4 @@
-import { Box, createColumn, FilterOperation, FilterOptions, getApi, gridCSSPrefix, GridIconButton, LABELS, NameValue, PopupFilterRendererProps, RendererProps } from "@euxdt/grid-core";
+import { Box, createColumn, FilterOperation, FilterOptions, getApi, gridCSSPrefix, GridIconButton, LABELS, NameValue, PopupFilterRendererProps, RendererProps } from "@ezgrid/grid-core";
 import { FC, useEffect, useRef, useState } from "react";
 import { ReactDataGrid } from "../ReactDataGrid";
 import { Popup, PopupButton } from "../shared/PopupButton";
@@ -42,18 +42,18 @@ export const GroupingColumnFilter: FC<PopupFilterRendererProps> = ({ node, filte
     return <><div className={cls("toolbar-section")} style={{ width: "100%" }} ref={divRef}>
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
             popupVisible={popupVisible} textInputRef={textInputRef} textInputValue={filterLabel} popupHeight={popupHeight ?? 300} popupWidth={popupWidth ?? groupingFields.length * 200}
-            className={cls("expandcollapseicon euxdt-dg-arrow-down-icon")}
+            className={cls("expandcollapseicon ezgrid-dg-arrow-down-icon")}
             boundingRect={divRef.current?.getBoundingClientRect()} />
     </div>
         {
             popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={setPopupVisible}>
                 <div style={{ display: "flex", flexDirection: "column", height: "calc(100% - 20px)", padding: "10px", gap: "10px" }}>
-                    <div className="euxdt-dg-horizontal-flex" style={{ justifyContent: "end" }}>
+                    <div className="ezgrid-dg-horizontal-flex" style={{ justifyContent: "end" }}>
                         {!filterBuilderMode && buttonCreator(node, "delete-icon", "Clear Filter", clearFilter, GridIconButton.Delete, false)}
                         {buttonCreator(node, "check-icon", "Apply Filter", applyFilter, GridIconButton.Apply, false)}
                         {buttonCreator(node, "close-icon", "Close Popup", () => setPopupVisible(false), GridIconButton.Cancel, false)}
                     </div>
-                    <div className="euxdt-dg-horizontal-flex" style={{ height: "100%", flex: 1, gap: "10px" }}>
+                    <div className="ezgrid-dg-horizontal-flex" style={{ height: "100%", flex: 1, gap: "10px" }}>
                         {
                             groupingFields.map((field, i) => {
                                 const col = api.getColumn(field.value);
@@ -81,7 +81,7 @@ export const GroupingColumnFilter: FC<PopupFilterRendererProps> = ({ node, filte
                                                 headerText: " All",
                                                 headerOptions: {
                                                     headerRenderer: ({ node }) => {
-                                                        return <div className="euxdt-dg-horizontal-flex">
+                                                        return <div className="ezgrid-dg-horizontal-flex">
                                                             <div style={{ float: "left" }} >
                                                                 All ({field.name})
                                                             </div>

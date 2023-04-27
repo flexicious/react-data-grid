@@ -1,4 +1,4 @@
-import { EditorProps, EditStartMode, getApi, getRowColFromNode, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { EditorProps, EditStartMode, getApi, getRowColFromNode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FunctionComponent, useRef } from "react";
 import { createDateField } from "../adapter";
 import { createEditor } from "../shared/shared-props";

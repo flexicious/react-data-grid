@@ -1,4 +1,4 @@
-import { CheckBoxState, ElementProps, GridCheckBoxProps, GridIconButton, GridMenuProps, LibraryAdapter, resolveExpression, TreeNodeType, VirtualTreeNode } from "@euxdt/grid-core";
+import { CheckBoxState, ElementProps, GridCheckBoxProps, GridIconButton, GridMenuProps, LibraryAdapter, resolveExpression, TreeNodeType, VirtualTreeNode } from "@ezgrid/grid-core";
 import {
     AddCircle, ArrowBack, ArrowForward, Cancel, ChevronRight, ContentPaste, CopyAll, DeleteOutline, DoneOutline, Edit, ExpandLess, ExpandMore, FileDownload, FilterAlt, FilterList, FirstPage, GridView, LastPage, PictureAsPdf, RemoveCircle, RestartAlt, Save, Settings,
     UnfoldLess, UnfoldMore, Addchart, EditRoad

@@ -1,4 +1,4 @@
-import { FilterPageSortArguments, FilterOperation, FilterExpression, Filter, isFilter, isFilterExpression } from '@euxdt/grid-core';
+import { FilterPageSortArguments, FilterOperation, FilterExpression, Filter, isFilter, isFilterExpression } from '@ezgrid/grid-core';
 import { Knex } from 'knex';
 
 export type Primitive = string | number | Date | boolean;

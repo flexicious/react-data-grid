@@ -1,5 +1,5 @@
-import { CellSelection, ColumnOptions, createColumn, createSelectionColumn, getApi, GridSelectionMode, HorizontalScrollMode } from "@euxdt/grid-core";
-import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { CellSelection, ColumnOptions, createColumn, createSelectionColumn, getApi, GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";

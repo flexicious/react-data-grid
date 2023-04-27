@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, createFilterBehavior, getFlatColumns, LockMode, RowType } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, createColumn, createFilterBehavior, getFlatColumns, LockMode, RowType } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";

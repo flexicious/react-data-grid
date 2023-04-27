@@ -1,5 +1,5 @@
-import { createColumn, createFilterBehavior, FilterOperation, getApi, LockMode, TreeNodeType } from "@euxdt/grid-core";
-import { createNumericRangeFilterOptions, createTextInputFilterOptions, ReactDataGrid } from "@euxdt/grid-react";
+import { createColumn, createFilterBehavior, FilterOperation, getApi, LockMode, TreeNodeType } from "@ezgrid/grid-core";
+import { createNumericRangeFilterOptions, createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 
@@ -34,7 +34,7 @@ export const PersistentSettings = () => {
                     }
                     alert(str);
                 };
-                return <div className="euxdt-dg-toolbar-section">
+                return <div className="ezgrid-dg-toolbar-section">
                     <span>Saved Settings: {Object.keys(settings || {}).length}</span>
                     <button onClick={showSettings}>Show Settings</button>
                 </div>;
@@ -66,7 +66,7 @@ export const PersistentSettings = () => {
                     api.propsUpdated();
 
                 };
-                return <div className="euxdt-dg-toolbar-section">
+                return <div className="ezgrid-dg-toolbar-section">
                     <span>Save Settings With:</span>
                     <button onClick={saveFiltersAndSorts}>Filters + Sorts</button>
                     <button onClick={saveUnlockedSettings}>Unpin All </button>

@@ -1,6 +1,6 @@
 
-import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridSelectionMode, LockMode, NodeKeys, RowType, VirtualTreeNode } from "@euxdt/grid-core";
-import { createTextInputFilterOptions } from "@euxdt/grid-react";
+import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridSelectionMode, LockMode, NodeKeys, RowType, VirtualTreeNode } from "@ezgrid/grid-core";
+import { createTextInputFilterOptions } from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";

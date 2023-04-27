@@ -1,4 +1,4 @@
-import { Box, getApi, gridCSSPrefix, PreventableEvent, stopPrevent, stopPropagation, TreeNodeType, VirtualTreeNode } from "@euxdt/grid-core";
+import { Box, getApi, gridCSSPrefix, PreventableEvent, stopPrevent, stopPropagation, TreeNodeType, VirtualTreeNode } from "@ezgrid/grid-core";
 import { ReactElement, ReactNode, RefObject, useEffect } from "react";
 import { createTextField } from "../adapter";
 

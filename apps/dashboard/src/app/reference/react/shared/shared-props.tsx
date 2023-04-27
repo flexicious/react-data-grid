@@ -16,7 +16,7 @@ import {
     HorizontalScrollMode,
     NameValue,
     RendererProps, VirtualTreeNode, resolveExpression
-} from "@euxdt/grid-core";
+} from "@ezgrid/grid-core";
 import { ReactNode, RefObject, useEffect } from "react";
 import { createIconButton } from "../adapter";
 import { createCheckBoxEditorOptions, createDateEditorOptions, createSelectEditorOptions, createTextInputEditorOptions } from "../editors";

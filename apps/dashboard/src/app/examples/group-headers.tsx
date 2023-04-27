@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, HorizontalScrollMode } from "@euxdt/grid-core";
-import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { ApiContext, createColumn, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useRef } from "react";
 import SampleData from "../mockdata/SampleData";
 

@@ -1,5 +1,5 @@
-import { NameValue, RendererProps, ColumnOptions, CheckBoxState, debounce, EditStartMode, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode, LockMode } from "@euxdt/grid-core";
-import { GridProperty, TriStateCheckBox } from "@euxdt/grid-react";
+import { NameValue, RendererProps, ColumnOptions, CheckBoxState, debounce, EditStartMode, FilterOperation, FooterOperation, GridSelectionMode, HorizontalScrollMode, LockMode } from "@ezgrid/grid-core";
+import { GridProperty, TriStateCheckBox } from "@ezgrid/grid-react";
 import { TextField, MenuItem, Box, Select } from "@mui/material";
 import { ReactNode } from "react";
 

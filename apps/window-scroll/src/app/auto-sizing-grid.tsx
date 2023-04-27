@@ -1,5 +1,5 @@
-import { ApiContext, ColumnOptions, createColumn, shortMonthNames,getFlat, resolveExpression, LockMode, createFilterBehavior } from "@euxdt/grid-core";
-import { createDeleteColumn, createMultiSelectFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { ApiContext, ColumnOptions, createColumn, shortMonthNames,getFlat, resolveExpression, LockMode, createFilterBehavior } from "@ezgrid/grid-core";
+import { createDeleteColumn, createMultiSelectFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useRef } from "react";
 
 export const createFiscalYearColumnGroup = (years: number[], options?: Partial<ColumnOptions>, dataFieldPrefix?: string, callback?: (c: ColumnOptions) => ColumnOptions, createQuarters?: boolean, createMonths?: boolean) => {

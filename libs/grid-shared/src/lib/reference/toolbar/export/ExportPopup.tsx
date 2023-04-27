@@ -1,4 +1,4 @@
-import { findBehavior, Behaviors, Box, ExcelBehavior, FilterPageSortLoadMode, getApi, getRectFromDom, GridIconButton, GRID_CONSTANTS, PdfBehavior, RendererProps } from "@euxdt/grid-core";
+import { findBehavior, Behaviors, Box, ExcelBehavior, FilterPageSortLoadMode, getApi, getRectFromDom, GridIconButton, GRID_CONSTANTS, PdfBehavior, RendererProps } from "@ezgrid/grid-core";
 import { FC, useState } from "react";
 import { Popup, PopupButton } from "../../shared/PopupButton";
 import { buttonCreator } from "../../shared/shared-props";
@@ -25,7 +25,7 @@ export const ExportPopup: FC<ExportPopupProps> = ({ node, exportType }) => {
             setRectangle({ ...rect, width: undefined });
         }
     };
-    return <div className="euxdt-dg-toolbar-section">
+    return <div className="ezgrid-dg-toolbar-section">
         <PopupButton node={node} popupVisible={exportVisible} setPopupVisible={setExportVisible}
             trigger={exportType === "pdf" ? buttonCreator(node, "export-pdf-icon", "Export To Pdf", setBoundingRect, GridIconButton.Pdf) :
                 buttonCreator(node, "export-excel-icon", "Export To Excel", setBoundingRect, GridIconButton.Excel)

@@ -1,4 +1,4 @@
-import { Behaviors, Box, ColumnOptions, ColumnWidthMode, createColumn, dataToLabel, EditInfo, EditorProps, getApi, gridCSSPrefix, GridIconButton, GridSelectionMode, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { Behaviors, Box, ColumnOptions, ColumnWidthMode, createColumn, dataToLabel, EditInfo, EditorProps, getApi, gridCSSPrefix, GridIconButton, GridSelectionMode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { createElement, FC, FunctionComponent, useEffect, useRef, useState } from "react";
 import { ReactDataGrid } from "../../ReactDataGrid";
 import { Popup, PopupButton } from "../../shared";
@@ -58,9 +58,9 @@ export const EditMenu: FC<RendererProps> = ({ node }) => {
         setBulkEditVisible(false);
      }
     },[columnToEdit]);
-    return <><div ref={divRef} className="euxdt-dg-toolbar-section" key="settings" >
+    return <><div ref={divRef} className="ezgrid-dg-toolbar-section" key="settings" >
         <div onClick={onTogglePopup}>
-        {hasChanges && <PopupButton node={node} className="euxdt-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setPopupVisible} popupWidth={750}
+        {hasChanges && <PopupButton node={node} className="ezgrid-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setPopupVisible} popupWidth={750}
             popupVisible={popupVisible} useMouseXY trigger={<>|{buttonCreator(node, "edit-icon", "Current Edits", () => setPopupVisible(true),
                 GridIconButton.Edit)} ({dataProvider.length})</>}
         />}
@@ -68,7 +68,7 @@ export const EditMenu: FC<RendererProps> = ({ node }) => {
         {hasChanges && buttonCreator(node, "edit-icon", "Save Edits", api.applyChanges,
             GridIconButton.SettingsSave)}
         
-        {columnToEdit && <PopupButton node={node} className="euxdt-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setBulkEditVisible} popupWidth={400}
+        {columnToEdit && <PopupButton node={node} className="ezgrid-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setBulkEditVisible} popupWidth={400}
             popupVisible={popupVisible} useMouseXY trigger={<>|{buttonCreator(node, "bulk-edit-icon", "Bulk Edits", () => setBulkEditVisible(true),
                 GridIconButton.BulkEdit)} |</>}
         />}

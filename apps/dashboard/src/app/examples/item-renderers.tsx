@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, createEditBehavior, FooterOperation, getApi, GridOptions, GridSelectionMode, LockMode, resolveExpression } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { ApiContext, createColumn, createEditBehavior, FooterOperation, getApi, GridOptions, GridSelectionMode, LockMode, resolveExpression } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { createRef, useEffect, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
@@ -66,7 +66,7 @@ export const ItemRenderers = () => {
                     const openPdf = () => {
                         alert("Opening PDF for invoice " + lineItem?.id);
                     };
-                    return <div onClick={openPdf} className={lineItem?.invoice.hasPdf ? "euxdt-dg-export-pdf-icon" : ""}></div>;
+                    return <div onClick={openPdf} className={lineItem?.invoice.hasPdf ? "ezgrid-dg-export-pdf-icon" : ""}></div>;
                 },
                 width: 50,
             },

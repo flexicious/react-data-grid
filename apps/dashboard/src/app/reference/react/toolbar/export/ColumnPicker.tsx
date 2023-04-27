@@ -1,4 +1,4 @@
-import { ApiContext, ColumnOptions, createColumn, ExportPageOption, getApi, getFlatColumns, gridCSSPrefix, GridIconButton, PdfOrientation, RendererProps, stopPropagation } from "@euxdt/grid-core";
+import { ApiContext, ColumnOptions, createColumn, ExportPageOption, getApi, getFlatColumns, gridCSSPrefix, GridIconButton, PdfOrientation, RendererProps, stopPropagation } from "@ezgrid/grid-core";
 import { FC, useEffect, useRef, useState } from "react";
 import { createSelectField } from "../../adapter";
 import { ReactDataGrid } from "../../ReactDataGrid";

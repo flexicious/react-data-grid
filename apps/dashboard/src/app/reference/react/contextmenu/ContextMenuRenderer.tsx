@@ -1,4 +1,4 @@
-import { ContextMenuItem, getApi, LABELS, RendererProps } from "@euxdt/grid-core";
+import { ContextMenuItem, getApi, LABELS, RendererProps } from "@ezgrid/grid-core";
 import { FC } from "react";
 import { createMenu } from "../adapter";
 
@@ -17,7 +17,7 @@ export const GridContextMenu: FC<RendererProps> = ({ node }) => {
         { className: "copy-row-icon", label: LABELS.COPY_SELECTED_ROWS, onClick: ()=>{cell && api.copySelectedRows(cell); api.showHideContextMenu(false);} },
     ];
     const customItems = node.gridOptions.contextMenuOptions?.contextMenuItems?.(node, contextMenuItems) || contextMenuItems;
-    return cell?<div className="euxdt-dg-context-menu euxdt-dg-popup" style={{ ...styles, ...box }}>
+    return cell?<div className="ezgrid-dg-context-menu ezgrid-dg-popup" style={{ ...styles, ...box }}>
         {
              createMenu(node.gridOptions, {
                 ...node,

@@ -1,5 +1,5 @@
-import { camelCaseToSpace, ColumnOptions, createColumn, EditStartMode, FilterOperation, LockMode } from "@euxdt/grid-core";
-import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectEditorOptions, createTextInputEditorOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions } from "@euxdt/grid-react";
+import { camelCaseToSpace, ColumnOptions, createColumn, EditStartMode, FilterOperation, LockMode } from "@ezgrid/grid-core";
+import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectEditorOptions, createTextInputEditorOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions } from "@ezgrid/grid-react";
 
 export const distinctValueColumns = [
   "schools.CDSCode",

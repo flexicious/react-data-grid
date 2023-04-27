@@ -1,5 +1,5 @@
-import { GridSelectionMode, HorizontalScrollMode } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import React, { useEffect } from "react";
 import { AntDesignDemo } from "../examples/antd-demo";
 import { AutoSizingGrid } from "../examples/auto-sizing-grid";

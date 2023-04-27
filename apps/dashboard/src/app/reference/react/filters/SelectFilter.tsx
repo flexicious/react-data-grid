@@ -1,4 +1,4 @@
-import { LABELS, FilterOptions, getApi, NameValue, RendererProps } from "@euxdt/grid-core";
+import { LABELS, FilterOptions, getApi, NameValue, RendererProps } from "@ezgrid/grid-core";
 import { FC } from "react";
 import { createSelectField } from "../adapter";
 

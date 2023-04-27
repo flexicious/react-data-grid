@@ -1,4 +1,4 @@
-import { EditorProps, EditStartMode, getApi, getRowColFromNode, itemToLabel, RendererProps, stopPrevent } from "@euxdt/grid-core";
+import { EditorProps, EditStartMode, getApi, getRowColFromNode, itemToLabel, RendererProps, stopPrevent } from "@ezgrid/grid-core";
 import { FunctionComponent, useRef, KeyboardEvent, useEffect, useState } from "react";
 import { createTextField } from "../adapter";
 import { createEditor } from "../shared/shared-props";

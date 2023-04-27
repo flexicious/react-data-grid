@@ -9,7 +9,7 @@ import {
   createColumn,
   createDragColumn,
   createSelectionColumn
-} from "@euxdt/grid-core";
+} from "@ezgrid/grid-core";
 import {
   SelectionCheckBoxHeaderRenderer,
   SelectionCheckBoxRenderer,
@@ -19,11 +19,11 @@ import {
   createSelectFilterOptions,
   createTextInputFilterOptions,
   createTriStateCheckBoxFilterOptions
-} from "@euxdt/grid-react";
+} from "@ezgrid/grid-react";
 import {
   materialAdapter,
   materialNodePropsFunction,
-} from "@euxdt/grid-shared";
+} from "@ezgrid/grid-shared";
 import { Expand } from "@mui/icons-material";
 import { IconButton, useTheme } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
@@ -87,7 +87,7 @@ export const Demo = () => {
           enablePdf: true,
           enableExcel: true,
           rightToolbarRenderer: () => (
-            <div className="euxdt-dg-toolbar-section">
+            <div className="ezgrid-dg-toolbar-section">
               <button
                 onClick={() => {
                   setUseMaterialAdapter(!useMaterialAdapter);

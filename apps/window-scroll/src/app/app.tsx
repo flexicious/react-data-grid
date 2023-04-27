@@ -3,8 +3,8 @@
 /* eslint-disable no-unused-vars */
 
 import { AutoSizingGrid } from "./auto-sizing-grid";
-import "@euxdt/grid-core/icons.css";
-import "@euxdt/grid-core/styles.css";
+import "@ezgrid/grid-core/icons.css";
+import "@ezgrid/grid-core/styles.css";
 
 import { useEffect } from "react";
 

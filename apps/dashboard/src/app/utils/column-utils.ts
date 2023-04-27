@@ -1,4 +1,4 @@
-import { ColumnOptions, GRID_CONSTANTS, HorizontalScrollMode, createColumn, shortMonthNames } from "@euxdt/grid-core";
+import { ColumnOptions, GRID_CONSTANTS, HorizontalScrollMode, createColumn, shortMonthNames } from "@ezgrid/grid-core";
 
 export const createFiscalYearColumnGroup = (years: number[], options?: Partial<ColumnOptions>, dataFieldPrefix?: string, callback?: (c: ColumnOptions) => ColumnOptions, createQuarters?: boolean, createMonths?: boolean) => {
     const colDefaults = options || [];

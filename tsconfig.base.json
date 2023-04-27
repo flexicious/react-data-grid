@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@euxdt/grid-export": ["libs/grid-export/src/index.ts"],
-      "@euxdt/grid-shared": ["libs/grid-shared/src/index.ts"]
+      "@ezgrid/grid-export": ["libs/grid-export/src/index.ts"],
+      "@ezgrid/grid-shared": ["libs/grid-shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

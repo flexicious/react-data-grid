@@ -1,6 +1,6 @@
-import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@euxdt/grid-core";
-import { createPdfBehavior, createExcelBehavior } from "@euxdt/grid-export";
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS, ReactDataGrid } from "@euxdt/grid-react";
+import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@ezgrid/grid-core";
+import { createPdfBehavior, createExcelBehavior } from "@ezgrid/grid-export";
+import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS, ReactDataGrid } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 
@@ -49,7 +49,7 @@ export const Sample = () => {
 
 
     return (<>
-        {childLoading && <div className="euxdt-dg-loading-message">Loading...</div>}
+        {childLoading && <div className="ezgrid-dg-loading-message">Loading...</div>}
         <ReactDataGrid style={{height:"100%", }}
         gridOptions={{
             cellStyleFunction: (node: VirtualTreeNode) => {

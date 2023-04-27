@@ -1,15 +1,15 @@
 {
-  "name": "@euxdt/grid-export",
+  "name": "@ezgrid/grid-export",
   "version": "0.0.28",
   "type": "commonjs",
   "description": "Core library that contains export logic for the grid",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/euxdt/grid-core.git"
+    "url": "git+https://github.com/ezgrid/grid-core.git"
   },
   "author": "Flexicious",
   "peerDependencies": {
-    "@euxdt/grid-core": "*",
+    "@ezgrid/grid-core": "*",
     "exceljs": "*",
     "file-saver": "*",
     "jspdf": "*",

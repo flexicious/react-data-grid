@@ -1,4 +1,4 @@
-import { GRID_CONSTANTS, getFooterValue, isMatch, NameValue, PaginationRequest, resolveExpression, Filter, ServerFooterValue, ServerInfo, sortDataProvider, SortInfo, FilterExpression } from "@euxdt/grid-core";
+import { GRID_CONSTANTS, getFooterValue, isMatch, NameValue, PaginationRequest, resolveExpression, Filter, ServerFooterValue, ServerInfo, sortDataProvider, SortInfo, FilterExpression } from "@ezgrid/grid-core";
 import FlexiciousMockGenerator from "./FlexiciousMockGenerator";
 import Organization from "./Organization";
 

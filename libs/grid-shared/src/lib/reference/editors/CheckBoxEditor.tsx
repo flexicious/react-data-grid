@@ -1,4 +1,4 @@
-import { getApi, getRowColFromNode, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { getApi, getRowColFromNode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FunctionComponent, useRef } from "react";
 import { createCheckBox } from "../adapter";
 import { createEditor } from "../shared/shared-props";

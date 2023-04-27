@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, createFilterBehavior, FilterOperation } from "@euxdt/grid-core";
-import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { ApiContext, createColumn, createFilterBehavior, FilterOperation } from "@ezgrid/grid-core";
+import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useRef } from "react";
 import SampleData from "../mockdata/SampleData";
 
@@ -40,7 +40,7 @@ export const StandAloneTreeView = () => {
                 headerOptions: {
                     headerRenderer: ({ node }) => {
                         const context = node.gridOptions?.contextInfo;
-                        return <div className="euxdt-dg-toolbar-section">
+                        return <div className="ezgrid-dg-toolbar-section">
                             Select All
                             {(context?.expansion?.maxExpandLevel || 0) > 1 && <Expander node={node} />}
                         </div>;

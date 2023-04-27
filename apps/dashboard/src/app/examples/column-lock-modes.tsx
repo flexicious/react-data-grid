@@ -1,5 +1,5 @@
-import { createColumn, getApi, LockMode, TreeNodeType } from "@euxdt/grid-core";
-import { ReactDataGrid } from "@euxdt/grid-react";
+import { createColumn, getApi, LockMode, TreeNodeType } from "@ezgrid/grid-core";
+import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 

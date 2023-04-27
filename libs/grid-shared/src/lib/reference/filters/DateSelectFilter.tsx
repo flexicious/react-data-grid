@@ -1,4 +1,4 @@
-import { LABELS, Box, ColumnOptions, createColumn, GRID_CONSTANTS, dateAdd, DatePart, DateRangeType, FilterOperation, FilterOptions, FilterRendererProps, getApi, getDateRange, getDateRangeTypeNameValues, gridCSSPrefix, GridIconButton, GridSection, GridSelectionMode, NameValue, RangeFilterSelection, RendererProps, stopPropagation } from "@euxdt/grid-core";
+import { LABELS, Box, ColumnOptions, createColumn, GRID_CONSTANTS, dateAdd, DatePart, DateRangeType, FilterOperation, FilterOptions, FilterRendererProps, getApi, getDateRange, getDateRangeTypeNameValues, gridCSSPrefix, GridIconButton, GridSection, GridSelectionMode, NameValue, RangeFilterSelection, RendererProps, stopPropagation } from "@ezgrid/grid-core";
 import { FC, useEffect, useRef, useState } from "react";
 import { createDateField } from "../adapter";
 import { ReactDataGrid } from "../ReactDataGrid";
@@ -85,7 +85,7 @@ export const DateSelectFilter: FC<FilterRendererProps> = ({ node, filterBuilderM
     return <><div className={gridCSSPrefix("toolbar-section")} style={{ width: "100%" }} ref={divRef}>
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
             popupVisible={popupVisible} textInputRef={textInputRef} popupHeight={300} 
-            className={gridCSSPrefix("expandcollapseicon euxdt-dg-arrow-down-icon")}
+            className={gridCSSPrefix("expandcollapseicon ezgrid-dg-arrow-down-icon")}
             boundingRect={divRef.current?.getBoundingClientRect()} 
             textInputValue={currentValue?.type || LABELS.ALL_LABEL}
             />

@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, createFilterBehavior, FilterOperation, PreventableEvent } from "@euxdt/grid-core";
-import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { ApiContext, createColumn, createFilterBehavior, FilterOperation, PreventableEvent } from "@ezgrid/grid-core";
+import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useRef, useState } from "react";
 import SampleData from "../mockdata/SampleData";
 
@@ -45,7 +45,7 @@ export const HeaderRenderer = () => {
                 headerOptions: {
                     headerRenderer: ({ node }) => {
                         const context = node.gridOptions?.contextInfo;
-                        return <div className="euxdt-dg-toolbar-section" onClick={(e) => e.stopPropagation()}>
+                        return <div className="ezgrid-dg-toolbar-section" onClick={(e) => e.stopPropagation()}>
                             ID
                             <input placeholder="Find ID" onChange={(e) => context?.gridApi.setGlobalFilter(e.target.value)} />
                             {(context?.expansion?.maxExpandLevel || 0) > 1 && <Expander node={node} />}
@@ -66,7 +66,7 @@ export const HeaderRenderer = () => {
                             data.forEach(toggle);
                             apiRef.current!.api?.repaint();
                         };
-                        return <div className="euxdt-dg-toolbar-section">
+                        return <div className="ezgrid-dg-toolbar-section">
                             <button onClick={doToggle}>Toggle</button>
                         </div>;
                     }

@@ -1,5 +1,5 @@
-import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@euxdt/grid-core";
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions } from "@euxdt/grid-react";
+import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useState } from "react";
 import { client } from "../graphql/client/apollo-client";
 import { BusinessQuery } from "../graphql/client/queries/business";

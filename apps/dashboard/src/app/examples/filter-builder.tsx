@@ -1,5 +1,5 @@
-import { ColumnWidthMode, createColumn, createFilterBehavior, HorizontalScrollMode } from "@euxdt/grid-core";
-import { createMultiSelectFilterOptions, FilterBuilder, ReactDataGrid } from "@euxdt/grid-react";
+import { ColumnWidthMode, createColumn, createFilterBehavior, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, FilterBuilder, ReactDataGrid } from "@ezgrid/grid-react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 

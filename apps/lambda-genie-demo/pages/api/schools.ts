@@ -1,8 +1,8 @@
-import { buildSqlWhereClause, ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, formatCurrency, NameValue, ServerInfo } from "@euxdt/grid-core";
+import { buildSqlWhereClause, ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, formatCurrency, NameValue, ServerInfo } from "@ezgrid/grid-core";
 import { CONFIG } from "../../shared/lambda-genie/config-bindings";
 import { loadConfigApi } from "../../shared/lambda-genie/config-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { executeRule } from "@euxdt/node-rules-engine";
+import { executeRule } from "@ezgrid/node-rules-engine";
 import { getDataFromPostgres } from "apps/lambda-genie-demo/shared/pg/getData";
 
 

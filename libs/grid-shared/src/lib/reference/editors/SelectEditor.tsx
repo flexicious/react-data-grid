@@ -1,4 +1,4 @@
-import { EditStartMode, getApi,  getRowColFromNode, NameValue, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { EditStartMode, getApi,  getRowColFromNode, NameValue, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FunctionComponent, useRef } from "react";
 import { createSelectField } from "../adapter";
 import { createEditor } from "../shared/shared-props";

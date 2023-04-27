@@ -1,4 +1,4 @@
-import { Behaviors, ColumnOptions, ExcelBehavior, ExcelBehaviorOptions, GridOptions, itemToLabel } from "@euxdt/grid-core";
+import { Behaviors, ColumnOptions, ExcelBehavior, ExcelBehaviorOptions, GridOptions, itemToLabel } from "@ezgrid/grid-core";
 
 import * as ExcelJS from "exceljs";
 import { saveAs } from "file-saver";

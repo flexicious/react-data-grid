@@ -1,5 +1,5 @@
-import { ApiContext, createColumn, FilterOperation, GridOptions, GridSelectionMode, LockMode, TreeNodeType } from "@euxdt/grid-core";
-import { createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, Expander, Exporter, FilterChips, Paginator, ReactDataGrid, Selection, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, SettingsMenu, ToolbarRight } from "@euxdt/grid-react";
+import { ApiContext, createColumn, FilterOperation, GridOptions, GridSelectionMode, LockMode, TreeNodeType } from "@ezgrid/grid-core";
+import { createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, Expander, Exporter, FilterChips, Paginator, ReactDataGrid, Selection, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, SettingsMenu, ToolbarRight } from "@ezgrid/grid-react";
 import { useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import SampleData from "../mockdata/SampleData";

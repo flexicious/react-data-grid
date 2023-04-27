@@ -1,5 +1,5 @@
-import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@euxdt/grid-core";
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS } from "@euxdt/grid-react";
+import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { Business, Inspection, Violation } from "../shared/types";
@@ -50,7 +50,7 @@ export const RestaurantsDataGrid = () => {
 
 
     return (<>
-        {childLoading && <div className="euxdt-dg-loading-message">Loading...</div>}
+        {childLoading && <div className="ezgrid-dg-loading-message">Loading...</div>}
         <DataGrid style={{height:"100%", }}
         gridOptions={{
             cellStyleFunction: (node: VirtualTreeNode) => {

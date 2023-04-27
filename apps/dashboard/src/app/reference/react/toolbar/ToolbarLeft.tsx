@@ -1,4 +1,4 @@
-import { getApi, GridSelectionMode, RendererProps } from "@euxdt/grid-core";
+import { getApi, GridSelectionMode, RendererProps } from "@ezgrid/grid-core";
 import { EditMenu } from "./edit/EditMenuRenderer";
 import { Expander } from "./Expander";
 import { Exporter } from "./Exporter";
@@ -11,7 +11,7 @@ import { ReactNode, FC } from "react";
 export const ToolbarLeft: FC<RendererProps> = ({ node }) => {
     const options = node.gridOptions.toolbarOptions; 
     const isMultipleRows = node.gridOptions.selectionMode === GridSelectionMode.MultipleRows || !node.gridOptions.selectionMode;
-    return <div className="euxdt-dg-toolbar-section" >
+    return <div className="ezgrid-dg-toolbar-section" >
         {options?.enableSettings !== false && <SettingsMenu node={node} />}
         {options?.enableExpander !== false && <Expander node={node} />}
         <Exporter node={node} />

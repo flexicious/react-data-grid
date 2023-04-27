@@ -1,4 +1,4 @@
-import { ApiContext, Box, camelCaseToSpace, ColumnOptions, createColumn, createFilterBehavior, Filter, FilterExpression, FilterOperation, FILTER_OPERATION_TYPE_PREDEFINED_LIST, getApi, getChatGptPrompt, getContext, getFlat, getRectFromDom, gridCSSPrefix, GridIconButton, GridSelectionMode, HorizontalScrollMode, isFilter, isFilterExpression, pasteToClipboard, RendererProps } from "@euxdt/grid-core";
+import { ApiContext, Box, camelCaseToSpace, ColumnOptions, createColumn, createFilterBehavior, Filter, FilterExpression, FilterOperation, FILTER_OPERATION_TYPE_PREDEFINED_LIST, getApi, getChatGptPrompt, getContext, getFlat, getRectFromDom, gridCSSPrefix, GridIconButton, GridSelectionMode, HorizontalScrollMode, isFilter, isFilterExpression, pasteToClipboard, RendererProps } from "@ezgrid/grid-core";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { createDateField, createSelectField, createTextArea, createTextField } from "../adapter";
 import { ReactDataGrid } from "../ReactDataGrid";
@@ -211,10 +211,10 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node,openOnMount,ruleSav
     return <>{!openOnMount && 
         <div className={gridCSSPrefix("toolbar-section")} >
         <PopupButton node={node} popupVisible={popupVisible} setPopupVisible={togglePopup}
-            trigger={<div className="euxdt-dg-toolbar-section">{
+            trigger={<div className="ezgrid-dg-toolbar-section">{
                 buttonCreator(node, "filter-builder-icon", "Filter Builder", setBoundingRect, GridIconButton.FilterBuilder)
             } {(ctx.modifications.globalFilterTree?.children || []).length > 0 &&
-                <><div className="euxdt-dg-info-cell" title={api.buildFilterString(ctx.modifications.globalFilterTree as Filter)}></div>
+                <><div className="ezgrid-dg-info-cell" title={api.buildFilterString(ctx.modifications.globalFilterTree as Filter)}></div>
                 {buttonCreator(node, "delete-icon", "Clear Builder", (e)=>{
                     api.clearGlobalFilter();
                     e.stopPropagation();
@@ -264,7 +264,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node,openOnMount,ruleSav
                                     enableHierarchy: true,
                                     headerOptions: {
                                         headerRenderer: ({ node }) => {
-                                            return <div className="euxdt-dg-horizontal-flex">
+                                            return <div className="ezgrid-dg-horizontal-flex">
                                                 <div style={{ float: "left" }} >
                                                     Select Criteria
                                                 </div>
@@ -403,13 +403,13 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node,openOnMount,ruleSav
 
                     </div>
                     <div style={{ display: "flex", flex: 1, margin: 15, gap: 15}}>
-                        <div className="euxdt-dg-card" style={{ flex:1 }}>
+                        <div className="ezgrid-dg-card" style={{ flex:1 }}>
                             <b>Filter String</b>
                             <pre>{filterString}</pre>
                         </div>
-                        <div className="euxdt-dg-card" style={{ flex:1, display: filterBuilderOptions?.enableChatGpt === false ? 'none' : "" }} >
+                        <div className="ezgrid-dg-card" style={{ flex:1, display: filterBuilderOptions?.enableChatGpt === false ? 'none' : "" }} >
                             <b>Ask ChatGPT!</b>
-                            <div className="euxdt-dg-toolbar-section">
+                            <div className="ezgrid-dg-toolbar-section">
                             {
                                 <div>
                                     {

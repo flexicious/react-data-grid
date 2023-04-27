@@ -1,4 +1,4 @@
-import { EditorProps, EditStartMode, FilterPageSortLoadMode, getApi, getRowColFromNode, NameValue, RendererProps, resolveExpression } from "@euxdt/grid-core";
+import { EditorProps, EditStartMode, FilterPageSortLoadMode, getApi, getRowColFromNode, NameValue, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { createSelectField } from "../adapter";
 import { createEditor } from "../shared/shared-props";
@@ -30,7 +30,7 @@ export const SelectEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdit 
         applyEditedValue(node, newVal, rowsToEdit);
     };
     return <>
-    {loading && <div className="euxdt-dg-loading-message">Loading...</div> }
+    {loading && <div className="ezgrid-dg-loading-message">Loading...</div> }
     { 
         createEditor(createSelectField(node.gridOptions, {
             ref: selectRef, options: allValues, onChange: handleChange, value: selectVal as string | number,

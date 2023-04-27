@@ -1,5 +1,5 @@
 import { CaretLeftOutlined, CaretRightOutlined, CloseCircleOutlined, DeleteOutlined, DownCircleFilled, DownCircleOutlined, EditOutlined,CheckCircleOutlined, FileExcelOutlined, FilePdfOutlined, FilterFilled, FilterOutlined, MinusCircleOutlined, PlusCircleOutlined, SaveOutlined, SettingOutlined, StepBackwardOutlined, StepForwardOutlined, TableOutlined, UndoOutlined, UpCircleFilled, UpCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
-import { CheckBoxState, GridCheckBoxProps, GridIconButton, GridMenuProps, LibraryAdapter, VirtualTreeNode } from "@euxdt/grid-core";
+import { CheckBoxState, GridCheckBoxProps, GridIconButton, GridMenuProps, LibraryAdapter, VirtualTreeNode } from "@ezgrid/grid-core";
 import dayjs from "dayjs";
 
 import { Button, Checkbox, DatePicker, Divider, Input, List, Select } from "antd";

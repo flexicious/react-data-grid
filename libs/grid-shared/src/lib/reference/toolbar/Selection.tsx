@@ -1,4 +1,4 @@
-import { getApi, GridIconButton, RendererProps } from "@euxdt/grid-core";
+import { getApi, GridIconButton, RendererProps } from "@ezgrid/grid-core";
 import { buttonCreator } from "../shared/shared-props";
 import { FC } from "react";
 
@@ -11,7 +11,7 @@ export const Selection: FC<RendererProps> = ({ node }) => {
         api.clearSelection();
     };
     return <>
-        {selectionCount > 0 && <div className="euxdt-dg-toolbar-section" style={{whiteSpace:"nowrap"}}>| {selectionCount} selected
+        {selectionCount > 0 && <div className="ezgrid-dg-toolbar-section" style={{whiteSpace:"nowrap"}}>| {selectionCount} selected
             {buttonCreator(node, "close-icon", "Clear Selection", clearSelection, GridIconButton.Cancel)}
         </div>}
     </>;

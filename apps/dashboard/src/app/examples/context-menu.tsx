@@ -1,13 +1,13 @@
-import { ColumnWidthMode, createColumn, HorizontalScrollMode, LABELS, RendererProps } from "@euxdt/grid-core";
-import { GridContextMenu, ReactDataGrid } from "@euxdt/grid-react";
+import { ColumnWidthMode, createColumn, HorizontalScrollMode, LABELS, RendererProps } from "@ezgrid/grid-core";
+import { GridContextMenu, ReactDataGrid } from "@ezgrid/grid-react";
 import SampleData from "../mockdata/SampleData";
 
-import { CellSelection, ContextMenuItem, getApi, gridCSSPrefix } from "@euxdt/grid-core";
+import { CellSelection, ContextMenuItem, getApi, gridCSSPrefix } from "@ezgrid/grid-core";
 import { useRef, FC } from "react";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const ContextMenu = () => {
-    return <div className="euxdt-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
+    return <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Context Menu Enabled</b>
             <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
@@ -112,7 +112,7 @@ const MyContextMenu: FC<RendererProps> = ({ node }) => {
             api.showHideContextMenu(false);
         };
     };
-    return <div ref={menuRef} className="euxdt-dg-context-menu euxdt-dg-popup" style={{ ...styles, ...box }}>
+    return <div ref={menuRef} className="ezgrid-dg-context-menu ezgrid-dg-popup" style={{ ...styles, ...box }}>
         {
             customItems.map((item, index) => item ? <div key={index}> <div onClick={checkReferenceCellAndCall(item.onClick)} >
                 <span className={gridCSSPrefix(item.className)} ></span>{item.label}

@@ -1,4 +1,4 @@
-import { Box, createColumn, FilterOperation, FilterOptions, PopupFilterRendererProps, getApi, getFlat, gridCSSPrefix, GridIconButton, GridSelectionMode, LABELS, NameValue, RendererProps, FilterPageSortLoadMode } from "@euxdt/grid-core";
+import { Box, createColumn, FilterOperation, FilterOptions, PopupFilterRendererProps, getApi, getFlat, gridCSSPrefix, GridIconButton, GridSelectionMode, LABELS, NameValue, RendererProps, FilterPageSortLoadMode } from "@ezgrid/grid-core";
 import { FC, useEffect, useRef, useState } from "react";
 import { ReactDataGrid } from "../ReactDataGrid";
 import { Popup, PopupButton } from "../shared/PopupButton";
@@ -74,7 +74,7 @@ export const MultiSelectFilter: FC<PopupFilterRendererProps> = ({ node, filterBu
     return <><div className={cls("toolbar-section")} style={{ width: "100%" }} ref={divRef}>
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
             popupVisible={popupVisible} textInputRef={textInputRef} textInputValue={filterLabel} popupHeight={popupHeight ?? 300} popupWidth={popupWidth}
-            className={cls("expandcollapseicon euxdt-dg-arrow-down-icon")}
+            className={cls("expandcollapseicon ezgrid-dg-arrow-down-icon")}
             boundingRect={divRef.current?.getBoundingClientRect()} />
     </div>
         {
@@ -108,7 +108,7 @@ export const MultiSelectFilter: FC<PopupFilterRendererProps> = ({ node, filterBu
                                 enableHierarchy: isHierarchical,
                                 headerOptions: {
                                     headerRenderer: ({ node }) => {
-                                        return <div className="euxdt-dg-horizontal-flex">
+                                        return <div className="ezgrid-dg-horizontal-flex">
                                             <div style={{ float: "left" }} >
                                                 All
                                             </div>

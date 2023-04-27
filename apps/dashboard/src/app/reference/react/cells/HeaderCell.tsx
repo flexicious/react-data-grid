@@ -1,4 +1,4 @@
-import { ColumnPositionInfo, GridContext, HorizontalScrollMode, stopPrevent } from "@euxdt/grid-core";
+import { ColumnPositionInfo, GridContext, HorizontalScrollMode, stopPrevent } from "@ezgrid/grid-core";
 import { FC, MouseEvent, useRef, DetailedHTMLProps, HTMLAttributes } from "react";
 
 export interface ResizableDivProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -49,7 +49,7 @@ export const HeaderCell: FC<ResizableDivProps> = (props) => {
             } else {
                 maxX = window.innerWidth - 30;
             }
-            resizer.className = "euxdt-dg-resize-bar";
+            resizer.className = "ezgrid-dg-resize-bar";
             oldCursor = document.body.style.cursor;
             document.addEventListener("mouseup", mouseUpHandler as any);
             document.addEventListener("mousemove", mouseMoveHandler as any);
@@ -75,7 +75,7 @@ export const HeaderCell: FC<ResizableDivProps> = (props) => {
 
     const handleMouseMove = (e: MouseEvent) => {
         const elementsUnderMouse = document.elementsFromPoint(e.clientX, e.clientY);
-        const dropZone = elementsUnderMouse.find((elem) => getCls(elem).includes("euxdt-dg-group-drop-zone")) as HTMLElement;
+        const dropZone = elementsUnderMouse.find((elem) => getCls(elem).includes("ezgrid-dg-group-drop-zone")) as HTMLElement;
 
         if (dropZone) {
             if (resizer) {
@@ -92,7 +92,7 @@ export const HeaderCell: FC<ResizableDivProps> = (props) => {
             if (tryDrop) {
                 if (resizer && rect) {
                     const elementsUnderMouse = document.elementsFromPoint(e.clientX, e.clientY);
-                    const cell = elementsUnderMouse.find((elem) => elem.hasAttribute("data-row-identifier") && elem.hasAttribute("data-column-identifier") && (getCls(elem)).includes("euxdt-dg-cell"));
+                    const cell = elementsUnderMouse.find((elem) => elem.hasAttribute("data-row-identifier") && elem.hasAttribute("data-column-identifier") && (getCls(elem)).includes("ezgrid-dg-cell"));
                     if (cell) {
 
                         const cellRect = cell.getBoundingClientRect();
@@ -129,8 +129,8 @@ export const HeaderCell: FC<ResizableDivProps> = (props) => {
                 }
             } else {
                 const elementsUnderMouse = document.elementsFromPoint(e.clientX, e.clientY);
-                const dropCell = elementsUnderMouse.find((elem) => getCls(elem).includes("euxdt-dg-drop-right-cell"));
-                const dropZone = elementsUnderMouse.find((elem) => getCls(elem).includes("euxdt-dg-group-drop-zone"));
+                const dropCell = elementsUnderMouse.find((elem) => getCls(elem).includes("ezgrid-dg-drop-right-cell"));
+                const dropZone = elementsUnderMouse.find((elem) => getCls(elem).includes("ezgrid-dg-group-drop-zone"));
                 if (dropZone) {
                     if(dropCell){
                         const dropIndex = parseInt(dropCell.getAttribute("data-drop-index") || "0");

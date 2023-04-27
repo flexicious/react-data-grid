@@ -1,5 +1,5 @@
-import { ApiContext, ColumnOptions, createColumn, getFlat, resolveExpression } from "@euxdt/grid-core";
-import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@euxdt/grid-react";
+import { ApiContext, ColumnOptions, createColumn, getFlat, resolveExpression } from "@ezgrid/grid-core";
+import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useRef } from "react";
 import Employee from "../mockdata/Employee";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";

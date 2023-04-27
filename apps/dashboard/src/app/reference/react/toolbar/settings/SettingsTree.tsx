@@ -1,4 +1,4 @@
-import { ApiContext, applyColumnSettings, ColumnSettings, createColumn, getColumnSettings, getSettingsFlat, gridCSSPrefix, GridIconButton, RendererProps } from "@euxdt/grid-core";
+import { ApiContext, applyColumnSettings, ColumnSettings, createColumn, getColumnSettings, getSettingsFlat, gridCSSPrefix, GridIconButton, RendererProps } from "@ezgrid/grid-core";
 import { FC, useEffect, useRef, useState } from "react";
 import { ReactDataGrid } from "../../ReactDataGrid";
 import { buttonCreator, COL_PROPS, GRID_PROPS } from "../../shared/shared-props";
