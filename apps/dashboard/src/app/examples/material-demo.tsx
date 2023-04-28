@@ -24,7 +24,7 @@ import {
   materialAdapter,
   materialNodePropsFunction,
 } from "@ezgrid/grid-shared";
-import { Expand } from "@mui/icons-material";
+import Expand from "@mui/icons-material/Expand";
 import { IconButton, useTheme } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";

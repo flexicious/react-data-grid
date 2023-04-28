@@ -46,7 +46,7 @@ export const DragDrop = () => {
                             dragEnd
                         }
                     },
-                    createColumn("id", "number"),
+                    createColumn("id", "string"),
                     createColumn("description", "string"),
                     createColumn("author", "string", "Author"),
                     createColumn("title", "string", "Title"),
@@ -69,7 +69,7 @@ export const DragDrop = () => {
                             dragEnd
                         }
                     },
-                    createColumn("id", "number"),
+                    createColumn("id", "string"),
                     createColumn("description", "string"),
                     createColumn("author", "string", "Author"),
                     createColumn("title", "string", "Title"),

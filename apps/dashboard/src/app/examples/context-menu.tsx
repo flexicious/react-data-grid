@@ -92,7 +92,7 @@ const MyContextMenu: FC<RendererProps> = ({ node }) => {
     const getReferenceCell = () => node.gridOptions?.contextInfo?.contextMenuInfo?.cell;
 
     const contextMenuItems: (ContextMenuItem | null)[] = [
-        { className: "copy-cell-icon", label: LABELS.COPY_CELL, onClick: api.copyCell },
+        { className: "copy-cell-icon", label: LABELS.COPY_CELL, onClick: (c)=>api.copyCells([c]) },
         { className: "copy-row-icon", label: LABELS.COPY_ROW, onClick: api.copyRow },
         null,
         { className: "copy-column-icon", label: LABELS.COPY_COLUMN, onClick: api.copyColumn },

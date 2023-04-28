@@ -117,7 +117,7 @@ export const MaterialEditors = () => {
                     enableEdit: editMode,
                     editStartMode: editStart,
                     editorRenderer: TextInputEditor,
-                    validateValue: (value: EditInfo, columnOptions: ColumnOptions) => {
+                    validateValueFunction: (value: EditInfo, columnOptions: ColumnOptions) => {
                         if (parseInt((value.newValue?.toString() || "").replace(/,/g, "")) < 50000) {
                             value.validationMessage = "Salary should be greater than 50000";
                         } else if (parseInt((value.newValue?.toString() || "").replace(/,/g, "")) > 100000) {
@@ -154,7 +154,7 @@ export const MaterialEditors = () => {
                 editOptions: {
                     enableEdit: editMode,
                     editStartMode: editStart,
-                    validateValue: (value: EditInfo) => {
+                    validateValueFunction: (value: EditInfo) => {
                         const newVal = value.newValue;
                         const regex = /^\d{3}-\d{3}-\d{4}$/;
                         if (!regex.test(newVal?.toString() || "")) {

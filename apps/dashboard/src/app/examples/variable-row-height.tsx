@@ -13,7 +13,7 @@ export const VariableRowHeight = () => {
             {
                 ...createSelectionColumn({ itemRenderer: SelectionCheckBoxRenderer, headerRenderer: SelectionCheckBoxHeaderRenderer }),
             },
-            createColumn("id", "number"),
+            createColumn("id", "string"),
             { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
             createColumn("author", "string", "Author"),
             createColumn("title", "string", "Title"),

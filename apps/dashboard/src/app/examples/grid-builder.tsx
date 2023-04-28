@@ -1,12 +1,13 @@
-import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridIconButton, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@ezgrid/grid-core";
+import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@ezgrid/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
-import { CalculatedFieldEditor, createDeleteColumn, createIconColumn, DELETE_COL_UNIQUE_ID, generateColumnsFromJson, GridProperty, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@ezgrid/grid-react";
+import { createDeleteColumn, DELETE_COL_UNIQUE_ID, generateColumnsFromJson, GridProperty, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@ezgrid/grid-react";
 import { Button, MenuItem, Select, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 import { materialAdapter } from "@ezgrid/grid-shared";
+import { CalculatedFieldEditorWrapper } from "../components/CalculatedFieldEditor";
 import Employee from "../mockdata/Employee";
 import SampleData from "../mockdata/SampleData";
 import { colProps, ConfigRenderer, getFilterOptionsString, GRID_PROPS, TabPanel } from "./live-editor-utils";
@@ -244,7 +245,8 @@ export const GridBuilder = () => {
     return (
         <div style={{ width: "100%" }}>
             {
-                showFormulaEditor && <CalculatedFieldEditor onClose={() => setShowFormulaEditor(false)} allFields={columns.map(d => resolveExpression(d,"dataField")).filter(f=> f.indexOf("json")==-1)} />
+                showFormulaEditor && <CalculatedFieldEditorWrapper onClose={() => setShowFormulaEditor(false)} allFields={columns.map(d => resolveExpression(d,"dataField")).filter(f=> f.indexOf("json")==-1)} 
+                gridOptions={{adapter:materialAdapter}} />
             }
             {step === 1 && (
                 <>
