@@ -22,6 +22,11 @@ export default class Employee extends TypedObject {
     this.departmentId = null;
     this.addresses = [];
     this.ssNo = null;
+    this.placeHolder = false;
+    this.createdBy = null;
+    this.createdDate = null;
+    this.updatedBy = null;
+    this.updatedDate = null;
   }
 
   getClassNames() {
