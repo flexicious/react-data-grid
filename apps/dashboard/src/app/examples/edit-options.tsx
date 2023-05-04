@@ -1,5 +1,5 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, DeltaOptions, DeltaType, EditInfo, EditStartMode, getApi, getRowColFromNode, GridOptions, GridSelectionMode, itemToLabel, RendererProps, resolveExpression } from "@ezgrid/grid-core";
-import { CheckBoxEditor, createDeleteColumn, DateEditor, ReactDataGrid, SelectEditor, TextInputEditor } from "@ezgrid/grid-react";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DeltaOptions, DeltaType, EditInfo, EditStartMode, getApi, getRowColFromNode, GridOptions, GridSelectionMode, itemToLabel, RendererProps, resolveExpression } from "@ezgrid/grid-core";
+import { CheckBoxEditor, createDeleteColumn, DateEditor, ReactDataGrid, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@ezgrid/grid-react";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 
@@ -8,6 +8,7 @@ export const EditOptions = () => {
     const apiRef = useRef<ApiContext<Employee> | null>(null);
 
     const [editMode, setEditMode] = useState<boolean>(true);
+    const [selectionMode, setSelectionMode] = useState<GridSelectionMode>(GridSelectionMode.MultipleCells);
     const [saveOnBlur, setSaveOnBlur] = useState<boolean>(false);
     const [editStart, setEditStart] = useState<EditStartMode>(EditStartMode.Excel);
     useEffect(() => {
@@ -89,7 +90,7 @@ export const EditOptions = () => {
             },
             headerRowHeight: 100,
             enableFooters: false,
-            selectionMode: GridSelectionMode.MultipleCells,
+            selectionMode,
             enableFilters: false,
             behaviors: [
                 createEditBehavior({}),
@@ -108,6 +109,8 @@ export const EditOptions = () => {
                         }} />
                         <button onClick={() => {
                             setEditMode(!editMode);
+                            setSelectionMode(editMode ? GridSelectionMode.MultipleRows:GridSelectionMode.MultipleCells);
+                            api.clearSelection();
                             api.propsUpdated();
                         }}>{editMode ? "Disable Edit" : "Enable Edit"}</button>
                         <label>Start Edit Mode:</label>
@@ -139,7 +142,11 @@ export const EditOptions = () => {
                     }
                 },
             }, columns: [
-                createDeleteColumn((data) => deleteEmployee(data as Employee)),
+                selectionMode === GridSelectionMode.MultipleRows && createSelectionColumn({
+                    itemRenderer:SelectionCheckBoxRenderer,
+                    headerRenderer: SelectionCheckBoxHeaderRenderer,
+                }),
+                selectionMode !== GridSelectionMode.MultipleRows &&createDeleteColumn((data) => deleteEmployee(data as Employee)),
                 {
                     ...createColumn("employeeId", "string", "Id"),
                     textAlign: "right",
@@ -264,7 +271,7 @@ export const EditOptions = () => {
                     },
                 }
 
-            ]
+            ].filter((c) => c) as ColumnOptions<Employee>[],
         } as GridOptions<Employee>}></ReactDataGrid></>;
 };
 //this could come from the server
