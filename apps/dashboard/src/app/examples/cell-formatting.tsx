@@ -1,5 +1,5 @@
 
-import { ApiContext, createColumn, FilterOperation, FooterOperation, formatCurrency, GridSelectionMode, LockMode, NodeKeys, resolveExpression, RowType, VirtualTreeNode } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, FilterOperation, FooterOperation, formatCurrency, GridOptions, GridSelectionMode, LockMode, NodeKeys, resolveExpression, RowType, VirtualTreeNode } from "@ezgrid/grid-core";
 import { createTextInputFilterOptions } from "@ezgrid/grid-react";
 import { useEffect, useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
@@ -7,7 +7,7 @@ import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
 
 export const CellFormatting = () => {
-    const apiContext = useRef<ApiContext | null>(null);
+    const apiContext = useRef<ApiContext<Organization> | null>(null);
     const [dataProvider, setDataProvider] = useState<Organization[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
@@ -22,7 +22,7 @@ export const CellFormatting = () => {
         getOrgs();
     }, []);
 
-    return (<DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+    const go:GridOptions<Organization> = {
         dataProvider,
         isLoading,
         enableFloatingHeaderRows: true,
@@ -31,7 +31,7 @@ export const CellFormatting = () => {
                 apiContext.current = (ctx);
             }
         },
-        cellStyleFunction: (node: VirtualTreeNode) => {
+        cellStyleFunction: (node) => {
             //style the header, footer, filter, and group headers outside the body
             if (node.rowPosition?.uniqueIdentifier === RowType.Header
                 || node.rowPosition?.uniqueIdentifier === RowType.Footer
@@ -49,14 +49,14 @@ export const CellFormatting = () => {
             }
             return { borderRight: "none", }; //remove the default border
         },
-        nodeStyleFunction: (node: VirtualTreeNode) => {
+        nodeStyleFunction: (node) => {
             //toobar is neither a row or a cell, so we need to style it separately
             if (node.key === NodeKeys.Toolbar) {
                 return { background: "#33FFFF" };
             }
             return node.styles;
         },
-        rowStyleFunction(node: VirtualTreeNode) {
+        rowStyleFunction(node) {
             //use the level to determine the background color inside the body
             const allRowPositions = apiContext.current?.context?.rowPositions;
             const shades = ["#33FFFF", "#66CCCC", "#9999CC", "#6666FF"];
@@ -104,7 +104,9 @@ export const CellFormatting = () => {
                 ]
             }
         ],
-    }} />
+    };
+
+    return (<DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={go} />
     );
 };
 

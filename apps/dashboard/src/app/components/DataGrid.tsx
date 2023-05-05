@@ -10,11 +10,11 @@ const { saveAs } = pkg;
 
 
 
-interface DataGridProps extends ReactDataGridOptions {
+interface DataGridProps<T=unknown> extends ReactDataGridOptions<T> {
     editorHandlesTabEnter?: boolean;
     reduceFilterDropdowns?: boolean;
 }
-export const DataGrid = (props: DataGridProps) => {
+export const DataGrid = <T=unknown>(props: DataGridProps<T>) => {
     const theme = useTheme();
     const cellsBeforeBody = [["Company:", "ABC Corp"], ["Date", new Date().toLocaleDateString()], [], []];
     const cellsAfterBody = [[], [], ["Disclaimer"], [`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sodales eleifend eros, sit amet bibendum enim venenatis at. Aliquam erat volutpat. Ut interdum velit vel enim sodales pulvinar. Suspendisse vehicula elit eget sapien malesuada, quis luctus dolor semper. Mauris tincidunt tellus ante, quis ornare purus rutrum in. Proin rhoncus mauris in tortor porttitor mattis. Aenean auctor hendrerit vulputate. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sit amet pulvinar urna.
