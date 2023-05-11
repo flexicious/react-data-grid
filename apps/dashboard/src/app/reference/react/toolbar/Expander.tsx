@@ -8,7 +8,7 @@ export const Expander: FC<RendererProps> = ({ node }) => {
         const api = getApi(node);
         return <div className={gridCSSPrefix("toolbar-section")}>|
             {node.gridOptions.nextLevel?.itemLoadMode === FilterPageSortLoadMode.Server?
-            buttonCreator(node, "collapse-all-icon", "Expand All", api.collapseAll, GridIconButton.CollapseAll)
+            buttonCreator(node, "collapse-all-icon", "Collapse All", api.collapseAll, GridIconButton.CollapseAll)
             : buttonCreator(node, "expand-all-icon", "Expand All", api.expandCollapseAll, GridIconButton.ExpandAll)}
         </div>;
     }

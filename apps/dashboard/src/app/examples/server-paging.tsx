@@ -1,8 +1,8 @@
 
-import { ApiContext, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DateRangeType, GRID_CONSTANTS, FilterOperation, FilterPageSortArguments, FilterPageSortLoadMode, FooterOperation, GridSelectionMode, LockMode, ServerInfo } from "@ezgrid/grid-core";
+import { ApiContext, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DateRangeType, GRID_CONSTANTS, FilterOperation, FilterPageSortArguments, FilterPageSortLoadMode, FooterOperation, GridSelectionMode, LockMode, ServerInfo, GridOptions } from "@ezgrid/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getPagedData } from "../mockdata/MockService";
 export const ServerPaging = () => {
     const apiContext = useRef<ApiContext | null>(null);
@@ -42,153 +42,154 @@ export const ServerPaging = () => {
         };
         getServerData(filterPageSortArgs);
     }, [filterPageSortArgs]);
-    return (
-        <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
-            isLoading,
-            dataProvider: serverInfo?.currentPageData || [],
-            filterPageSortMode: FilterPageSortLoadMode.Server,
-            uniqueIdentifierOptions: {
-                useField: "id"
+    const gridOptions = useMemo<GridOptions>(() => ({
+        isLoading,
+        dataProvider: serverInfo?.currentPageData || [],
+        filterPageSortMode: FilterPageSortLoadMode.Server,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        serverInfo,
+        eventBus: {
+            onApiContextReady: (ctx) => {
+                apiContext.current = (ctx);
             },
-            serverInfo,
-            eventBus: {
-                onApiContextReady: (ctx) => {
-                    apiContext.current = (ctx);
-                },
-                onFilterPageSortChanged: (args: FilterPageSortArguments) => {
-                    setFilterPageSortArgs(args);
-                },
+            onFilterPageSortChanged: (args: FilterPageSortArguments) => {
+                setFilterPageSortArgs(args);
             },
-            selectionMode: GridSelectionMode.MultipleRows,
-            behaviors: [
-                createFilterBehavior({ clearSelectionOnFilter: true }),
-                createEditBehavior({}),
-                createPdfBehavior({}),
-                createExcelBehavior({}),
-            ],
-            toolbarOptions: {
-                enablePdf: true,
-                enableExcel: true,
+        },
+        selectionMode: GridSelectionMode.MultipleRows,
+        behaviors: [
+            createFilterBehavior({ clearSelectionOnFilter: true }),
+            createEditBehavior({}),
+            createPdfBehavior({}),
+            createExcelBehavior({}),
+        ],
+        toolbarOptions: {
+            enablePdf: true,
+            enableExcel: true,
+        },
+        enablePaging: true,
+        sortOptions: ({
+            initialSort: [{
+                sortColumn: "id",
+                isAscending: true,
+            }]
+        }),
+        columns: [
+            {
+                ...createSelectionColumn({ itemRenderer: SelectionCheckBoxRenderer, headerRenderer: SelectionCheckBoxHeaderRenderer }),
             },
-            enablePaging: true,
-            sortOptions: ({
-                initialSort: [{
-                    sortColumn: "id",
-                    isAscending: true,
-                }]
-            }),
-            columns: [
-                {
-                    ...createSelectionColumn({ itemRenderer: SelectionCheckBoxRenderer, headerRenderer: SelectionCheckBoxHeaderRenderer }),
+            {
+                ...createColumn("id"), headerText: "ID",
+                widthMode: ColumnWidthMode.FitToContent, textAlign: "right",
+                footerOptions: {
+                    footerOperation: FooterOperation.Count, footerLabel: "Count: "
                 },
-                {
-                    ...createColumn("id"), headerText: "ID",
-                    widthMode: ColumnWidthMode.FitToContent, textAlign: "right",
-                    footerOptions: {
-                        footerOperation: FooterOperation.Count, footerLabel: "Count: "
+                filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith)
+            },
+
+            {
+                ...createColumn("lineItemAmount", "currency"),
+
+                textAlign: "right", headerText: "Line Item Amount",
+                filterOptions: createNumericRangeFilterOptions(),
+                footerOptions: { footerOperation: FooterOperation.Max, footerLabel: "Max: " }
+            }
+            ,
+
+            { ...createColumn("invoice.id", "number", "Invoice Number") }
+            ,
+            {
+                ...createColumn("invoice.invoiceStatus.name", "string", "Invoice Status"),
+                filterOptions: createSelectFilterOptions(),
+            },
+            {
+                ...createColumn("invoice.invoiceDate", "date", "Invoice Date"),
+                filterOptions: createDateFilterOptions([
+                    DateRangeType.LastYear,
+                    DateRangeType.LastMonth,
+                    DateRangeType.LastWeek,
+                    DateRangeType.Today,
+                    DateRangeType.ThisWeek,
+                    DateRangeType.ThisMonth,
+                    DateRangeType.ThisYear,
+                    DateRangeType.NextYear,
+                    DateRangeType.NextMonth,
+                    DateRangeType.NextWeek,
+                    DateRangeType.Custom
+                ]),
+            },
+            {
+                ...createColumn("lineItemDescription", "string", "Line Item Description"),
+                width: 300,
+                filterOptions: createTextInputFilterOptions(FilterOperation.Contains)
+            },
+            { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
+            { ...createColumn("invoice.deal.dealDescription", "string", "10 Deal") },
+            { ...createColumn("invoice.deal.dealStatus.name", "string", "11 Deal Status") },
+            { ...createColumn("invoice.deal.customer.legalName", "string", "12 Customer") },
+            { ...createColumn("invoice.deal.customer.headquarterAddress.line1", "string", "13 Address Line 1") },
+            { ...createColumn("invoice.deal.customer.headquarterAddress.line2", "string", "14 Address Line 2") },
+            { ...createColumn("invoice.deal.customer.headquarterAddress.city.name", "string", "City") },
+
+            {
+                ...createColumn("invoice.deal.customer.headquarterAddress.state.name", "string", "State"),
+                filterOptions: createMultiSelectFilterOptions()
+            },
+            {
+                ...createColumn("invoice.deal.customer.headquarterAddress.country.name", "string", "Country")
+            },
+            {
+                ...createColumn("invoice.deal.customer.annualRevenue", "currency", "Annual Revenue")
+                , children: [
+                    { ...createColumn("invoice.deal.customer.numEmployees", "number", "Num Employees") },
+                    { ...createColumn("invoice.deal.customer.earningsPerShare", "number", "EPS") },
+                    { ...createColumn("invoice.deal.customer.lastStockPrice", "number", "Stock Price") }
+                ]
+            },
+            {
+                ...createColumn("2022", "number")
+                , children: [
+                    {
+                        ...createColumn("Q1", "number")
+
+                        , children: [
+                            { ...createColumn("Jan", "currency") },
+                            { ...createColumn("Feb", "currency") },
+                            { ...createColumn("Mar", "currency") },
+                        ]
                     },
-                    filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith)
-                },
-
-                {
-                    ...createColumn("lineItemAmount", "currency"),
-
-                    textAlign: "right", headerText: "Line Item Amount",
-                    filterOptions: createNumericRangeFilterOptions(),
-                    footerOptions: { footerOperation: FooterOperation.Max, footerLabel: "Max: " }
-                }
-                ,
-
-                { ...createColumn("invoice.id", "number", "Invoice Number") }
-                ,
-                {
-                    ...createColumn("invoice.invoiceStatus.name", "string", "Invoice Status"),
-                    filterOptions: createSelectFilterOptions(),
-                },
-                {
-                    ...createColumn("invoice.invoiceDate", "date", "Invoice Date"),
-                    filterOptions: createDateFilterOptions([
-                        DateRangeType.LastYear,
-                        DateRangeType.LastMonth,
-                        DateRangeType.LastWeek,
-                        DateRangeType.Today,
-                        DateRangeType.ThisWeek,
-                        DateRangeType.ThisMonth,
-                        DateRangeType.ThisYear,
-                        DateRangeType.NextYear,
-                        DateRangeType.NextMonth,
-                        DateRangeType.NextWeek,
-                        DateRangeType.Custom
-                    ]),
-                },
-                {
-                    ...createColumn("lineItemDescription", "string", "Line Item Description"),
-                    width: 300,
-                    filterOptions: createTextInputFilterOptions(FilterOperation.Contains)
-                },
-                { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
-                { ...createColumn("invoice.deal.dealDescription", "string", "10 Deal") },
-                { ...createColumn("invoice.deal.dealStatus.name", "string", "11 Deal Status") },
-                { ...createColumn("invoice.deal.customer.legalName", "string", "12 Customer") },
-                { ...createColumn("invoice.deal.customer.headquarterAddress.line1", "string", "13 Address Line 1") },
-                { ...createColumn("invoice.deal.customer.headquarterAddress.line2", "string", "14 Address Line 2") },
-                { ...createColumn("invoice.deal.customer.headquarterAddress.city.name", "string", "City") },
-
-                {
-                    ...createColumn("invoice.deal.customer.headquarterAddress.state.name", "string", "State"),
-                    filterOptions: createMultiSelectFilterOptions()
-                },
-                {
-                    ...createColumn("invoice.deal.customer.headquarterAddress.country.name", "string", "Country")
-                },
-                {
-                    ...createColumn("invoice.deal.customer.annualRevenue", "currency", "Annual Revenue")
-                    , children: [
-                        { ...createColumn("invoice.deal.customer.numEmployees", "number", "Num Employees") },
-                        { ...createColumn("invoice.deal.customer.earningsPerShare", "number", "EPS") },
-                        { ...createColumn("invoice.deal.customer.lastStockPrice", "number", "Stock Price") }
-                    ]
-                },
-                {
-                    ...createColumn("2022", "number")
-                    , children: [
-                        {
-                            ...createColumn("Q1", "number")
-
-                            , children: [
-                                { ...createColumn("Jan", "currency") },
-                                { ...createColumn("Feb", "currency") },
-                                { ...createColumn("Mar", "currency") },
-                            ]
-                        },
-                        {
-                            ...createColumn("Q2", "number"),
-                            children: [
-                                { ...createColumn("Apr", "currency") },
-                                { ...createColumn("May", "currency") },
-                                { ...createColumn("Jun", "currency") },
-                            ]
-                        },
-                        {
-                            ...createColumn("Q3", "number"),
-                            children: [
-                                { ...createColumn("Jul", "currency") },
-                                { ...createColumn("Aug", "currency") },
-                                { ...createColumn("Sep", "currency") },
-                            ]
-                        },
-                        {
-                            ...createColumn("Q4", "number"),
-                            children: [
-                                { ...createColumn("Oct", "currency") },
-                                { ...createColumn("Nov", "currency") },
-                                { ...createColumn("Dec", "currency") },
-                            ]
-                        },
-                    ]
-                },
-            ]
-        }} />
+                    {
+                        ...createColumn("Q2", "number"),
+                        children: [
+                            { ...createColumn("Apr", "currency") },
+                            { ...createColumn("May", "currency") },
+                            { ...createColumn("Jun", "currency") },
+                        ]
+                    },
+                    {
+                        ...createColumn("Q3", "number"),
+                        children: [
+                            { ...createColumn("Jul", "currency") },
+                            { ...createColumn("Aug", "currency") },
+                            { ...createColumn("Sep", "currency") },
+                        ]
+                    },
+                    {
+                        ...createColumn("Q4", "number"),
+                        children: [
+                            { ...createColumn("Oct", "currency") },
+                            { ...createColumn("Nov", "currency") },
+                            { ...createColumn("Dec", "currency") },
+                        ]
+                    },
+                ]
+            },
+        ]
+    }), [isLoading, serverInfo]);
+    return (
+        <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />
     );
 };
 

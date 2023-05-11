@@ -1,8 +1,8 @@
 
-import { ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortLoadMode, FooterOperation, GridSelectionMode, LockMode, RowPositionInfo, ServerInfo } from "@ezgrid/grid-core";
+import { ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortLoadMode, FooterOperation, GridOptions, GridSelectionMode, LockMode, RowPositionInfo, ServerInfo } from "@ezgrid/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
 import { createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Spinner } from "../components/spinner/Spinner";
 import { getDealsForOrg, getOrganizations } from "../mockdata/MockService";
 import Organization from "../mockdata/Organization";
@@ -39,83 +39,149 @@ export const NestedLazyLoadGrid = () => {
         }
         setCustomLoading(false);
     };
-    return (
-        <div style={{ height: "100%", width: "100%", position: "relative" }}>
-            {<ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
-                dataProvider: orgs,
-                isLoading,
-                serverInfo,
-                uniqueIdentifierOptions: {
-                    useField: "id"
+    const gridOptions = useMemo<GridOptions>(() => ({
+        dataProvider: orgs,
+        isLoading,
+        serverInfo,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        eventBus: {
+            onItemLoadRequested: getServerData,
+        },
+        selectionMode: GridSelectionMode.MultipleRows,
+        behaviors: [
+            createFilterBehavior({ clearSelectionOnFilter: true }),
+            createEditBehavior({}),
+            createPdfBehavior({}),
+            createExcelBehavior({}),
+        ],
+        toolbarOptions: {
+            enablePdf: true,
+            enableExcel: true,
+            enableExpander: false,
+        },
+        enablePaging: true,
+        sortOptions: ({
+            initialSort: [{
+                sortColumn: "id",
+                isAscending: true,
+            }]
+        }),
+        settingsOptions: {
+            settingsStorageKey: "nested-grid"
+        },
+        columns: [
+            {
+                ...createColumn("id"), headerText: "ID",
+                enableHierarchy: true,
+                footerOptions: {
+                    footerOperation: FooterOperation.Count, footerLabel: "Count: "
                 },
-                eventBus: {
-                    onItemLoadRequested: getServerData,
+                widthMode: ColumnWidthMode.Fixed,
+                width: 200,
+                lockMode: LockMode.Left,
+                filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith)
+            },
+            ...createFiscalYearColumnGroup([new Date().getFullYear()], { width: 75 }),
+            {
+                ...createColumn("legalName", "string", "Name"),
+                width: 300,
+            },
+            {
+                ...createColumn("annualRevenue", "currency", "Annual Revenue")
+                , children: [
+                    { ...createColumn("numEmployees", "number", "Num Employees") },
+                    { ...createColumn("earningsPerShare", "number", "EPS") },
+                    { ...createColumn("lastStockPrice", "number", "Stock Price") }
+                ]
+            },
+
+            {
+                ...createColumn("headquarterAddress.country.name", "string", " Country")
+            },
+            {
+                ...createColumn("headquarterAddress.city.name", "string", " City")
+            },
+            {
+                ...createColumn("headquarterAddress.state.name", "string", " State")
+            },
+        ],
+        nextLevel: {
+            childrenField: "deals",
+            itemLoadMode: FilterPageSortLoadMode.Server,
+            columns: [
+                {
+                    ...createColumn("id"), headerText: "Deal ID",
+                    uniqueIdentifier: "DealID",
+                    enableHierarchy: true,
+                    widthMode: ColumnWidthMode.Fixed,
+                    width: 200,
+                    lockMode: LockMode.Left,
+
                 },
-                selectionMode: GridSelectionMode.MultipleRows,
-                behaviors: [
-                    createFilterBehavior({ clearSelectionOnFilter: true }),
-                    createEditBehavior({}),
-                    createPdfBehavior({}),
-                    createExcelBehavior({}),
-                ],
-                toolbarOptions: {
-                    enablePdf: true,
-                    enableExcel: true,
-                    enableExpander: false,
+                {
+                    ...createColumn("dealDescription"), headerText: "Description",
+                    widthMode: ColumnWidthMode.Fixed,
+                    width: 300,
                 },
-                enablePaging: true,
-                sortOptions: ({
-                    initialSort: [{
-                        sortColumn: "id",
-                        isAscending: true,
-                    }]
-                }),
-                settingsOptions: {
-                    settingsStorageKey: "nested-grid"
+                {
+                    ...createColumn("dealStatus.name"), headerText: "Status",
                 },
+                {
+                    ...createColumn("dealAmount"), headerText: "Amount",
+                    format: "currency",
+                    textAlign: "right"
+                },
+                {
+                    ...createColumn("dealDate"), headerText: "Date",
+                    format: "date"
+                },
+                {
+                    ...createColumn("billable"), headerText: "Billable?",
+                    format: "boolean"
+                }
+
+            ],
+            nextLevel: {
+                childrenField: "invoices",
                 columns: [
                     {
-                        ...createColumn("id"), headerText: "ID",
+                        ...createColumn("id"), headerText: "Invoice ID",
+                        uniqueIdentifier: "InvoiceID",
                         enableHierarchy: true,
-                        footerOptions: {
-                            footerOperation: FooterOperation.Count, footerLabel: "Count: "
-                        },
                         widthMode: ColumnWidthMode.Fixed,
                         width: 200,
                         lockMode: LockMode.Left,
-                        filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith)
-                    },
-                    ...createFiscalYearColumnGroup([new Date().getFullYear()], { width: 75 }),
-                    {
-                        ...createColumn("legalName", "string", "Name"),
-                        width: 300,
-                    },
-                    {
-                        ...createColumn("annualRevenue", "currency", "Annual Revenue")
-                        , children: [
-                            { ...createColumn("numEmployees", "number", "Num Employees") },
-                            { ...createColumn("earningsPerShare", "number", "EPS") },
-                            { ...createColumn("lastStockPrice", "number", "Stock Price") }
-                        ]
-                    },
 
-                    {
-                        ...createColumn("headquarterAddress.country.name", "string", " Country")
                     },
                     {
-                        ...createColumn("headquarterAddress.city.name", "string", " City")
+                        ...createColumn("invoiceDate"), headerText: "Invoice Date",
+                        format: "date"
                     },
                     {
-                        ...createColumn("headquarterAddress.state.name", "string", " State")
+                        ...createColumn("dueDate"), headerText: "Due Date",
+                        format: "date"
                     },
+                    {
+                        ...createColumn("invoiceStatus.name"), headerText: "Status",
+                    },
+                    {
+                        ...createColumn("hasPdf"), headerText: "Has PDF?",
+                        format: "boolean"
+                    },
+                    {
+                        ...createColumn("invoiceAmount"), headerText: "Invoice Amount",
+                        format: "currency", textAlign: "right"
+                    }
                 ],
                 nextLevel: {
-                    childrenField: "deals",
-                    itemLoadMode: FilterPageSortLoadMode.Server,
+                    childrenField: "lineItems",
+                    enableFooters: true,
                     columns: [
                         {
-                            ...createColumn("id"), headerText: "Deal ID",
-                            uniqueIdentifier: "DealID",
+                            ...createColumn("id"), headerText: "Line Item ID",
+                            uniqueIdentifier: "LineItemID",
                             enableHierarchy: true,
                             widthMode: ColumnWidthMode.Fixed,
                             width: 200,
@@ -123,89 +189,24 @@ export const NestedLazyLoadGrid = () => {
 
                         },
                         {
-                            ...createColumn("dealDescription"), headerText: "Description",
-                            widthMode: ColumnWidthMode.Fixed,
-                            width: 300,
+                            ...createColumn("lineItemDescription"), headerText: "Line Item Description",
                         },
                         {
-                            ...createColumn("dealStatus.name"), headerText: "Status",
-                        },
-                        {
-                            ...createColumn("dealAmount"), headerText: "Amount",
-                            format: "currency",
-                            textAlign: "right"
-                        },
-                        {
-                            ...createColumn("dealDate"), headerText: "Date",
-                            format: "date"
-                        },
-                        {
-                            ...createColumn("billable"), headerText: "Billable?",
-                            format: "boolean"
-                        }
-
-                    ],
-                    nextLevel: {
-                        childrenField: "invoices",
-                        columns: [
-                            {
-                                ...createColumn("id"), headerText: "Invoice ID",
-                                uniqueIdentifier: "InvoiceID",
-                                enableHierarchy: true,
-                                widthMode: ColumnWidthMode.Fixed,
-                                width: 200,
-                                lockMode: LockMode.Left,
-
-                            },
-                            {
-                                ...createColumn("invoiceDate"), headerText: "Invoice Date",
-                                format: "date"
-                            },
-                            {
-                                ...createColumn("dueDate"), headerText: "Due Date",
-                                format: "date"
-                            },
-                            {
-                                ...createColumn("invoiceStatus.name"), headerText: "Status",
-                            },
-                            {
-                                ...createColumn("hasPdf"), headerText: "Has PDF?",
-                                format: "boolean"
-                            },
-                            {
-                                ...createColumn("invoiceAmount"), headerText: "Invoice Amount",
-                                format: "currency", textAlign: "right"
+                            ...createColumn("lineItemAmount"), headerText: "Line Item Amount",
+                            format: "currency", textAlign: "right",
+                            footerOptions: {
+                                footerOperation: FooterOperation.Sum,
+                                footerLabel: "Sum: ", footerOperationPrecision: 2
                             }
-                        ],
-                        nextLevel: {
-                            childrenField: "lineItems",
-                            enableFooters: true,
-                            columns: [
-                                {
-                                    ...createColumn("id"), headerText: "Line Item ID",
-                                    uniqueIdentifier: "LineItemID",
-                                    enableHierarchy: true,
-                                    widthMode: ColumnWidthMode.Fixed,
-                                    width: 200,
-                                    lockMode: LockMode.Left,
-
-                                },
-                                {
-                                    ...createColumn("lineItemDescription"), headerText: "Line Item Description",
-                                },
-                                {
-                                    ...createColumn("lineItemAmount"), headerText: "Line Item Amount",
-                                    format: "currency", textAlign: "right",
-                                    footerOptions: {
-                                        footerOperation: FooterOperation.Sum,
-                                        footerLabel: "Sum: ", footerOperationPrecision: 2
-                                    }
-                                }
-                            ]
                         }
-                    }
+                    ]
                 }
-            }} />}
+            }
+        }
+    }), [isLoading, orgs, serverInfo]);
+    return (
+        <div style={{ height: "100%", width: "100%", position: "relative" }}>
+            {<ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />}
             {customLoading && <div style={{ position: "absolute", top: "50%", left: "50%" }}><Spinner /></div>}
 
         </div>

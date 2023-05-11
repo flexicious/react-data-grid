@@ -1,9 +1,10 @@
-import { HorizontalScrollMode, createSelectionColumn, createColumn } from "@ezgrid/grid-core";
+import { HorizontalScrollMode, createSelectionColumn, createColumn, GridOptions } from "@ezgrid/grid-core";
 import { ReactDataGrid, SelectionCheckBoxRenderer, SelectionCheckBoxHeaderRenderer } from "@ezgrid/grid-react";
 import SampleData from "../mockdata/SampleData";
+import { useMemo } from "react";
 
 export const VariableRowHeight = () => {
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions>(() => ({
         dataProvider: SampleData.bookData,
         horizontalScroll: HorizontalScrollMode.Off,
         uniqueIdentifierOptions: {
@@ -21,5 +22,6 @@ export const VariableRowHeight = () => {
             createColumn("price", "number", "Price"),
             createColumn("publish_date", "date", "Publish Date"),
         ]
-    }}></ReactDataGrid>;
+    }), []);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

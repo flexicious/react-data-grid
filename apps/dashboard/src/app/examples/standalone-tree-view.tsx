@@ -1,11 +1,11 @@
-import { ApiContext, createColumn, createFilterBehavior, FilterOperation } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, createFilterBehavior, FilterOperation, GridOptions } from "@ezgrid/grid-core";
 import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import SampleData from "../mockdata/SampleData";
 
 export const StandAloneTreeView = () => {
     const apiRef = useRef<ApiContext | null>(null);
-    return <ReactDataGrid style={{ width: "250px" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions>(() => ({
         dataProvider: SampleData.networkData,
         eventBus: {
             onApiContextReady: (ctx) => {
@@ -56,5 +56,6 @@ export const StandAloneTreeView = () => {
                 }
             },
         ]
-    }}></ReactDataGrid>;
+    }), []);
+    return <ReactDataGrid style={{ width: "250px" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

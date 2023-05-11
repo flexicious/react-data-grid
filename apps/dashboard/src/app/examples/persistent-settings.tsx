@@ -1,11 +1,12 @@
-import { createColumn, createFilterBehavior, FilterOperation, getApi, LockMode, TreeNodeType } from "@ezgrid/grid-core";
+import { createColumn, createFilterBehavior, FilterOperation, getApi, GridOptions, LockMode, TreeNodeType } from "@ezgrid/grid-core";
 import { createNumericRangeFilterOptions, createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
+import Organization from "../mockdata/Organization";
 
 export const PersistentSettings = () => {
-    const [data] = useState<Record<string, any>[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const [data] = useState<Organization[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
+    const gridOptions = useMemo<GridOptions<Organization>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "id"
@@ -22,7 +23,7 @@ export const PersistentSettings = () => {
             enableGroupingDropzone: false,
             leftToolbarRenderer: ({ node }) => {
                 const api = getApi(node);
-                const settings = api.getContext()?.savedSettings || [];
+                const settings = api.getContext()?.savedSettings?.settingsData || [];
                 const showSettings = () => {
                     let str = "";
                     for (const settingsData of settings) {
@@ -44,7 +45,7 @@ export const PersistentSettings = () => {
                 const api = getApi(node);
                 const saveUnlockedSettings = () => {
                     api.unlockAllColumns();
-                    api.saveSettings({
+                    api.saveSetting({
                         columnSettings: api.getCurrentSettings(),
                         name: "AllUnlocked"
                     });
@@ -59,7 +60,7 @@ export const PersistentSettings = () => {
                     api.setFilterValue("id", "2080");
                     api.setFilterValue("annualRevenue", { start: 20000, end: 80000 });
                     api.setSorts([{ sortColumn: "annualRevenue", isAscending: false }]);
-                    api.saveSettings({
+                    api.saveSetting({
                         columnSettings: api.getCurrentSettings(),
                         name: "FiltersAndSorts"
                     });
@@ -125,5 +126,6 @@ export const PersistentSettings = () => {
             },
 
         ]
-    }}></ReactDataGrid>;
+    }), [data]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

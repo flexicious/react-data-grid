@@ -1,81 +1,85 @@
-import { Behaviors, Box, ColumnMenuItem, ColumnWidthMode, createColumn, getLockMode, HorizontalScrollMode, LABELS, LockMode, RendererProps } from "@ezgrid/grid-core";
+import { Behaviors, Box, ColumnMenuItem, ColumnWidthMode, createColumn, getLockMode, GridOptions, HorizontalScrollMode, LABELS, LockMode, RendererProps } from "@ezgrid/grid-core";
 import { ReactDataGrid, PopupButton, Popup } from "@ezgrid/grid-react";
 import SampleData from "../mockdata/SampleData";
 
 import { getApi, gridCSSPrefix } from "@ezgrid/grid-core";
-import { MouseEvent, useRef, useState, FC, ReactNode } from "react";
+import { MouseEvent, useRef, useState, FC, ReactNode, useMemo } from "react";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const ColumnMenu = () => {
+    const columnMenuGridOptions = useMemo<GridOptions>(() => ({
+        dataProvider: SampleData.bookData,
+        horizontalScroll: getScrollOffBelow(),
+        enableToolbar: false,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        columns: [
+            { ...createColumn("id", "string"), width: 50, widthMode: ColumnWidthMode.Fixed },
+            { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
+        ]
+    }), []);
+
+    const columnMenuWithCustotmItemsGridOptions = useMemo<GridOptions>(() => ({
+        dataProvider: SampleData.bookData,
+        horizontalScroll: getScrollOffBelow(),
+        enableToolbar: false,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        columnMenuOptions: {
+            columnMenuItems: (node, currentItems) => {
+                return [...currentItems, null, {
+                    label: "Custom Menu Item",
+                    className: "run-filter-icon",
+                    onClick: () => {
+                        alert("Custom Menu Item Clicked");
+                    }
+                }];
+            }
+        },
+
+        columns: [
+            { ...createColumn("id", "string"), width: 50, widthMode: ColumnWidthMode.Fixed },
+            { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
+        ]
+    }), []);
+    const customColumnMenu = useMemo<GridOptions>(()=>({
+        dataProvider: SampleData.bookData,
+        horizontalScroll: getScrollOffBelow(),
+        enableToolbar: false,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        columnMenuOptions: {
+            columnMenuItems: (node, currentItems) => {
+                return [...currentItems, null, {
+                    label: "Custom Menu Item",
+                    className: "run-filter-icon",
+                    onClick: () => {
+                        alert("Custom Menu Item Clicked");
+                    }
+                }];
+            },
+            columnMenuRenderer: (props: RendererProps) => <ColumnOptionsMenu {...props} />
+        },
+        columns: [
+            { ...createColumn("id", "number"), width: 50, widthMode: ColumnWidthMode.Fixed },
+            { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
+        ]
+    }),[])
     return <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu Enabled</b>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
-                dataProvider: SampleData.bookData,
-                horizontalScroll: getScrollOffBelow(),
-                enableToolbar: false,
-                uniqueIdentifierOptions: {
-                    useField: "id"
-                },
-                columns: [
-                    { ...createColumn("id", "number"), width: 50, widthMode: ColumnWidthMode.Fixed },
-                    { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={columnMenuGridOptions}></ReactDataGrid>
         </div>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu With CustomItems</b>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
-                dataProvider: SampleData.bookData,
-                horizontalScroll: getScrollOffBelow(),
-                enableToolbar: false,
-                uniqueIdentifierOptions: {
-                    useField: "id"
-                },
-                columnMenuOptions: {
-                    columnMenuItems: (node, currentItems) => {
-                        return [...currentItems, null, {
-                            label: "Custom Menu Item",
-                            className: "run-filter-icon",
-                            onClick: () => {
-                                alert("Custom Menu Item Clicked");
-                            }
-                        }];
-                    }
-                },
-
-                columns: [
-                    { ...createColumn("id", "number"), width: 50, widthMode: ColumnWidthMode.Fixed },
-                    { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={columnMenuWithCustotmItemsGridOptions}></ReactDataGrid>
         </div>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu With Custom Renderer</b>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
-                dataProvider: SampleData.bookData,
-                horizontalScroll: getScrollOffBelow(),
-                enableToolbar: false,
-                uniqueIdentifierOptions: {
-                    useField: "id"
-                },
-                columnMenuOptions: {
-                    columnMenuItems: (node, currentItems) => {
-                        return [...currentItems, null, {
-                            label: "Custom Menu Item",
-                            className: "run-filter-icon",
-                            onClick: () => {
-                                alert("Custom Menu Item Clicked");
-                            }
-                        }];
-                    },
-                    columnMenuRenderer: (props: RendererProps) => <ColumnOptionsMenu {...props} />
-                },
-                columns: [
-                    { ...createColumn("id", "number"), width: 50, widthMode: ColumnWidthMode.Fixed },
-                    { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={customColumnMenu}></ReactDataGrid>
         </div>
 
 

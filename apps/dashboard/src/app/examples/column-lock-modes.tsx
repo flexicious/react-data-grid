@@ -1,12 +1,13 @@
-import { createColumn, getApi, LockMode, TreeNodeType } from "@ezgrid/grid-core";
+import { createColumn, getApi, GridOptions, LockMode, TreeNodeType } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
+import Organization from "../mockdata/Organization";
 
 export const ColumnLockModes = () => {
-    const [data] = useState<Record<string, any>[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
+    const [data] = useState<Organization[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
     const [swapped, setSwapped] = useState<boolean>(true);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Organization>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "id"
@@ -18,7 +19,6 @@ export const ColumnLockModes = () => {
             return {};
         },
         toolbarOptions: {
-            enableGroupingDropzone: false,
             rightToolbarRenderer: ({ node }) => {
                 const api = getApi(node);
                 return <div>
@@ -28,7 +28,6 @@ export const ColumnLockModes = () => {
                         api.propsUpdated();
                     }}>Swap Lock Modes</button>
                 </div>;
-
             }
         },
         enableFilters: false,
@@ -43,7 +42,6 @@ export const ColumnLockModes = () => {
                         ...createColumn("legalName", "string", "Legal Name"),
                     },
                 ]
-
             },
 
             { ...createColumn("headquarterAddress.line1", "string", "Address Line 1") },
@@ -72,5 +70,6 @@ export const ColumnLockModes = () => {
             },
 
         ]
-    }}></ReactDataGrid>;
+    }), [data, swapped]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

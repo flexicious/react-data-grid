@@ -1,14 +1,15 @@
-import { createColumn, getApi, resolveExpression, shortMonthNames } from "@ezgrid/grid-core";
+import { GridOptions, createColumn, getApi, resolveExpression, shortMonthNames } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
+import Organization from "../mockdata/Organization";
 
 export const RapidUpdates = () => {
-    const [data,] = useState<Record<string, any>[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
+    const [data,] = useState<Organization[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
     const [fiscalYears] = useState<number[]>([new Date().getFullYear()]);
     const [updatesInterval, setUpdatesInterval] = useState<ReturnType<typeof setInterval> | null>(null);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Organization>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "id"
@@ -55,7 +56,7 @@ export const RapidUpdates = () => {
                 ...createColumn("legalName", "string", "Legal Name"),
                 enableCellClickRowSelect: true,
             },
-            ...createFiscalYearColumnGroup(fiscalYears, {
+            ...createFiscalYearColumnGroup<Organization>(fiscalYears, {
                 width: 100,
                 cellStyleFunction: (node) => {
                     const row = node.rowPosition?.data;
@@ -84,5 +85,6 @@ export const RapidUpdates = () => {
             })
 
         ]
-    }}></ReactDataGrid>;
+    }), [data, fiscalYears, updatesInterval]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

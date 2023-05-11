@@ -1,28 +1,27 @@
-import { createColumn, getApi } from "@ezgrid/grid-core";
+import { GridOptions, createColumn, getApi } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
+import Organization from "../mockdata/Organization";
 
 export const DynamicColumns = () => {
-    const [data] = useState<Record<string, any>[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
+    const [data] = useState<Organization[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
     const [fiscalYears, setFiscalYears] = useState<number[]>([]);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Organization>>(()=>({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "id"
         },
         toolbarOptions: {
             enableGroupingDropzone: false,
-            rightToolbarRenderer: ({ node }) => {
-                const api = getApi(node);
+            rightToolbarRenderer: () => {
                 const toggleFinancials = () => {
                     if (fiscalYears.length > 0) {
                         setFiscalYears([]);
                     } else {
                         setFiscalYears([2020]);
                     }
-                    api.propsUpdated();
                 };
                 return <div>
                     <button onClick={toggleFinancials}>{fiscalYears.length > 0 ? "Remove Financials" : "Add Financials"}</button>
@@ -40,10 +39,11 @@ export const DynamicColumns = () => {
                 ...createColumn("legalName", "string", "Legal Name"),
                 enableCellClickRowSelect: true,
             },
-            ...createFiscalYearColumnGroup(fiscalYears, {
+            ...createFiscalYearColumnGroup<Organization>(fiscalYears, {
                 width: 100
             })
 
         ]
-    }}></ReactDataGrid>;
+    }),[fiscalYears,data,setFiscalYears])
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

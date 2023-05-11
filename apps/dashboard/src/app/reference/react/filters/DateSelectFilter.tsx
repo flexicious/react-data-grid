@@ -1,5 +1,5 @@
-import { LABELS, Box, ColumnOptions, createColumn, GRID_CONSTANTS, dateAdd, DatePart, DateRangeType, FilterOperation, FilterOptions, FilterRendererProps, getApi, getDateRange, getDateRangeTypeNameValues, gridCSSPrefix, GridIconButton, GridSection, GridSelectionMode, NameValue, RangeFilterSelection, RendererProps, stopPropagation } from "@ezgrid/grid-core";
-import { FC, useEffect, useRef, useState } from "react";
+import { LABELS, Box, ColumnOptions, createColumn, GRID_CONSTANTS, dateAdd, DatePart, DateRangeType, FilterOperation, FilterOptions, FilterRendererProps, getApi, getDateRange, getDateRangeTypeNameValues, gridCSSPrefix, GridIconButton, GridSection, GridSelectionMode, NameValue, RangeFilterSelection, RendererProps, stopPropagation, GridOptions } from "@ezgrid/grid-core";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { createDateField } from "../adapter";
 import { ReactDataGrid } from "../ReactDataGrid";
 import { Popup, PopupButton } from "../shared/PopupButton";
@@ -81,6 +81,70 @@ export const DateSelectFilter: FC<FilterRendererProps> = ({ node, filterBuilderM
         return value;
     };
 
+    const gridOptions = useMemo<GridOptions>(() => ({
+        ...GRID_PROPS(node, "value"),
+        enableToolbar: true,
+        enableFilters: false,
+        toolbarHeight: 80,
+        dividerOptions: {
+            header: true,
+            toolbar: true,
+        },
+        displayOrder: [GridSection.Header, GridSection.Filter, GridSection.Body, GridSection.Toolbar],
+        toolbarOptions: {
+            toolbarRenderer: ({ node }) => {
+                const { box, styles } = node;
+                const api = getApi(node);
+                return <div key={node.key} className={`${GRID_CONSTANTS.CSS_PREFIX}toolbar`}
+                    style={{ ...box, ...styles }} onMouseEnter={stopPropagation} onMouseLeave={stopPropagation} onClick={stopPropagation}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", padding: 4, gap: 4 }}>
+                        <div className={gridCSSPrefix("toolbar-section")} >From:</div>
+                        {createDateField(node.gridOptions, { onChange: (newVal) => {startDate.current = newVal;api.repaint(); }, value: startDate.current })}
+                        <div className={gridCSSPrefix("toolbar-section")} >To:</div>
+                        {createDateField(node.gridOptions, { onChange: (newVal) => {endDate.current = newVal; api.repaint();}, value: endDate.current })}
+                    </div>
+                </div>;
+            }
+        },
+        dataProvider: options,
+        selectionMode: GridSelectionMode.SingleRow,
+        selectionOptions: {
+            initialRowSelection: currentValue ? [currentValue.type] : [LABELS.ALL_LABEL],
+        },
+        eventBus: {
+            onRowSelectionChanged: (selectedRowIds) => {
+                gridSelection.current = selectedRowIds.length > 0 ? String(selectedRowIds[0]) : undefined;
+                const value = getDateRangeFromValue(gridSelection.current);
+                if (typeof value !== "string") {
+                    startDate.current = (value.start);
+                    endDate.current = (value.end);
+                }
+                setOptions([...options]);
+            }
+        },
+        columns: [
+            {
+                ...createColumn("value"),
+                headerText: "Date Range",
+                headerOptions: {
+                    headerRenderer: ({ node }) => {
+                        return <div className={gridCSSPrefix("toolbar-section")} style={{ justifyContent: "space-between", width: "100%" }}
+                        >
+                            <div  >
+                                Date Range
+                            </div>
+                            <div className={gridCSSPrefix("toolbar-section")} >
+                                {!filterBuilderMode && buttonCreator(node, "delete-icon", "Clear Filter", clearFilter, GridIconButton.Delete, false)}
+                                {buttonCreator(node, "check-icon", "Apply Filter", applyFilter, GridIconButton.Apply, false)}
+                                {buttonCreator(node, "close-icon", "Close Popup", () => setPopupVisible(false), GridIconButton.Cancel, false)}
+                            </div>
+                        </div>;
+                    }
+                },
+                ...COL_PROPS(false)
+            }
+        ]
+    }), [options, currentValue?.type, startDate.current, endDate.current]);
 
     return <><div className={gridCSSPrefix("toolbar-section")} style={{ width: "100%" }} ref={divRef}>
         <PopupButton node={node} setRectangle={setRectangle} setPopupVisible={setPopupVisible}
@@ -94,71 +158,7 @@ export const DateSelectFilter: FC<FilterRendererProps> = ({ node, filterBuilderM
             popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={setPopupVisible}>
                 <ReactDataGrid
                     style={{height: "calc(100% - 2px)", width: "calc(100% - 2px)", borderBottom: "solid 1px #cccccc" }}
-                    gridOptions={{
-                        ...GRID_PROPS(node, "value"),
-                        enableToolbar: true,
-                        enableFilters: false,
-                        toolbarHeight: 80,
-                        dividerOptions: {
-                            header: true,
-                            toolbar: true,
-                        },
-                        displayOrder: [GridSection.Header, GridSection.Filter, GridSection.Body, GridSection.Toolbar],
-                        toolbarOptions: {
-                            toolbarRenderer: ({ node }) => {
-                                const { box, styles } = node;
-                                const api = getApi(node);
-                                return <div key={node.key} className={`${GRID_CONSTANTS.CSS_PREFIX}toolbar`}
-                                    style={{ ...box, ...styles }} onMouseEnter={stopPropagation} onMouseLeave={stopPropagation} onClick={stopPropagation}>
-                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", padding: 4, gap: 4 }}>
-                                        <div className={gridCSSPrefix("toolbar-section")} >From:</div>
-                                        {createDateField(node.gridOptions, { onChange: (newVal) => {startDate.current = newVal;api.repaint(); }, value: startDate.current })}
-                                        <div className={gridCSSPrefix("toolbar-section")} >To:</div>
-                                        {createDateField(node.gridOptions, { onChange: (newVal) => {endDate.current = newVal; api.repaint();}, value: endDate.current })}
-                                    </div>
-                                </div>;
-                            }
-                        },
-                        dataProvider: options,
-                        selectionMode: GridSelectionMode.SingleRow,
-                        selectionOptions: {
-                            initialRowSelection: currentValue ? [currentValue.type] : [LABELS.ALL_LABEL],
-                        },
-                        eventBus: {
-                            onRowSelectionChanged: (selectedRowIds) => {
-                                gridSelection.current = selectedRowIds.length > 0 ? String(selectedRowIds[0]) : undefined;
-                                const value = getDateRangeFromValue(gridSelection.current);
-                                if (typeof value !== "string") {
-                                    startDate.current = (value.start);
-                                    endDate.current = (value.end);
-                                }
-                                setOptions([...options]);
-                            }
-                        },
-                        columns: [
-                            {
-                                ...createColumn("value"),
-                                headerText: "Date Range",
-                                headerOptions: {
-                                    headerRenderer: ({ node }) => {
-                                        return <div className={gridCSSPrefix("toolbar-section")} style={{ justifyContent: "space-between", width: "100%" }}
-                                        >
-                                            <div  >
-                                                Date Range
-                                            </div>
-                                            <div className={gridCSSPrefix("toolbar-section")} >
-                                                {!filterBuilderMode && buttonCreator(node, "delete-icon", "Clear Filter", clearFilter, GridIconButton.Delete, false)}
-                                                {buttonCreator(node, "check-icon", "Apply Filter", applyFilter, GridIconButton.Apply, false)}
-                                                {buttonCreator(node, "close-icon", "Close Popup", () => setPopupVisible(false), GridIconButton.Cancel, false)}
-                                            </div>
-                                        </div>;
-                                    }
-                                },
-                                ...COL_PROPS(false)
-                            }
-                        ]
-                    }
-                    }
+                    gridOptions={gridOptions}
                 >
                 </ReactDataGrid>
             </Popup>
@@ -177,9 +177,9 @@ const filterDeserializerFunction = (col: ColumnOptions, input: unknown): { start
     }
     return value;
 };
-export const createDateFilterOptions = (ranges?: (DateRangeType | { type: string, start: Date, end: Date })[]): FilterOptions => {
+export const createDateFilterOptions = <T=unknown>(ranges?: (DateRangeType | { type: string, start: Date, end: Date })[]): FilterOptions<T> => {
     return {
-        filterRenderer: DateSelectFilterRenderer,
+        filterRenderer: DateSelectFilterRenderer as FC<RendererProps<T>>,
         filterDateRangeOptions: ranges,
         filterOperation: FilterOperation.Between,
         filterDeserializerFunction

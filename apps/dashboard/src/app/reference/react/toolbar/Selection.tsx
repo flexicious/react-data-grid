@@ -4,15 +4,13 @@ import { FC } from "react";
 
 export const Selection: FC<RendererProps> = ({ node }) => {
     const api = getApi(node);
-    const selectedRows = node.gridOptions.contextInfo?.modifications?.selectedRowIds;
-    const selectedCells = node.gridOptions.contextInfo?.modifications?.selectedCells;
-    const selectionCount = (selectedRows?.length || 0) + (selectedCells?.length || 0);
-    const clearSelection = () => {
-        api.clearSelection();
-    };
+    const mods = node.gridOptions.contextInfo?.modifications;
+    const selectedRowCount = (mods?.selectedRowIds?.length || 0) ;
+    const selectedCellCount = mods?.selectedCells?.length || 0;
+
     return <>
-        {selectionCount > 0 && <div className="ezgrid-dg-toolbar-section" style={{whiteSpace:"nowrap"}}>| {selectionCount} selected
-            {buttonCreator(node, "close-icon", "Clear Selection", clearSelection, GridIconButton.Cancel)}
+        {(selectedRowCount > 0 ||selectedCellCount > 0) && <div className="ezgrid-dg-toolbar-section" style={{whiteSpace:"nowrap"}}>| {(selectedCellCount||selectedRowCount)} selected
+            {buttonCreator(node, "close-icon", "Clear Selection", api.clearSelection, GridIconButton.Cancel)}
         </div>}
     </>;
 };

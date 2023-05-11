@@ -1,6 +1,6 @@
-import { GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { GridOptions, GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { AntDesignDemo } from "../examples/antd-demo";
 import { AutoSizingGrid } from "../examples/auto-sizing-grid";
 import { CellFormatting } from "../examples/cell-formatting";
@@ -41,6 +41,7 @@ import { StandAloneTreeView } from "../examples/standalone-tree-view";
 import { VariableRowHeight } from "../examples/variable-row-height";
 import {GridBuilder} from "../examples/grid-builder";
 import { PageScroll } from "../examples/page-scroll";
+import "./dashboard.css";
 
 function Dashboard() {
   const examples = [
@@ -85,47 +86,48 @@ function Dashboard() {
     { name: "Standalone Tree View" },
     { name: "Auto Sizing Grid" },
   ];
-  let [currentRoute, setCurrentRoute] = React.useState("Single Level");
+  let [currentRoute, setCurrentRoute] = React.useState("Edit Options");
   useEffect(() => {
     const route = window.location.search.split("=")[1];
     route && setCurrentRoute(route.replace(/_/g, " "));
   }, []);
+  const gridOptions = useMemo<GridOptions>(() => ({
+    dataProvider: examples,
+    horizontalScroll: HorizontalScrollMode.Off,
+    enableFooters: false,
+    enableFilters: false,
+    enableToolbar: false,
+    enableColumnMenu: false,
+    enableActiveCellHighlight: false,
+    eventBus: {
+      onRowSelectionChanged(selection, trigger?) {
+        if (selection.length > 0) {
+          setCurrentRoute((selection as string[])[0]);
+        }
+      },
+    },
+    uniqueIdentifierOptions: {
+      useField: "name",
+    },
+    selectionMode: GridSelectionMode.SingleRow,
+    columns: [
+      {
+        headerText: "Select Demo",
+        dataField: "name",
+        uniqueIdentifier: "name",
+        enableSort: false,
+        enableResize: false,
+        enableMove: false,
+        enableCellClickRowSelect: true,
+      },
+    ],
+  }), []);
   return (
     <div className="container">
       <nav className="left-nav">
         <ReactDataGrid
           style={{ width: "100%", height: "100%" }}
-          gridOptions={{
-            dataProvider: examples,
-            horizontalScroll: HorizontalScrollMode.Off,
-            enableFooters: false,
-            enableFilters: false,
-            enableToolbar: false,
-            enableColumnMenu: false,
-            enableActiveCellHighlight: false,
-            eventBus: {
-              onRowSelectionChanged(selection, trigger?) {
-                if (selection.length > 0) {
-                  setCurrentRoute((selection as string[])[0]);
-                }
-              },
-            },
-            uniqueIdentifierOptions: {
-              useField: "name",
-            },
-            selectionMode: GridSelectionMode.SingleRow,
-            columns: [
-              {
-                headerText: "Select Demo",
-                dataField: "name",
-                uniqueIdentifier: "name",
-                enableSort: false,
-                enableResize: false,
-                enableMove: false,
-                enableCellClickRowSelect: true,
-              },
-            ],
-          }}
+          gridOptions={gridOptions}
         ></ReactDataGrid>
       </nav>
       <div className="right-area">

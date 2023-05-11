@@ -1,6 +1,6 @@
-import { createColumn, createDragColumn, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { createColumn, createDragColumn, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import SampleData from "../mockdata/SampleData";
 import { getScrollOffBelow } from "../utils/column-utils";
 
@@ -26,55 +26,36 @@ export const DragDrop = () => {
 
             return false; //we handled the drag and drop
         }
-
-
     };
+    const getOptions = (dataProvider:unknown[])=> ({
+        dataProvider ,
+        horizontalScroll: getScrollOffBelow(),
+        enableFilters: false,
+        enableHeightAutoAdjust: true,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        columns: [
+            {
+                ...createDragColumn(),
+                dragOptions: {
+                    dragEnd
+                }
+            },
+            createColumn("id", "string"),
+            createColumn("description", "string"),
+            createColumn("author", "string", "Author"),
+            createColumn("title", "string", "Title"),
+        ]
+    });
+    const leftOptions = useMemo<GridOptions>(()=>getOptions(leftBooks),[getOptions,leftBooks]);
+    const rightOptions = useMemo<GridOptions>(()=>getOptions(rightBooks),[getOptions,rightBooks]);
     return <div style={{ display: "flex", gap: 20 }}>
         <div style={{ flex: 1 }}>
-            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
-                dataProvider: leftBooks,
-                horizontalScroll: getScrollOffBelow(),
-                enableFilters: false,
-                enableHeightAutoAdjust: true,
-                uniqueIdentifierOptions: {
-                    useField: "id"
-                },
-                columns: [
-                    {
-                        ...createDragColumn(),
-                        dragOptions: {
-                            dragEnd
-                        }
-                    },
-                    createColumn("id", "string"),
-                    createColumn("description", "string"),
-                    createColumn("author", "string", "Author"),
-                    createColumn("title", "string", "Title"),
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={leftOptions}></ReactDataGrid>
         </div>
         <div style={{ flex: 1 }}>
-            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
-                dataProvider: rightBooks,
-                horizontalScroll: getScrollOffBelow(),
-                enableFilters: false,
-                enableHeightAutoAdjust: true,
-                uniqueIdentifierOptions: {
-                    useField: "id"
-                },
-                columns: [
-                    {
-                        ...createDragColumn(),
-                        dragOptions: {
-                            dragEnd
-                        }
-                    },
-                    createColumn("id", "string"),
-                    createColumn("description", "string"),
-                    createColumn("author", "string", "Author"),
-                    createColumn("title", "string", "Title"),
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={rightOptions}></ReactDataGrid>
         </div>
     </div>;
 };

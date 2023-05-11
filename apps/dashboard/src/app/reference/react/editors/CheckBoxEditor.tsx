@@ -17,10 +17,10 @@ export const CheckBoxEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdi
         if(isBulkEdit){
             setIsCheck(newVal);
         } else
-        applyEditedValue(node, newVal, rowsToEdit);
+        applyEditedValue(node, newVal, rowsToEdit, true);
     };
     const applyBulkEdit = () => {
-        applyEditedValue(node, isCheck, rowsToEdit); 
+        applyEditedValue(node, isCheck, rowsToEdit, true); 
     }
     return <div className="ezgrid-dg-toolbar-section" >
     {
@@ -35,8 +35,8 @@ export const CheckBoxEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdi
     }
     </div>;
 };
-export const createCheckBoxEditorOptions = (editStartMode= EditStartMode.Click) => ({
+export const createCheckBoxEditorOptions = <T=unknown>(editStartMode= EditStartMode.Click) => ({
     enableEdit: true,
-    editorRenderer: CheckBoxEditor,
+    editorRenderer: CheckBoxEditor as FunctionComponent<RendererProps<T>>,
     editStartMode,
 });

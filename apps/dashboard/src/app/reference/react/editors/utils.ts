@@ -1,6 +1,6 @@
 import { VirtualTreeNode, getApi } from "@ezgrid/grid-core";
 
-export const applyEditedValue = (node:VirtualTreeNode, value:unknown, rowsToEdit?:string[]) => {
+export const applyEditedValue = (node:VirtualTreeNode, value:unknown, rowsToEdit?:string[], dispatchCommit?:boolean) => {
     const api = getApi(node);
     if(rowsToEdit && rowsToEdit.length){
         rowsToEdit.forEach(rowId=>{
@@ -12,5 +12,8 @@ export const applyEditedValue = (node:VirtualTreeNode, value:unknown, rowsToEdit
     }
     else{
         api.addChange(node.rowPosition!, node.columnPosition!, value);
+    }
+    if(dispatchCommit){
+        api.dispatchValueCommit();
     }
 };

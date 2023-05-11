@@ -1,5 +1,5 @@
-import { ApiContext, ColumnOptions, createColumn, ExportPageOption, getApi, getFlatColumns, gridCSSPrefix, GridIconButton, PdfOrientation, RendererProps, stopPropagation } from "@ezgrid/grid-core";
-import { FC, useEffect, useRef, useState } from "react";
+import { ApiContext, ColumnOptions, createColumn, ExportPageOption, getApi, getFlatColumns, gridCSSPrefix, GridIconButton, GridOptions, PdfOrientation, RendererProps, stopPropagation } from "@ezgrid/grid-core";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { createSelectField } from "../../adapter";
 import { ReactDataGrid } from "../../ReactDataGrid";
 import { buttonCreator, COL_PROPS, GRID_PROPS } from "../../shared/shared-props";
@@ -62,71 +62,72 @@ export const ColumnPicker: FC<ColumnPickerProps> = ({ node, setPopupVisible, exp
             api.exportToExcel(dataToExport, selectedCols as ColumnOptions[], pageOption);
         }
     };
-    return <>
-        <ReactDataGrid style={{ width: "350px", height: "100%" }} gridOptions={{
-            dataProvider,
-            eventBus: {
-                onApiContextReady: (ctx) => {
-                    apiRef.current = ctx;
-                }
-            },
-            ...GRID_PROPS(node, "uniqueIdentifier"),
-            enableToolbar: true,
-            loadingMessage,
-            isLoading: loadingMessage !== "",
-            toolbarOptions: {
-                toolbarRenderer: ({ node }) => {
-                    const { box, styles } = node;
-                    return <div key={node.key} className={gridCSSPrefix("toolbar")}
-                        style={{ ...box, ...styles }} onMouseEnter={stopPropagation} onMouseLeave={stopPropagation} onClick={stopPropagation}>
-                        <div className={gridCSSPrefix("toolbar-section")} style={{ width: "100%", gap: 2 }}>
-                            {pagingEnabled && createSelectField(node.gridOptions, {
+    const dgOptions = useMemo<GridOptions>(() => ({
+        dataProvider,
+        eventBus: {
+            onApiContextReady: (ctx) => {
+                apiRef.current = ctx;
+            }
+        },
+        ...GRID_PROPS(node, "uniqueIdentifier"),
+        enableToolbar: true,
+        loadingMessage,
+        isLoading: loadingMessage !== "",
+        toolbarOptions: {
+            toolbarRenderer: ({ node }) => {
+                const { box, styles } = node;
+                return <div key={node.key} className={gridCSSPrefix("toolbar")}
+                    style={{ ...box, ...styles }} onMouseEnter={stopPropagation} onMouseLeave={stopPropagation} onClick={stopPropagation}>
+                    <div className={gridCSSPrefix("toolbar-section")} style={{ width: "100%", gap: 2 }}>
+                        {pagingEnabled && createSelectField(node.gridOptions, {
+                            style: { width: "120px" },
+                            onChange: (newValue) => setPageOption(newValue as "all" | "current"),
+                            value: pageOption,
+                            options: [
+                                { value: "all", name: "All Pages" },
+                                { value: "current", name: "Current Page" }
+                            ]
+                        })}
+                        {
+                            exportType === "pdf" &&
+                            createSelectField(node.gridOptions, {
                                 style: { width: "120px" },
-                                onChange: (newValue) => setPageOption(newValue as "all" | "current"),
-                                value: pageOption,
+                                onChange: (newValue) => setOrientationOption(newValue as PdfOrientation),
+                                value: orientationOption,
                                 options: [
-                                    { value: "all", name: "All Pages" },
-                                    { value: "current", name: "Current Page" }
+                                    { value: "portrait", name: "Portrait" },
+                                    { value: "landscape", name: "Landscape" }
                                 ]
-                            })}
-                            {
-                                exportType === "pdf" &&
-                                createSelectField(node.gridOptions, {
-                                    style: { width: "120px" },
-                                    onChange: (newValue) => setOrientationOption(newValue as PdfOrientation),
-                                    value: orientationOption,
-                                    options: [
-                                        { value: "portrait", name: "Portrait" },
-                                        { value: "landscape", name: "Landscape" }
-                                    ]
-                                })
-                            }
-                            <div style={{ flexGrow: 1 }}></div>
-                            <div className={gridCSSPrefix("toolbar-section")} >
-                                {exportType === "pdf" && buttonCreator(node, "export-pdf-icon", "Do Export", doExport, GridIconButton.Pdf)}
-                                {exportType === "excel" && buttonCreator(node, "export-excel-icon", "Do Export", doExport, GridIconButton.Excel)}
-                                {buttonCreator(node, "close-icon", "Close Popup", () => setPopupVisible(false), GridIconButton.Cancel)}
-                            </div>
-                        </div>
-                    </div>;
-                }
-            },
-            columns: [
-                {
-                    ...createColumn("headerText", "string", "Columns"),
-                    ...COL_PROPS(true),
-                    enableDrag: true,
-                    headerOptions: {
-                        headerRenderer: ({ node }) => {
-                            return <div className={gridCSSPrefix("toolbar-spacer")}>
-                                <div className={gridCSSPrefix("toolbar-section")} >
-                                    {"Select Columns to Export"}
-                                </div>
-                            </div>;
+                            })
                         }
-                    },
+                        <div style={{ flexGrow: 1 }}></div>
+                        <div className={gridCSSPrefix("toolbar-section")} >
+                            {exportType === "pdf" && buttonCreator(node, "export-pdf-icon", "Do Export", doExport, GridIconButton.Pdf)}
+                            {exportType === "excel" && buttonCreator(node, "export-excel-icon", "Do Export", doExport, GridIconButton.Excel)}
+                            {buttonCreator(node, "close-icon", "Close Popup", () => setPopupVisible(false), GridIconButton.Cancel)}
+                        </div>
+                    </div>
+                </div>;
+            }
+        },
+        columns: [
+            {
+                ...createColumn("headerText", "string", "Columns"),
+                ...COL_PROPS(true),
+                enableDrag: true,
+                headerOptions: {
+                    headerRenderer: ({ node }) => {
+                        return <div className={gridCSSPrefix("toolbar-spacer")}>
+                            <div className={gridCSSPrefix("toolbar-section")} >
+                                {"Select Columns to Export"}
+                            </div>
+                        </div>;
+                    }
                 },
-            ]
-        }}></ReactDataGrid>
+            },
+        ]
+    }), [dataProvider, loadingMessage, pageOption, orientationOption]);
+    return <>
+        <ReactDataGrid style={{ width: "350px", height: "100%" }} gridOptions={dgOptions}></ReactDataGrid>
     </>;
 };

@@ -1,4 +1,4 @@
-import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createGroupingBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@ezgrid/grid-core";
+import { ApiContext, CheckBoxState, ColumnOptions, createColumn, createDragColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, debounce, DRAG_COLUMN_ID, getApi, GridSelectionMode, LockMode, NameValue, pasteToClipboard, resolveExpression, SELECTION_COL_UNIQUE_ID } from "@ezgrid/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
 import { createDeleteColumn, DELETE_COL_UNIQUE_ID, generateColumnsFromJson, GridProperty, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TriStateCheckBox } from "@ezgrid/grid-react";
 import { Button, MenuItem, Select, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
@@ -208,7 +208,6 @@ export const GridBuilder = () => {
                     behaviors: [
                         createFilterBehavior({}), //only needed if you are using filters
                         createEditBehavior({}), //only needed if you are using edit
-                        createGroupingBehavior({}),//only needed if you are using grouping
                         //createPdfBehavior({}), //only needed if you are using export
                         //createExcelBehavior({}), //only needed if you are using export
                     ],
@@ -245,7 +244,7 @@ export const GridBuilder = () => {
     return (
         <div style={{ width: "100%" }}>
             {
-                showFormulaEditor && <CalculatedFieldEditorWrapper onClose={() => setShowFormulaEditor(false)} allFields={columns.map(d => resolveExpression(d,"dataField")).filter(f=> f.indexOf("json")==-1)} 
+                showFormulaEditor && <CalculatedFieldEditorWrapper  allFields={columns.map(d => resolveExpression(d,"dataField")).filter(f=> f.indexOf("json")==-1)} 
                 gridOptions={{adapter:materialAdapter}} />
             }
             {step === 1 && (
@@ -307,7 +306,6 @@ export const GridBuilder = () => {
                                         createEditBehavior({}),
                                         createPdfBehavior({}),
                                         createExcelBehavior({}),
-                                        createGroupingBehavior({}),
                                     ],
                                     uniqueIdentifierOptions: {
                                         useIndex: true

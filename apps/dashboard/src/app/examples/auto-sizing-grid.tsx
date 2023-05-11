@@ -1,6 +1,6 @@
-import { createColumn } from "@ezgrid/grid-core";
+import { GridOptions, createColumn } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const AutoSizingGrid = () => {
     const [data, setData] = useState<any[]>([]);
@@ -17,13 +17,13 @@ export const AutoSizingGrid = () => {
     setData(data);
 
     }, []);
-
-    return <ReactDataGrid style={{ width: "500px" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions>(() => ({
+        isMemo: true,
         dataProvider: data,
         enableFooters: false,
         enableFilters: false,
         toolbarOptions: {
-            leftToolbarRenderer: ({ node }) => {
+            leftToolbarRenderer: () => {
                 return <div className="ezgrid-dg-toolbar-section">
                     <button onClick={() => {
                         const obj = addNewObject();
@@ -40,5 +40,7 @@ export const AutoSizingGrid = () => {
             createColumn("number", "string", "Id Number"),
             createColumn("value", "string", "Value"),
         ]
-    }}></ReactDataGrid>;
+    }), [data]);
+
+    return <ReactDataGrid style={{ width: "500px" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

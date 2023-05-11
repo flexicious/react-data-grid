@@ -38,4 +38,4 @@ const SelectionCheckBox: FC<RendererProps> = ({ node }) => {
 
 };
 
-export const SelectionCheckBoxRenderer = (props: RendererProps) => <SelectionCheckBox key={props.node.key} {...props} />;
+export const SelectionCheckBoxRenderer = <T=unknown>(props: RendererProps<T>) => <SelectionCheckBox key={props.node.key} {...props as RendererProps} />;

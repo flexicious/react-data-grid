@@ -1,11 +1,11 @@
-import { ApiContext, createColumn, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import SampleData from "../mockdata/SampleData";
 
 export const GroupHeaders = () => {
     const apiRef = useRef<ApiContext | null>(null);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions>(()=>({
         dataProvider: SampleData.networkData,
         horizontalScroll: HorizontalScrollMode.Off,
         enableFilters: false,
@@ -48,5 +48,6 @@ export const GroupHeaders = () => {
             createColumn("type", "string", "Type"),
             createColumn("iconClass", "string", "Icon Class"),
         ]
-    }}></ReactDataGrid>;
+    }),[])
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

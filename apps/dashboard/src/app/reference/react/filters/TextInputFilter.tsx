@@ -28,9 +28,9 @@ const TextInputFilter: FC<RendererProps> = ({ node }) => {
 
 export const TextInputFilterRenderer = (props: RendererProps) => <TextInputFilter key={props.node.key} {...props} />;
 
-export const createTextInputFilterOptions = (filterOperation: FilterOperation): FilterOptions => {
+export const createTextInputFilterOptions = <T=unknown>(filterOperation: FilterOperation): FilterOptions<T> => {
     return {
-        filterRenderer: TextInputFilterRenderer,
+        filterRenderer: TextInputFilterRenderer as FC<RendererProps<T>>,
         filterWaterMark: filterOperation=== FilterOperation.Wildcard? "*Search*": camelCaseToSpace(filterOperation),
         filterOperation
     };

@@ -1,6 +1,6 @@
-import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridSelectionMode, LockMode } from "@ezgrid/grid-core";
+import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridOptions, GridSelectionMode, LockMode } from "@ezgrid/grid-core";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
@@ -19,7 +19,7 @@ export const SingleLevel = () => {
         };
         getLineItems();
     }, []);
-    return <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+    const gridOptions = useMemo<GridOptions<LineItem>>(() => ({
         dataProvider: data,
         isLoading,
         uniqueIdentifierOptions: {
@@ -130,5 +130,6 @@ export const SingleLevel = () => {
 
             },
         ]
-    }} />;
+    }), [data, isLoading]);
+    return <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />;
 };

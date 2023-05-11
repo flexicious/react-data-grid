@@ -15,9 +15,9 @@ const TriStateCheckBoxFilter: FC<RendererProps> = ({ node }) => {
     return <TriStateCheckBox node={node} onChange={onChange} value={checkBoxValue} allowIndeterminate={true} />;
 };
 const TriStateCheckBoxFilterRenderer = (props: RendererProps) => <TriStateCheckBoxFilter key={props.node.key} {...props} />;
-export const createTriStateCheckBoxFilterOptions = (): FilterOptions => {
+export const createTriStateCheckBoxFilterOptions = <T=unknown>(): FilterOptions<T> => {
     return {
-        filterRenderer: TriStateCheckBoxFilterRenderer,
+        filterRenderer: TriStateCheckBoxFilterRenderer as FC<RendererProps<T>>,
         filterOperation: FilterOperation.Equals,
         filterComparisonType: FilterComparisonType.Boolean
     };

@@ -29,4 +29,4 @@ const SelectionCheckBoxHeader: FC<RendererProps> = ({ node }) => {
 
 };
 
-export const SelectionCheckBoxHeaderRenderer = (props: RendererProps) => <SelectionCheckBoxHeader key={props.node.key} {...props} />;
+export const SelectionCheckBoxHeaderRenderer = <T=unknown>(props: RendererProps<T>) => <SelectionCheckBoxHeader key={props.node.key} {...props as RendererProps} />;

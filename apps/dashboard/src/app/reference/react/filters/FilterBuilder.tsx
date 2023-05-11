@@ -1,4 +1,4 @@
-import { ApiContext, Box, camelCaseToSpace, ColumnOptions, createColumn, createFilterBehavior, Filter, FilterExpression, FilterOperation, FILTER_OPERATION_TYPE_PREDEFINED_LIST, getApi, getChatGptPrompt, getContext, getFlat, getRectFromDom, gridCSSPrefix, GridIconButton, GridSelectionMode, GRID_CONSTANTS, HorizontalScrollMode, isFilter, isFilterExpression, nullifyParent, pasteToClipboard, RendererProps } from "@ezgrid/grid-core";
+import { ApiContext, Box, camelCaseToSpace, ColumnOptions, createColumn, createFilterBehavior, Filter, FilterExpression, FilterOperation, FILTER_OPERATION_TYPE_PREDEFINED_LIST, getApi, getChatGptPrompt, getContext, getFlat, getRectFromDom, gridCSSPrefix, GridIconButton, GridSelectionMode, GRID_CONSTANTS, HorizontalScrollMode, isFilter, isFilterExpression, nullifyParent, pasteToClipboard, RendererProps, GridOptions } from "@ezgrid/grid-core";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { createDateField, createSelectField, createTextArea, createTextField } from "../adapter";
 import { ReactDataGrid } from "../ReactDataGrid";
@@ -42,13 +42,13 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
     }, [openOnMount]);
     const togglePopup = (val: boolean) => {
         if (openOnMount) return;
-        if(val){
+        if (val) {
             const filterValues = api.getAllFilterValues() || {};
             const hasFilter = Array.from(filterValues.entries()).length > 0;
-            if(hasFilter){
-                if(window.confirm("The filter builder cannot be opened while quick filters are applied. Would you like to clear the filters and proceed?")){
+            if (hasFilter) {
+                if (window.confirm("The filter builder cannot be opened while quick filters are applied. Would you like to clear the filters and proceed?")) {
                     api.clearAllFilterValues();
-                }else 
+                } else
                     return;
             }
         }
@@ -91,7 +91,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
             )]));
     }, [globalFilter]);
     useEffect(() => {
-        setDataProvider(d=> [...d]);
+        setDataProvider(d => [...d]);
     }, [rootNode]);
     const [dataProvider, setDataProvider] = useState<Filter[]>(defaultState);
     const apiRef = useRef<ApiContext | null>(null);
@@ -228,7 +228,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
     const setBoundingRect = () => {
         const rect = getRectFromDom(api.getGridBox(true));
         if (rect) {
-            setRectangle({ ...rect, width: openOnMount? rect.width :"600px"  });
+            setRectangle({ ...rect, width: openOnMount ? rect.width : "600px" });
         }
     };
     const applyFilter = () => {
@@ -243,7 +243,180 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
         );
     }
 
+    const gridOptions = useMemo<GridOptions>(() => ({
+        isLoading: loading,
+        ...GRID_PROPS(node, "id"),
+        cellStyleFunction: undefined,
+        rowStyleFunction: undefined,
+        dividerOptions: undefined,
+        enableFilters: false,
+        dataProvider,
+        horizontalScroll: HorizontalScrollMode.Off,
+        selectionMode: GridSelectionMode.None,
+        behaviors: [createFilterBehavior({})],
+        eventBus: {
+            onApiContextReady: (ctx) => {
+                apiRef.current = ctx;
+                apiRef.current?.api?.expandAll();
+            }
+        },
+        nextLevel: {
+            childrenField: "children",
+        },
+        enableDynamicLevels: true,
+        columns: [
+            createDeleteColumn((data) => removeChildFromNode(data as Filter | FilterExpression)),
+            {
+                ...createColumn("id", "string", "Id"),
+                ...COL_PROPS(),
+                enableHierarchy: true,
+                headerOptions: {
+                    headerRenderer: ({ node }) => {
+                        return <div className="ezgrid-dg-horizontal-flex">
+                            <div style={{ float: "left" }} >
+                                Select Criteria
+                            </div>
+                            {
+                                !openOnMount && <div style={{ float: "right", display: "flex", gap: 4 }} >
+                                    {buttonCreator(node, "check-icon", "Apply Filter", applyFilter, GridIconButton.Apply, false)}
+                                    {buttonCreator(node, "close-icon", "Close Popup", () => togglePopup(false),
+                                        GridIconButton.Cancel, false)}
+                                </div>
+                            }
+                        </div>;
+                    }
+                },
+                itemRenderer: ({ node }) => {
+                    const data = node.rowPosition?.data as (FilterExpression | Filter);
+                    const filter = data as Filter;
+                    const expression = data as FilterExpression;
+                    const operation = (data as FilterExpression).operation;
+                    return <div className={gridCSSPrefix("toolbar-section")}>
+                        {createSelectField(node.gridOptions, {
+                            style: { width: "200px" },
+                            onChange: (newValue) => changeNodeType(newValue, data),
+                            value: (filter).logicalOperator || (expression).col.dataField,
+                            options: getParent(dataProvider[0], filter) ? allValues : andOr
+                        })}
+                        {data && (expression).col && <>
+                            {createSelectField(node.gridOptions, {
+                                style: { width: "100px" },
+                                onChange: (newValue) => changeOperation(newValue, expression),
+                                value: (expression).operation,
+                                options: operations
+                            })}
+                            {
+                                (operation.toString() === FILTER_OPERATION_TYPE_PREDEFINED_LIST) ?
+                                    <div>
+                                        {
+                                            createSelectField(node.gridOptions, {
+                                                style: { width: "200px" },
+                                                onChange: (newValue) => expressionChangeHandler(newValue, expression),
+                                                value: (expression).expression?.toString(),
+                                                options: (predefinedLists || []).map(s => ({ name: s, value: s }))
+                                            })
+                                        }
+                                    </div> :
+                                    (operation === FilterOperation.InList
+                                        || operation === FilterOperation.NotInList) ? <div>
+                                        <MultiSelectFilter filterBuilderMode
+                                            value={(expression).expression}
+                                            onValueChanged={(val) => expressionChangeHandler(val, expression)}
+                                            node={{
+                                                ...rootNode,
+                                                columnPosition: {
+                                                    column: {
+                                                        ...expression.col,
+                                                        filterOptions: {
+                                                            ...expression.col.filterOptions,
+                                                            filterComboBoxDataProvider: cols?.find(c => c.uniqueIdentifier === expression.col.uniqueIdentifier)?.filterOptions?.filterComboBoxDataProvider
+                                                        }
+                                                    },
+                                                    startPosition: 0,
+                                                    width: 100,
+                                                }
 
+                                            }} />
+                                    </div> :
+                                        (operation === FilterOperation.IsNotNull
+                                            || operation === FilterOperation.IsNull) ?
+                                            <></>
+                                            :
+                                            operation === FilterOperation.Between ? <div>
+                                                <>
+                                                    {expression.col.format === "date" ?
+                                                        <>
+                                                            <DateSelectFilter filterBuilderMode
+                                                                value={(expression).expression}
+                                                                onValueChanged={(val) => expressionChangeHandler(val, expression)}
+                                                                node={{
+                                                                    ...rootNode,
+                                                                    columnPosition: {
+                                                                        column: (expression).col,
+                                                                        startPosition: 0,
+                                                                        width: 100,
+                                                                    }
+
+                                                                }} />
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <NumericRangeFilter filterBuilderMode
+                                                                value={(expression).expression}
+                                                                numeric={expression.col.format === "number" || expression.col.format === "currency"}
+                                                                onValueChanged={(val) => expressionChangeHandler(val, expression)}
+                                                                node={{
+                                                                    ...rootNode,
+                                                                    columnPosition: {
+                                                                        column: (expression).col,
+                                                                        startPosition: 0,
+                                                                        width: 100,
+                                                                    }
+
+                                                                }} />
+                                                        </>
+                                                    }
+                                                </>
+                                            </div> :
+                                                expression.col.format === "date" ||
+                                                    expression.col.format === "dateTime"
+                                                    ?
+                                                    createDateField(node.gridOptions, {
+                                                        style: { width: "100px" },
+                                                        onChange: (val) => expressionChangeHandler(val, data as FilterExpression),
+                                                        value: (data as FilterExpression).expression as Date | null | undefined
+                                                    })
+                                                    : createTextField(node.gridOptions, {
+                                                        style: { width: "100px" },
+                                                        attributes: { name: (data as FilterExpression).col.uniqueIdentifier },
+                                                        onChange: (val) => {
+                                                            const focusId = (data as FilterExpression).col.uniqueIdentifier;
+                                                            if (focusId) {
+                                                                setTimeout(() => {
+                                                                    const el = document.getElementsByName(focusId)?.[0];
+                                                                    if (el) el.focus();
+                                                                }, 100);
+                                                            }
+                                                            expressionChangeHandler(val, data as FilterExpression)
+                                                        },
+                                                        value: String((data as FilterExpression).expression) || ""
+                                                    })
+                            }
+
+
+
+                        </>}
+                        <div>
+                            {filter?.logicalOperator && buttonCreator(node, "add-circle-icon", "Add Criteria",
+                                () => addChildToNode(filter), GridIconButton.Plus)}
+                        </div>
+                    </div>;
+                },
+
+            }
+
+        ]
+    }), [dataProvider, loading]);
     return <>{!openOnMount &&
         <div className={gridCSSPrefix("toolbar-section")} >
             <PopupButton node={node} popupVisible={popupVisible} setPopupVisible={togglePopup}
@@ -270,205 +443,33 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
 
         {
             popupVisible && <Popup node={node} rectangle={rectangle} setPopupVisible={togglePopup} makeBackground={openOnMount !== true}>
-                <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
+                <div className="ezgrid-dg-filter-builder" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
                     <div style={{ display: "flex", flex: 2 }}>
-                        <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
-                            isLoading: loading,
-                            ...GRID_PROPS(node, "id"),
-                            cellStyleFunction: undefined,
-                            rowStyleFunction: undefined,
-                            dividerOptions: undefined,
-                            enableFilters: false,
-                            dataProvider,
-                            horizontalScroll: HorizontalScrollMode.Off,
-                            selectionMode: GridSelectionMode.None,
-                            behaviors: [createFilterBehavior({})],
-                            eventBus: {
-                                onApiContextReady: (ctx) => {
-                                    apiRef.current = ctx;
-                                    apiRef.current?.api?.expandAll();
-                                }
-                            },
-                            nextLevel: {
-                                childrenField: "children",
-                            },
-                            enableDynamicLevels: true,
-                            columns: [
-                                createDeleteColumn((data) => removeChildFromNode(data as Filter | FilterExpression)),
-                                {
-                                    ...createColumn("id", "string", "Id"),
-                                    ...COL_PROPS(),
-                                    enableHierarchy: true,
-                                    headerOptions: {
-                                        headerRenderer: ({ node }) => {
-                                            return <div className="ezgrid-dg-horizontal-flex">
-                                                <div style={{ float: "left" }} >
-                                                    Select Criteria
-                                                </div>
-                                                {
-                                                    !openOnMount && <div style={{ float: "right", display: "flex", gap: 4 }} >
-                                                        {buttonCreator(node, "check-icon", "Apply Filter", applyFilter, GridIconButton.Apply, false)}
-                                                        {buttonCreator(node, "close-icon", "Close Popup", () => togglePopup(false),
-                                                            GridIconButton.Cancel, false)}
-                                                    </div>
-                                                }
-                                            </div>;
-                                        }
-                                    },
-                                    itemRenderer: ({ node }) => {
-                                        const data = node.rowPosition?.data as (FilterExpression | Filter);
-                                        const filter = data as Filter;
-                                        const expression = data as FilterExpression;
-                                        const operation = (data as FilterExpression).operation;
-                                        return <div className={gridCSSPrefix("toolbar-section")}>
-                                            {createSelectField(node.gridOptions, {
-                                                style: { width: "200px" },
-                                                onChange: (newValue) => changeNodeType(newValue, data),
-                                                value: (filter).logicalOperator || (expression).col.dataField,
-                                                options: getParent(dataProvider[0], filter) ? allValues : andOr
-                                            })}
-                                            {data && (expression).col && <>
-                                                {createSelectField(node.gridOptions, {
-                                                    style: { width: "100px" },
-                                                    onChange: (newValue) => changeOperation(newValue, expression),
-                                                    value: (expression).operation,
-                                                    options: operations
-                                                })}
-                                                {
-                                                    (operation.toString() === FILTER_OPERATION_TYPE_PREDEFINED_LIST) ?
-                                                        <div>
-                                                            {
-                                                                createSelectField(node.gridOptions, {
-                                                                    style: { width: "200px" },
-                                                                    onChange: (newValue) => expressionChangeHandler(newValue, expression),
-                                                                    value: (expression).expression?.toString(),
-                                                                    options: (predefinedLists || []).map(s => ({ name: s, value: s }))
-                                                                })
-                                                            }
-                                                        </div> :
-                                                        (operation === FilterOperation.InList
-                                                            || operation === FilterOperation.NotInList) ? <div>
-                                                            <MultiSelectFilter filterBuilderMode
-                                                                value={(expression).expression}
-                                                                onValueChanged={(val) => expressionChangeHandler(val, expression)}
-                                                                node={{
-                                                                    ...rootNode,
-                                                                    columnPosition: {
-                                                                        column: {
-                                                                            ...expression.col,
-                                                                            filterOptions: {
-                                                                                ...expression.col.filterOptions,
-                                                                                filterComboBoxDataProvider : cols?.find(c => c.uniqueIdentifier === expression.col.uniqueIdentifier)?.filterOptions?.filterComboBoxDataProvider
-                                                                            }
-                                                                        },
-                                                                        startPosition: 0,
-                                                                        width: 100,
-                                                                    }
-
-                                                                }} />
-                                                        </div> :
-                                                            (operation === FilterOperation.IsNotNull
-                                                                || operation === FilterOperation.IsNull) ?
-                                                                <></>
-                                                                :
-                                                                operation === FilterOperation.Between ? <div>
-                                                                    <>
-                                                                        {expression.col.format === "date" ?
-                                                                            <>
-                                                                                <DateSelectFilter filterBuilderMode
-                                                                                    value={(expression).expression}
-                                                                                    onValueChanged={(val) => expressionChangeHandler(val, expression)}
-                                                                                    node={{
-                                                                                        ...rootNode,
-                                                                                        columnPosition: {
-                                                                                            column: (expression).col,
-                                                                                            startPosition: 0,
-                                                                                            width: 100,
-                                                                                        }
-
-                                                                                    }} />
-                                                                            </>
-                                                                            :
-                                                                            <>
-                                                                                <NumericRangeFilter filterBuilderMode
-                                                                                    value={(expression).expression}
-                                                                                    numeric={expression.col.format === "number" || expression.col.format === "currency"}
-                                                                                    onValueChanged={(val) => expressionChangeHandler(val, expression)}
-                                                                                    node={{
-                                                                                        ...rootNode,
-                                                                                        columnPosition: {
-                                                                                            column: (expression).col,
-                                                                                            startPosition: 0,
-                                                                                            width: 100,
-                                                                                        }
-
-                                                                                    }} />
-                                                                            </>
-                                                                        }
-                                                                    </>
-                                                                </div> :
-                                                                    expression.col.format === "date" ||
-                                                                        expression.col.format === "dateTime"
-                                                                        ?
-                                                                        createDateField(node.gridOptions, {
-                                                                            style: { width: "100px" },
-                                                                            onChange: (val) => expressionChangeHandler(val, data as FilterExpression),
-                                                                            value: (data as FilterExpression).expression as Date | null | undefined
-                                                                        })
-                                                                        : createTextField(node.gridOptions, {
-                                                                            style: { width: "100px" },
-                                                                            attributes:{name: (data as FilterExpression).col.uniqueIdentifier},
-                                                                            onChange: (val) => {
-                                                                                const focusId = (data as FilterExpression).col.uniqueIdentifier;
-                                                                                if(focusId){
-                                                                                    setTimeout(() => {
-                                                                                        const el = document.getElementsByName(focusId)?.[0];
-                                                                                        if(el) el.focus();
-                                                                                    }, 100);
-                                                                                }
-                                                                                expressionChangeHandler(val, data as FilterExpression)},
-                                                                            value: String((data as FilterExpression).expression) || ""
-                                                                        })
-                                                }
-
-
-
-                                            </>}
-                                            <div>
-                                                {filter?.logicalOperator && buttonCreator(node, "add-circle-icon", "Add Criteria",
-                                                    () => addChildToNode(filter), GridIconButton.Plus)}
-                                            </div>
-                                        </div>;
-                                    },
-
-                                }
-
-                            ]
-                        }}></ReactDataGrid >
+                        <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid >
 
                     </div>
-                    <div style={{ display: "flex", flex: 1, margin: 15, gap: 15, flexDirection:"column" }}>
+                    <div style={{ display: "flex", flex: 1, margin: 15, gap: 15, flexDirection: "column" }}>
                         {
                             filterString && <div >
-                            <b>Filter String</b>
-                            <pre>{filterString}</pre>
-                        </div>
+                                <b>Filter String</b>
+                                <pre>{filterString}</pre>
+                            </div>
                         }
-                        <div className="ezgrid-dg-card" style={{ flex: 1, width:"500px", display: filterBuilderOptions?.enableChatGpt === false ? 'none' : "" }} >
-                        
+                        <div className="ezgrid-dg-card" style={{ flex: 1, width: "500px", display: filterBuilderOptions?.enableChatGpt === false ? 'none' : "" }} >
+
                             <b>Ask ChatGPT!</b>
                             <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", flexDirection: "column" }}>
-                            <div className="ezgrid-dg-toolbar-section" >
-                                Choose Field to ask Chat GPT:
-                                {
-                                    createSelectField(node.gridOptions, {
-                                        style: { width: "200px" },
-                                        onChange: (val) => {
-                                            setChatGptQuestion(chatGptQuestion + " " + val);
-                                        },
-                                        options: allFields,
-                                    })
-                                }
+                                <div className="ezgrid-dg-toolbar-section" >
+                                    Choose Field to ask Chat GPT:
+                                    {
+                                        createSelectField(node.gridOptions, {
+                                            style: { width: "200px" },
+                                            onChange: (val) => {
+                                                setChatGptQuestion(chatGptQuestion + " " + val);
+                                            },
+                                            options: allFields,
+                                        })
+                                    }
                                 </div>
                                 {
                                     createTextArea(node.gridOptions, {
@@ -487,7 +488,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
                                         buttonCreator(node, "copy-icon", "Copy GPT Prompt", async () => {
                                             await pasteToClipboard(chatGptPrompt);
                                             openChatGpt();
-                                        }, GridIconButton.Copy)
+                                        }, GridIconButton.Copy, false, true)
                                     }
 
                                     {
@@ -501,7 +502,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
                                                 if (!api) return;
                                                 api.expandAll();
                                             }, 100);
-                                        }, GridIconButton.Paste)
+                                        }, GridIconButton.Paste, false, true)
                                     }
                                     {
                                         buttonCreator(node, "page-next-icon", "Ask Chat GPT", async () => {
@@ -510,7 +511,7 @@ export const FilterBuilder: FC<FilterBuilderProps> = ({ node, openOnMount, ruleS
                                             setLoading(false);
                                             processChatGptResponse(result);
 
-                                        }, GridIconButton.PageNext)
+                                        }, GridIconButton.PageNext, false, true)
                                     }
 
                                 </div>

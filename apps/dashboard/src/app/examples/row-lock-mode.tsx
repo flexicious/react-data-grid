@@ -1,6 +1,6 @@
-import { ApiContext, createColumn, createFilterBehavior, getFlatColumns, LockMode, RowType } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, createFilterBehavior, getFlatColumns, GridOptions, LockMode, RowType } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
 
@@ -34,8 +34,7 @@ export const LockedRows = () => {
             setMedian([medianRow, maxRow, minRow]);
         }
     }, [data]);
-
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions>(() => ({
         dataProvider: data,
         lockedDataProvider: median,
         enableFilters: false,
@@ -71,5 +70,6 @@ export const LockedRows = () => {
             })
 
         ]
-    }}></ReactDataGrid>;
+    }), [data, median]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

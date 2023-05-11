@@ -1,13 +1,13 @@
-import { ApiContext, ColumnOptions, createColumn, shortMonthNames,getFlat, resolveExpression, LockMode, createFilterBehavior } from "@ezgrid/grid-core";
+import { ApiContext, ColumnOptions, createColumn, shortMonthNames,getFlat, resolveExpression, LockMode, createFilterBehavior, GridOptions, GRID_CONSTANTS, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { createDeleteColumn, createMultiSelectFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
-export const createFiscalYearColumnGroup = (years: number[], options?: Partial<ColumnOptions>, dataFieldPrefix?: string, callback?: (c: ColumnOptions) => ColumnOptions, createQuarters?: boolean, createMonths?: boolean) => {
+export const createFiscalYearColumnGroup = <T=unknown>(years: number[], options?: Partial<ColumnOptions<T>>, dataFieldPrefix?: string, callback?: (c: ColumnOptions<T>) => ColumnOptions<T>, createQuarters?: boolean, createMonths?: boolean) => {
     const colDefaults = options || [];
     const prefix = dataFieldPrefix || "";
     const yearColumns = years.map((year) => {
         const yearColumn = {
-            ...createColumn(`${prefix}${year}`, "currency", `${year}`),
+            ...createColumn<T>(`${prefix}${year}`, "currency", `${year}`),
             children: [],
             ...colDefaults,
         };
@@ -16,7 +16,7 @@ export const createFiscalYearColumnGroup = (years: number[], options?: Partial<C
                 .map((_, i) => {
                     const quarterNum = i + 1;
                     return {
-                        ...createColumn(`${prefix}${year}_Q${quarterNum}`, "currency", `Q${quarterNum} ${year}`),
+                        ...createColumn<T>(`${prefix}${year}_Q${quarterNum}`, "currency", `Q${quarterNum} ${year}`),
                         children: [],
                         ...colDefaults,
                     };
@@ -29,7 +29,7 @@ export const createFiscalYearColumnGroup = (years: number[], options?: Partial<C
                         .map((_, i) => {
                             const month = shortMonthNames[monthIndex++];
                             return {
-                                ...createColumn(`${prefix}${year}_${month}`, "currency", `${month} ${year}`),
+                                ...createColumn<T>(`${prefix}${year}_${month}`, "currency", `${month} ${year}`),
                                 ...colDefaults,
                             };
                         });
@@ -41,9 +41,16 @@ export const createFiscalYearColumnGroup = (years: number[], options?: Partial<C
     });
     return yearColumns;
 };
+
 export const getRandom=(minNum:number, maxNum:number) => {
     return Math.ceil(Math.random() * (maxNum - minNum + 1)) + (minNum - 1);
   }
+
+interface CarData {
+    make:string;
+    id:string;
+    children:  Record<string, unknown>[]
+}
 export const AutoSizingGrid = () => {
     const makeModels = [{ "make": "Toyota", "models": ["4Runner", "Avalon", "Camry", "Celica", "Corolla", "Corona", "Cressida", "Echo", "FJ Cruiser", "Highlander", "Land Cruiser", "MR2", "Matrix", "Paseo", "Pickup", "Previa", "Prius", "RAV4", "Seqouia", "Sienna", "Solara", "Supra"] },
     { "make": "Acura", "models": ["Integra", "Legend", "MDX", "NSX", "RDX", "RSX", "SLX", "3.2TL", "2.5TL", "Vigor", "ZDX"] },
@@ -54,7 +61,8 @@ export const AutoSizingGrid = () => {
     const colors: string[] = ["Red", "Yellow", "Silver", "Green", "Tan"];
 
 
-    const dp = [];
+    
+    const dp:CarData[] = [];
     for (let i = 0; i < makeModels.length; i++) {
         const m = makeModels[i];
         const mk = {
@@ -68,10 +76,10 @@ export const AutoSizingGrid = () => {
             mk.children.push({ "model": mod, "id": m.make + "." + mod });
         }
     }
-    const fiscalYears = createFiscalYearColumnGroup([2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023].reverse(), {
+    const fiscalYears = createFiscalYearColumnGroup<CarData>([2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023].reverse(), {
         width: 100
-    });
-    const allCols = getFlat<ColumnOptions>(fiscalYears);
+    }) as ColumnOptions<CarData>[];
+    const allCols = getFlat<ColumnOptions<CarData>>(fiscalYears);
     for (let i = 0; i < dp.length; i++) {
         const dpItem = dp[i];
         for (let j = 0; j < dpItem.children.length; j++) {
@@ -108,8 +116,8 @@ export const AutoSizingGrid = () => {
         }
     }
 
-    const apiRef = useRef<ApiContext | null>(null);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const apiRef = useRef<ApiContext<CarData> | null>(null);
+    const gridOptions = useMemo<GridOptions<CarData>>(() => ({
         dataProvider: (dp),
         behaviors:[
             createFilterBehavior({}),
@@ -160,5 +168,6 @@ export const AutoSizingGrid = () => {
                 lockMode: LockMode.Right,
             }
         ]
-    }}></ReactDataGrid>;
+    }), []);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

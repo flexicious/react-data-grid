@@ -1,20 +1,20 @@
-import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, FooterOperation, getApi, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, FooterOperation, getApi, GridOptions } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const FooterOptions = () => {
     const apiRef = useRef<ApiContext<Employee> | null>(null);
     const [data] = useState<Employee[]>(Employee.getAllEmployees());
-    const gridOptions: GridOptions<Employee> ={
+    const gridOptions: GridOptions<Employee> =useMemo<GridOptions<Employee>>(()=>({
         dataProvider: data,
         enableContextMenu: true,
         uniqueIdentifierOptions: {
             useField: "employeeId"
         },
         horizontalScroll: getScrollOffBelow(),
-        behaviors: [createGroupingBehavior({}),
+        behaviors: [
         createFilterBehavior({})
         ],
         toolbarOptions: {
@@ -100,6 +100,6 @@ export const FooterOptions = () => {
             }
 
         ]
-    };
+    }),[]);
     return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

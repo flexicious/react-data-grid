@@ -1,5 +1,5 @@
-import { Behaviors, Box, ColumnOptions, ColumnWidthMode, createColumn, dataToLabel, EditInfo, EditorProps, getApi, gridCSSPrefix, GridIconButton, GridSelectionMode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
-import { createElement, FC, FunctionComponent, useEffect, useRef, useState } from "react";
+import { Behaviors, Box, ColumnOptions, ColumnWidthMode, createColumn, dataToLabel, EditInfo, EditorProps, getApi, gridCSSPrefix, GridIconButton, GridOptions, GridSelectionMode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
+import { createElement, FC, FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import { ReactDataGrid } from "../../ReactDataGrid";
 import { Popup, PopupButton } from "../../shared";
 import { buttonCreator, COL_PROPS, GRID_PROPS } from "../../shared/shared-props";
@@ -55,9 +55,78 @@ export const EditMenu: FC<RendererProps> = ({ node }) => {
     const columnToEdit = getColumnFromSelectedCells();
     useEffect(() => {
      if(!columnToEdit && bulkEditVisible) {
-        setBulkEditVisible(false);
+        showHideBulkEdit(false);
      }
     },[columnToEdit]);
+    const showHideBulkEdit = (show:boolean) => {
+        setBulkEditVisible(show);
+        api.getContext()!.modifications.bulkEdit = show;
+    };
+
+    const gridOptions = useMemo<GridOptions>(() => ({
+        ...GRID_PROPS(node, ""),
+        enableFooters: false,
+        enableFilters: false,
+        dataProvider,
+        selectionMode: GridSelectionMode.None,
+        uniqueIdentifierOptions: {
+            useIndex: true,
+        }, dividerOptions: {
+            body: true,
+        },
+        columns: [
+            createColumn("rowIdentifier", "string", "Row"),
+            createColumn("columnIdentifier", "string", "Column"),
+            {
+                ...createColumn("oldValue", "string", "Old Value"),
+                labelFunction: getFormattedValue,
+            }, {
+                ...createColumn("newValue", "string", "New Value"),
+                labelFunction: getFormattedValue,
+            },
+            {
+                ...createColumn("valid", "boolean", "Valid"),
+                widthMode: ColumnWidthMode.Fixed,
+                width: 75,
+            },
+            {
+                ...createColumn("validationMessage", "string", "Validation Message"),
+
+                widthMode: ColumnWidthMode.Fixed,
+                width: 200,
+                variableRowHeightOptions: {
+                    enabled: true,
+                }
+            },
+
+            {
+                ...createColumn("Undo", "string", "Undo"),
+                ...COL_PROPS(false),
+                widthMode: ColumnWidthMode.Fixed,
+                width: 75,
+                textAlign: "center",
+                headerOptions: {
+                    headerRenderer: ({ node }) => {
+                        return <div className={gridCSSPrefix("toolbar-section")} >
+                            {buttonCreator(node, "delete-icon", "Undo All Changes", onClearAllChanges, GridIconButton.Delete)}
+                            {buttonCreator(node, "close-icon", "Close Popup", onTogglePopup, GridIconButton.Cancel)}
+                        </div>;
+                    }
+                },
+                itemRenderer: ({ node }) => {
+                    const myApi = getApi(node);
+                    const editInfo = node.rowPosition?.data as EditInfo;
+                    const onClick = () => {
+                        api.removeChange(editInfo.rowIdentifier, editInfo.columnIdentifier);
+                        myApi.rebuild();
+                    };
+                    return <div key={`undo-${editInfo.rowIdentifier}-${editInfo.columnIdentifier}`} >
+                        {buttonCreator(node, "delete-icon", "Undo Change", onClick, GridIconButton.Delete)}
+                    </div>;
+                }
+            },
+        ]
+    }), [dataProvider]);
     return <><div ref={divRef} className="ezgrid-dg-toolbar-section" key="settings" >
         <div onClick={onTogglePopup}>
         {hasChanges && <PopupButton node={node} className="ezgrid-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setPopupVisible} popupWidth={750}
@@ -65,11 +134,11 @@ export const EditMenu: FC<RendererProps> = ({ node }) => {
                 GridIconButton.Edit)} ({dataProvider.length})</>}
         />}
         </div>
-        {hasChanges && buttonCreator(node, "edit-icon", "Save Edits", api.applyChanges,
+        {hasChanges && buttonCreator(node, "save-icon", "Save Edits", ()=> node.gridOptions?.eventBus?.onSaveChanges?.(api.getChanges()),
             GridIconButton.SettingsSave)}
         
-        {columnToEdit && <PopupButton node={node} className="ezgrid-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={setBulkEditVisible} popupWidth={400}
-            popupVisible={popupVisible} useMouseXY trigger={<>|{buttonCreator(node, "bulk-edit-icon", "Bulk Edits", () => setBulkEditVisible(true),
+        {columnToEdit && <PopupButton node={node} className="ezgrid-dg-toolbar-section" setRectangle={setRectangle} setPopupVisible={showHideBulkEdit} popupWidth={400}
+            popupVisible={popupVisible} useMouseXY trigger={<>|{buttonCreator(node, "bulk-edit-icon", "Bulk Edits", () => showHideBulkEdit(true),
                 GridIconButton.BulkEdit)} |</>}
         />}
     </div>
@@ -79,81 +148,17 @@ export const EditMenu: FC<RendererProps> = ({ node }) => {
                     style={{
                         width: "100%", height: "100%", borderBottom: "solid 1px #cccccc",
                     }}
-                    gridOptions={{
-                        ...GRID_PROPS(node, ""),
-                        enableFooters: false,
-                        enableFilters: false,
-                        dataProvider,
-                        selectionMode: GridSelectionMode.None,
-                        uniqueIdentifierOptions: {
-                            useIndex: true,
-                        }, dividerOptions: {
-                            body: true,
-                        },
-                        columns: [
-                            createColumn("rowIdentifier", "string", "Row"),
-                            createColumn("columnIdentifier", "string", "Column"),
-                            {
-                                ...createColumn("oldValue", "string", "Old Value"),
-                                labelFunction: getFormattedValue,
-                            }, {
-                                ...createColumn("newValue", "string", "New Value"),
-                                labelFunction: getFormattedValue,
-                            },
-                            {
-                                ...createColumn("valid", "boolean", "Valid"),
-                                widthMode: ColumnWidthMode.Fixed,
-                                width: 75,
-                            },
-                            {
-                                ...createColumn("validationMessage", "string", "Validation Message"),
-
-                                widthMode: ColumnWidthMode.Fixed,
-                                width: 200,
-                                variableRowHeightOptions: {
-                                    enabled: true,
-                                }
-                            },
-
-                            {
-                                ...createColumn("Undo", "string", "Undo"),
-                                ...COL_PROPS(false),
-                                widthMode: ColumnWidthMode.Fixed,
-                                width: 75,
-                                textAlign: "center",
-                                headerOptions: {
-                                    headerRenderer: ({ node }) => {
-                                        return <div className={gridCSSPrefix("toolbar-section")} >
-                                            {buttonCreator(node, "delete-icon", "Undo All Changes", onClearAllChanges, GridIconButton.Delete)}
-                                            {buttonCreator(node, "close-icon", "Close Popup", onTogglePopup, GridIconButton.Cancel)}
-                                        </div>;
-                                    }
-                                },
-                                itemRenderer: ({ node }) => {
-                                    const myApi = getApi(node);
-                                    const editInfo = node.rowPosition?.data as EditInfo;
-                                    const onClick = () => {
-                                        api.removeChange(editInfo.rowIdentifier, editInfo.columnIdentifier);
-                                        myApi.rebuild();
-                                    };
-                                    return <div key={`undo-${editInfo.rowIdentifier}-${editInfo.columnIdentifier}`} >
-                                        {buttonCreator(node, "delete-icon", "Undo Change", onClick, GridIconButton.Delete)}
-                                    </div>;
-                                }
-                            },
-                        ]
-                    }
-                    }
+                    gridOptions={gridOptions}
                 >
                 </ReactDataGrid>
 
             </Popup>
         }
         {
-            bulkEditVisible && columnToEdit && columnToEdit.editOptions && columnToEdit.editOptions.editorRenderer && <Popup node={node} rectangle={rectangle} setPopupVisible={setBulkEditVisible}>
+            bulkEditVisible && columnToEdit && columnToEdit.editOptions && columnToEdit.editOptions.editorRenderer && <Popup node={node} rectangle={rectangle} setPopupVisible={showHideBulkEdit}>
                 <div style={{width:"100%", }}>
                     <div className={gridCSSPrefix("toolbar-section")} style={{width:"100%", justifyContent:"flex-end"}}>
-                        {buttonCreator(node, "close-icon", "Close Popup", () => setBulkEditVisible(false), GridIconButton.Cancel)}
+                        {buttonCreator(node, "close-icon", "Close Popup", () => showHideBulkEdit(false), GridIconButton.Cancel)}
                     </div>
                     <div className={gridCSSPrefix("toolbar-section")} style={{width:"100%", justifyContent:"center",padding:"20px"}}>
                         <div>{columnToEdit?.headerText || columnToEdit?.dataField}:</div>

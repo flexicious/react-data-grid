@@ -32,7 +32,7 @@ export const CalculatedFieldEditorWrapper: FC<CalculatedFieldEditorProps> = ({ a
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
-                    <CalculatedFieldEditor allFields={allFields} onClose={onClose} gridOptions={gridOptions} />
+                    <CalculatedFieldEditor allFields={allFields} gridOptions={gridOptions} />
                     <DialogActions>
                         <Button onClick={onClose}>Close</Button>
                     </DialogActions>

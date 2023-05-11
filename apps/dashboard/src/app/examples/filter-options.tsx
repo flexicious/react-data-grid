@@ -1,10 +1,10 @@
 import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, DateRangeType, FilterOperation, formatCurrency, getApi, getDateRange, GridOptions, HorizontalScrollMode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
-import { useRef, useState, FC } from "react";
+import { useRef, useState, FC, useMemo } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 
-const PhoneNumberFilter: FC<RendererProps> = ({ node }) => {
+const PhoneNumberFilter: FC<RendererProps<Employee>> = ({ node }) => {
     const api = getApi(node);
     const filterValue = api.getFilterValue("phoneNumber") as string;
     const areaCodeRef = useRef<HTMLInputElement>(null);
@@ -38,7 +38,7 @@ export const FilterOptions = () => {
     const apiRef = useRef<ApiContext<Employee> | null>(null);
     const [data] = useState<Employee[]>(Employee.getAllEmployees());
     const anniversaryRef = useRef<HTMLSelectElement>(null);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions: GridOptions<Employee> = useMemo(() =>({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -48,7 +48,7 @@ export const FilterOptions = () => {
         horizontalScroll: getScrollOffBelow(),
         behaviors: [
             createFilterBehavior({
-                globalFilterMatchFunction: (item: unknown) => {
+                globalFilterMatchFunction: (item: Employee) => {
                     const anniversary = anniversaryRef.current?.value;
                     if (anniversary === "Select" || anniversary === "" || anniversary === undefined)
                         return true;
@@ -62,7 +62,7 @@ export const FilterOptions = () => {
             })
         ],
         toolbarOptions: {
-            rightToolbarRenderer: ({ node }) => {
+            rightToolbarRenderer: () => {
                 const options = [DateRangeType.Today, DateRangeType.ThisWeek, DateRangeType.ThisMonth,
                 DateRangeType.NextWeek, DateRangeType.NextMonth, DateRangeType.LastWeek,
                 DateRangeType.LastMonth,
@@ -179,5 +179,6 @@ export const FilterOptions = () => {
                 filterOptions: createMultiSelectFilterOptions(),
             }
         ]
-    } as GridOptions<Employee>}></ReactDataGrid>;
+    }), [data]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

@@ -1,5 +1,5 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
 import { createMultiSelectFilterOptions, FilterBuilder, getFilterOptions } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
@@ -82,52 +82,52 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         };
         getServerInfo(request);
     }, [request]);
-
+    const gridOptions = useMemo<GridOptions>(() => ({
+        dataProvider: response?.currentPageData,
+        filterPageSortMode: FilterPageSortLoadMode.Server,
+        enablePaging: true,
+        selectionMode: GridSelectionMode.MultipleCells,
+        serverInfo: response,
+        toolbarOptions: {
+            filterBuilderRenderer: ({ node }) => <FilterBuilder node={node} />,
+            enableGlobalSearch: false,
+            enableExcel: true,
+            enablePdf: true,
+        },
+        cellStyleFunction: (node) => {
+            const rowColor = resolveExpression(node.rowPosition?.data, "rowColor");
+            const isPercentCol = node.columnPosition?.column?.dataField === "frpm_new.PercentEligibleFreeK12";
+            if (isPercentCol && rowColor)
+                return { backgroundColor: rowColor };
+            return {};
+        },
+        eventBus: {
+            onFilterDistinctValuesRequested: (col: ColumnOptions) => {
+                setRequest({
+                    ...request,
+                    distinctValueColumns: [col.dataField],
+                    reason: FilterPageSortChangeReason.FilterDistinctValuesRequested
+                });
+                return true;
+            },
+            onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
+                setRequest({
+                    ...args,
+                    reason,
+                    distinctValueColumns: [],//don't need distinct values on subsequent calls
+                });
+            },
+            onExportPageRequested: async (args) => {
+                const result = await axios.post<ServerInfo>("/api/schools", args);
+                return result.data.currentPageData || [];
+            },
+        },
+        isLoading: loading,
+        uniqueIdentifierOptions,
+        columns: cols,
+        ...gridConfig,
+    }), [cols, gridConfig, loading, response, request, uniqueIdentifierOptions]);
     return (<DataGrid style={{ height: "100%", }}
-        gridOptions={{
-            dataProvider: response?.currentPageData,
-            filterPageSortMode: FilterPageSortLoadMode.Server,
-            enablePaging: true,
-            selectionMode: GridSelectionMode.MultipleCells,
-            serverInfo: response,
-            toolbarOptions: {
-                filterBuilderRenderer: ({ node }) => <FilterBuilder node={node} />,
-                enableGlobalSearch: false,
-                enableExcel: true,
-                enablePdf: true,
-            },
-            cellStyleFunction: (node) => {
-                const rowColor = resolveExpression(node.rowPosition?.data, "rowColor");
-                const isPercentCol = node.columnPosition?.column?.dataField === "frpm_new.PercentEligibleFreeK12";
-                if (isPercentCol && rowColor)
-                    return { backgroundColor: rowColor };
-                return {};
-            },
-            eventBus: {
-                onFilterDistinctValuesRequested: (col: ColumnOptions) => {
-                    setRequest({
-                        ...request,
-                        distinctValueColumns: [col.dataField],
-                        reason: FilterPageSortChangeReason.FilterDistinctValuesRequested
-                    });
-                    return true;
-                },
-                onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
-                    setRequest({
-                        ...args,
-                        reason,
-                        distinctValueColumns: [],//don't need distinct values on subsequent calls
-                    });
-                },
-                onExportPageRequested: async (args) => {
-                    const result = await axios.post<ServerInfo>("/api/schools", args);
-                    return result.data.currentPageData || [];
-                },
-            },
-            isLoading: loading,
-            uniqueIdentifierOptions,
-            columns: cols,
-            ...gridConfig,
-        }} />
+        gridOptions={gridOptions} />
     );
 };

@@ -74,7 +74,6 @@ export const getPagedData = async (
             currentPage: currentPage,
             pageSize: ps,
             totalRecords: filteredData.length,
-            totalPages: Math.ceil(filteredData.length / ps),
         },
         filterDistinctValues,
         footerValues,

@@ -1,4 +1,4 @@
-import { EditorProps, EditStartMode, FilterPageSortLoadMode, getApi, getRowColFromNode, NameValue, RendererProps, resolveExpression } from "@ezgrid/grid-core";
+import { EditorProps, EditStartMode, FilterPageSortLoadMode, getApi, getColumnSelectEditorOptions, getRowColFromNode, NameValue, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { createSelectField } from "../adapter";
 import { createEditor } from "../shared/shared-props";
@@ -7,7 +7,7 @@ import { applyEditedValue } from "./utils";
 export const SelectEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdit }) => {
     const [loading, setLoading] = useState(false);
     const api = getApi(node);
-    const allValues = api.getDistinctFilterValues(node.columnPosition?.column!) as NameValue[];
+    const allValues = getColumnSelectEditorOptions(node.columnPosition?.column!,node.gridOptions) as NameValue[];
 
     useEffect(() => {
         if (node.gridOptions?.filterPageSortMode === FilterPageSortLoadMode.Server) {
@@ -27,7 +27,7 @@ export const SelectEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdit 
     const selectVal = rowsToEdit && rowsToEdit.length > 0 ? undefined : api.hasChange(rowIdentifier, columnIdentifier)?.newValue
         ?? resolveExpression(node.rowPosition?.data, node.columnPosition?.column!.dataField!);
     const handleChange = (newVal: unknown) => {
-        applyEditedValue(node, newVal, rowsToEdit);
+        applyEditedValue(node, newVal, rowsToEdit, true);
     };
     return <>
     {loading && <div className="ezgrid-dg-loading-message">Loading...</div> }
@@ -40,8 +40,8 @@ export const SelectEditor: FunctionComponent<EditorProps> = ({ node, rowsToEdit 
 };
 
 
-export const createSelectEditorOptions = (editStartMode = EditStartMode.Click) => ({
+export const createSelectEditorOptions = <T=unknown>(editStartMode = EditStartMode.Click) => ({
     enableEdit: true,
-    editorRenderer: SelectEditor,
+    editorRenderer: SelectEditor as FunctionComponent<RendererProps<T>>,
     editStartMode,
 });

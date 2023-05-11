@@ -4,7 +4,7 @@ import { FC, MouseEvent } from "react";
 
 export const Grouping: FC<RendererProps> = ({ node }) => {
     const api = getApi(node);
-    const hasGrouping = api.hasBehavior(Behaviors.GroupingBehavior);
+    const hasGrouping = node.gridOptions.groupingOptions?.enabled === true;
     const toolbarOptions = node.gridOptions.toolbarOptions;
     const pfx = gridCSSPrefix;
     const isDragging= ()=>document.getElementsByClassName("ezgrid-dg-resize-bar").length > 0;

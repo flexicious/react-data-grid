@@ -52,9 +52,9 @@ export const NumericRangeFilter: FC<RangeFilterRendererProps> = ({ node, filterB
     </div>;
 };
 const NumericRangeFilterRenderer = (props: RendererProps) => <NumericRangeFilter key={props.node.key} {...props} />;
-export const createNumericRangeFilterOptions = (): FilterOptions => {
+export const createNumericRangeFilterOptions = <T=unknown>(): FilterOptions<T> => {
     return {
-        filterRenderer: NumericRangeFilterRenderer,
+        filterRenderer: NumericRangeFilterRenderer as FC<RendererProps<T>>,
         filterOperation: FilterOperation.Between,
     };
 };

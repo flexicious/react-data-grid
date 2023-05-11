@@ -1,5 +1,5 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, ServerInfo } from "@ezgrid/grid-core";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo } from "@ezgrid/grid-core";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../../libs/grid-shared/src/lib/shared/types";
@@ -52,43 +52,44 @@ export const SchoolsDataGrid = () => {
         getServerInfo(request);
     }, [request]);
 
+    const gridOptions = useMemo<GridOptions>(() => ({
+        dataProvider: response?.currentPageData,
+        filterPageSortMode: FilterPageSortLoadMode.Server,
+        enablePaging: true,
+        serverInfo: response,
+        toolbarOptions: {
+            enableGlobalSearch: false,
+            enableExcel: true,
+            enablePdf: true,
+        },
+        eventBus: {
+            onFilterDistinctValuesRequested: (col: ColumnOptions) => {
+                setRequest({
+                    ...request,
+                    distinctValueColumns: [col.dataField],
+                    reason: FilterPageSortChangeReason.FilterDistinctValuesRequested
+                });
+                return true;
+            },
+            onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
+                setRequest({
+                    ...args,
+                    reason,
+                    distinctValueColumns: [],//don't need distinct values on subsequent calls
+                });
+            },
+            onExportPageRequested: async (args) => {
+                const result = await axios.post<ServerInfo>("/api/schools", args);
+                return result.data.currentPageData || [];
+            },
+        },
+        isLoading: loading,
+        uniqueIdentifierOptions,
+        columns,
+    }), [columns, loading, request, response, uniqueIdentifierOptions]);
 
     return ( 
         <DataGrid style={{ height: "100%", }}
-            gridOptions={{
-                dataProvider: response?.currentPageData,
-                filterPageSortMode: FilterPageSortLoadMode.Server,
-                enablePaging: true,
-                serverInfo: response,
-                toolbarOptions: {
-                    enableGlobalSearch: false,
-                    enableExcel: true,
-                    enablePdf: true,
-                },
-                eventBus: {
-                    onFilterDistinctValuesRequested: (col: ColumnOptions) => {
-                        setRequest({
-                            ...request,
-                            distinctValueColumns: [col.dataField],
-                            reason: FilterPageSortChangeReason.FilterDistinctValuesRequested
-                        });
-                        return true;
-                    },
-                    onFilterPageSortChanged: (args: FilterPageSortArguments, reason: FilterPageSortChangeReason) => {
-                        setRequest({
-                            ...args,
-                            reason,
-                            distinctValueColumns: [],//don't need distinct values on subsequent calls
-                        });
-                    },
-                    onExportPageRequested: async (args) => {
-                        const result = await axios.post<ServerInfo>("/api/schools", args);
-                        return result.data.currentPageData || [];
-                    },
-                },
-                isLoading: loading,
-                uniqueIdentifierOptions,
-                columns,
-            }} /> 
+            gridOptions={gridOptions} /> 
     );
 };

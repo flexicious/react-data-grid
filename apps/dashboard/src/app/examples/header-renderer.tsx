@@ -1,12 +1,12 @@
-import { ApiContext, createColumn, createFilterBehavior, FilterOperation, PreventableEvent } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, createFilterBehavior, FilterOperation, GridOptions, PreventableEvent } from "@ezgrid/grid-core";
 import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import SampleData from "../mockdata/SampleData";
 
 export const HeaderRenderer = () => {
     const apiRef = useRef<ApiContext | null>(null);
-    const [data] = useState<Record<string, any>[]>(SampleData.networkData);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const [data] = useState<unknown[]>(SampleData.networkData);
+    const gridOptions= useMemo<GridOptions>(()=>({
         dataProvider: data,
         behaviors: [
             createFilterBehavior({})
@@ -75,5 +75,6 @@ export const HeaderRenderer = () => {
             createColumn("groupName", "string", "Group Name"),
             createColumn("description", "string", "Description"),
         ]
-    }}></ReactDataGrid>;
+    }),[])
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

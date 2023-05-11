@@ -28,9 +28,9 @@ const SelectFilter: FC<RendererProps> = ({ node }) => {
 
 const SelectFilterRenderer = (props: RendererProps) => <SelectFilter key={props.node.key} {...props} />;
 
-export const createSelectFilterOptions = (): FilterOptions => {
+export const createSelectFilterOptions = <T=unknown>(): FilterOptions<T> => {
     return {
-        filterRenderer: SelectFilterRenderer,
+        filterRenderer: SelectFilterRenderer as FC<RendererProps<T>>,
         filterComboBoxBuildFromGrid: true,
     };
 };

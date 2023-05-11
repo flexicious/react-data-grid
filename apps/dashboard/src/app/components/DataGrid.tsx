@@ -6,41 +6,44 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { ReactDataGridOptions, ReactDataGrid, getEditOptions, getFilterOptions, createMultiSelectFilterOptions, createSelectEditorOptions } from "@ezgrid/grid-react";
 import { createFilterBehavior, createEditBehavior, GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions, createColumn, resolveExpression } from "@ezgrid/grid-core";
+import { useMemo } from "react";
 const { saveAs } = pkg;
 
 
+const cellsBeforeBody = [["Company:", "ABC Corp"], ["Date", new Date().toLocaleDateString()], [], []];
+const cellsAfterBody = [[], [], ["Disclaimer"], [`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sodales eleifend eros, sit amet bibendum enim venenatis at. Aliquam erat volutpat. Ut interdum velit vel enim sodales pulvinar. Suspendisse vehicula elit eget sapien malesuada, quis luctus dolor semper. Mauris tincidunt tellus ante, quis ornare purus rutrum in. Proin rhoncus mauris in tortor porttitor mattis. Aenean auctor hendrerit vulputate. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sit amet pulvinar urna.
+Fusce mattis magna ut sem eleifend, ac facilisis massa maximus. Nunc pulvinar convallis sodales. Quisque condimentum venenatis elit mollis viverra. Maecenas id libero imperdiet, mollis dolor et, sollicitudin odio. Duis efficitur commodo mattis. Duis id nibh ligula. Maecenas ut dignissim ante. Nulla eu diam lacus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc sit amet sapien non quam feugiat dignissim vel sit amet mi. Proin ac massa sapien. Nulla est arcu, molestie sit amet dui quis, ullamcorper interdum justo. Duis pharetra eros diam, eu ornare nibh scelerisque ut. Pellentesque non metus sit amet ligula commodo auctor sit amet in odio. Pellentesque ac enim ligula. Phasellus eu nibh id justo posuere pellentesque.
+In non venenatis tellus, vitae accumsan neque. Aenean a libero lacus. Aenean a lorem fringilla, blandit odio a, ornare mauris. Nulla in tincidunt nibh. Sed libero massa, vestibulum et hendrerit et, egestas sed enim. Proin eu mauris vehicula, semper felis eget, consequat erat. Suspendisse eleifend sapien diam, eu condimentum felis faucibus ut. Phasellus ullamcorper ligula in enim porta, non laoreet lacus ultrices. Nunc ac tortor lorem. Nam ornare ex sit amet massa aliquet facilisis.
+Nullam aliquam hendrerit enim. In ultrices efficitur sem. Ut malesuada leo et tellus porttitor gravida. In elementum turpis sit amet ornare ultrices. Nam turpis massa, fringilla rhoncus maximus in, consequat sed orci. Phasellus rutrum sapien id facilisis auctor. Integer venenatis sem et urna condimentum ultrices. In nec ligula ut justo pellentesque pulvinar. Curabitur eleifend egestas dolor, eu aliquet risus eleifend vel.
+Nullam venenatis purus sit amet tempus vehicula. Morbi orci mauris, egestas eu iaculis viverra, rhoncus sed libero. Praesent in felis vitae risus eleifend vehicula. In finibus elit vitae purus hendrerit faucibus. In varius, quam ac tristique dapibus, est risus luctus tellus, dapibus iaculis metus lorem nec nisl. Morbi et dictum orci. Pellentesque et libero metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam blandit cursus risus, vel aliquam lorem varius vel. Proin ullamcorper nibh eros, in blandit ipsum rutrum eu. Sed sit amet neque at mi sagittis pellentesque luctus ut ipsum. Fusce ullamcorper quam sit amet tincidunt imperdiet. Mauris diam lorem, vulputate a dapibus sed, dictum rhoncus sem. Fusce congue volutpat sapien vitae lacinia.
+`]];
+export const getGridOptions = ()=> ({
+    behaviors: [
+        createFilterBehavior({}),
+        createPdfBehavior({ cellsBeforeBody, cellsAfterBody }),
+        createExcelBehavior({ cellsBeforeBody, cellsAfterBody }),
+        createEditBehavior({  })
+    ]
+})
+    
+export const createBehaviors = ()=> [createFilterBehavior({}),
+    createPdfBehavior({ cellsBeforeBody, cellsAfterBody }),
+    createExcelBehavior({ cellsBeforeBody, cellsAfterBody }),
+    createEditBehavior({  })
+]
 
-interface DataGridProps<T=unknown> extends ReactDataGridOptions<T> {
-    editorHandlesTabEnter?: boolean;
-    reduceFilterDropdowns?: boolean;
-}
-export const DataGrid = <T=unknown>(props: DataGridProps<T>) => {
+export const DataGrid = <T=unknown>(props: ReactDataGridOptions<T>) => {
     const theme = useTheme();
-    const cellsBeforeBody = [["Company:", "ABC Corp"], ["Date", new Date().toLocaleDateString()], [], []];
-    const cellsAfterBody = [[], [], ["Disclaimer"], [`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sodales eleifend eros, sit amet bibendum enim venenatis at. Aliquam erat volutpat. Ut interdum velit vel enim sodales pulvinar. Suspendisse vehicula elit eget sapien malesuada, quis luctus dolor semper. Mauris tincidunt tellus ante, quis ornare purus rutrum in. Proin rhoncus mauris in tortor porttitor mattis. Aenean auctor hendrerit vulputate. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sit amet pulvinar urna.
 
-    Fusce mattis magna ut sem eleifend, ac facilisis massa maximus. Nunc pulvinar convallis sodales. Quisque condimentum venenatis elit mollis viverra. Maecenas id libero imperdiet, mollis dolor et, sollicitudin odio. Duis efficitur commodo mattis. Duis id nibh ligula. Maecenas ut dignissim ante. Nulla eu diam lacus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc sit amet sapien non quam feugiat dignissim vel sit amet mi. Proin ac massa sapien. Nulla est arcu, molestie sit amet dui quis, ullamcorper interdum justo. Duis pharetra eros diam, eu ornare nibh scelerisque ut. Pellentesque non metus sit amet ligula commodo auctor sit amet in odio. Pellentesque ac enim ligula. Phasellus eu nibh id justo posuere pellentesque.
-    
-    In non venenatis tellus, vitae accumsan neque. Aenean a libero lacus. Aenean a lorem fringilla, blandit odio a, ornare mauris. Nulla in tincidunt nibh. Sed libero massa, vestibulum et hendrerit et, egestas sed enim. Proin eu mauris vehicula, semper felis eget, consequat erat. Suspendisse eleifend sapien diam, eu condimentum felis faucibus ut. Phasellus ullamcorper ligula in enim porta, non laoreet lacus ultrices. Nunc ac tortor lorem. Nam ornare ex sit amet massa aliquet facilisis.
-    
-    Nullam aliquam hendrerit enim. In ultrices efficitur sem. Ut malesuada leo et tellus porttitor gravida. In elementum turpis sit amet ornare ultrices. Nam turpis massa, fringilla rhoncus maximus in, consequat sed orci. Phasellus rutrum sapien id facilisis auctor. Integer venenatis sem et urna condimentum ultrices. In nec ligula ut justo pellentesque pulvinar. Curabitur eleifend egestas dolor, eu aliquet risus eleifend vel.
-    
-    Nullam venenatis purus sit amet tempus vehicula. Morbi orci mauris, egestas eu iaculis viverra, rhoncus sed libero. Praesent in felis vitae risus eleifend vehicula. In finibus elit vitae purus hendrerit faucibus. In varius, quam ac tristique dapibus, est risus luctus tellus, dapibus iaculis metus lorem nec nisl. Morbi et dictum orci. Pellentesque et libero metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam blandit cursus risus, vel aliquam lorem varius vel. Proin ullamcorper nibh eros, in blandit ipsum rutrum eu. Sed sit amet neque at mi sagittis pellentesque luctus ut ipsum. Fusce ullamcorper quam sit amet tincidunt imperdiet. Mauris diam lorem, vulputate a dapibus sed, dictum rhoncus sem. Fusce congue volutpat sapien vitae lacinia.
-    
-    `]];
-    const { gridOptions, style, ref, editorHandlesTabEnter,reduceFilterDropdowns, ...rest } = props;
-    const newProps = {
+    const { gridOptions, style, ref,  ...rest } = props;
+    const newProps = useMemo(() => ({
         ...rest,
         gridOptions: {
             ...gridOptions,
-            behaviors: [createFilterBehavior({reduceFilterDropdowns}),
-            createPdfBehavior({ cellsBeforeBody, cellsAfterBody }),
-            createExcelBehavior({ cellsBeforeBody, cellsAfterBody }),
-            createEditBehavior({ editorHandlesTabEnter })
-            ]
+            behaviors: createBehaviors()
         },
         style: { ...style, minHeight: "500px" },
-    };
+    }), [gridOptions, theme]);
     return <ReactDataGrid {...newProps} ref={ref as any} />;
 };
 

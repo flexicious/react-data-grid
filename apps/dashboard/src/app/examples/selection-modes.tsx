@@ -1,14 +1,14 @@
-import { CellSelection, ColumnOptions, createColumn, createSelectionColumn, getApi, GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { CellSelection, ColumnOptions, createColumn, createSelectionColumn, getApi, GridOptions, GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const SelectionModes = () => {
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
     const [selectionMode, setSelectionMode] = useState<GridSelectionMode>(GridSelectionMode.MultipleRows);
     const [useExcelLikeShiftAndCtrlKeys, setUseExcelLikeShiftAndCtrlKeys] = useState<boolean>(true);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Employee>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -92,6 +92,7 @@ export const SelectionModes = () => {
                 enableCellClickRowSelect: true,
             },
 
-        ].filter(c=>c != undefined) as ColumnOptions[]
-    }}></ReactDataGrid>;
+        ].filter(c=>c != undefined) as ColumnOptions<Employee>[]
+    }), [data, selectionMode, useExcelLikeShiftAndCtrlKeys]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

@@ -1,6 +1,6 @@
-import { ApiContext, createColumn, createFilterBehavior, FilterOperation } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, createFilterBehavior, FilterOperation, GridOptions } from "@ezgrid/grid-core";
 import { createMultiSelectFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CustomerOrganization from "../mockdata/CustomerOrganization";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 
@@ -19,64 +19,65 @@ export const SaveAsYouGo = () => {
         };
         getLineItems();
     }, []);
+    const gridOptions = useMemo<GridOptions>(() => ({
+        dataProvider: data,
+        uniqueIdentifierOptions: {
+            useField: "id"
+        },
+        enableFilters: true,
+        behaviors: [createFilterBehavior({})],
+        headerRowHeight: 75,
+        isLoading,
+        eventBus: {
+            onApiContextReady: (ctx) => {
+                apiContext.current = (ctx);
+                const settings = window.localStorage.getItem("save-as-you-go");
+                setSettingsJSON(settings || "");
+            },
+            onSettingsSaved: (savedSettings) => {
+                setSettingsJSON(JSON.stringify(savedSettings));
+            }
+        },
+        settingsOptions: {
+            settingsStorageKey: "save-as-you-go",
+            enableSaveAsYouGo: true,
+        },
+        columns: [
+            {
+                ...createColumn("id", "string", "Id"),
+                filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith),
+                headerOptions: { columnGroupText: "Basic Info", },
+                children: [
+                    {
+
+                        filterOptions: createTextInputFilterOptions(FilterOperation.Contains),
+                        ...createColumn("legalName", "string", "Legal Name"),
+                    },
+                ]
+
+            },
+            {
+                ...createColumn("headquarterAddress.city.name", "string", "City"),
+                filterOptions: createSelectFilterOptions(),
+            },
+
+            {
+                ...createColumn("headquarterAddress.state.name", "string", "State"),
+                filterOptions: createMultiSelectFilterOptions(),
+            },
+
+            {
+                ...createColumn("isActive", "boolean", "IsActive"),
+                filterOptions: createTriStateCheckBoxFilterOptions(),
+            },
+
+        ]
+    }), [data]);
 
     return <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
         <b>For this grid, as you filter, sort, resize, move, show or hide columns, the view will be saved in saved settings and the grid will revert to that view on page refresh</b>
         <div style={{ display: "flex" }}> <div style={{ flex: 1 }}>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={{
-                dataProvider: data,
-                uniqueIdentifierOptions: {
-                    useField: "id"
-                },
-                enableFilters: true,
-                behaviors: [createFilterBehavior({})],
-                headerRowHeight: 75,
-                isLoading,
-                eventBus: {
-                    onApiContextReady: (ctx) => {
-                        apiContext.current = (ctx);
-                        const settings = window.localStorage.getItem("save-as-you-go");
-                        setSettingsJSON(settings || "");
-                    },
-                    onSettingsSaved: (savedSettings) => {
-                        setSettingsJSON(JSON.stringify(savedSettings));
-                    }
-                },
-                settingsOptions: {
-                    settingsStorageKey: "save-as-you-go",
-                    enableSaveAsYouGo: true,
-                },
-                columns: [
-                    {
-                        ...createColumn("id", "string", "Id"),
-                        filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith),
-                        headerOptions: { columnGroupText: "Basic Info", },
-                        children: [
-                            {
-
-                                filterOptions: createTextInputFilterOptions(FilterOperation.Contains),
-                                ...createColumn("legalName", "string", "Legal Name"),
-                            },
-                        ]
-
-                    },
-                    {
-                        ...createColumn("headquarterAddress.city.name", "string", "City"),
-                        filterOptions: createSelectFilterOptions(),
-                    },
-
-                    {
-                        ...createColumn("headquarterAddress.state.name", "string", "State"),
-                        filterOptions: createMultiSelectFilterOptions(),
-                    },
-
-                    {
-                        ...createColumn("isActive", "boolean", "IsActive"),
-                        filterOptions: createTriStateCheckBoxFilterOptions(),
-                    },
-
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>
 
         </div>
             <div style={{ flex: 1 }}>

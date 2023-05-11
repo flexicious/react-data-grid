@@ -1,11 +1,11 @@
 import { ColumnOptions, GRID_CONSTANTS, HorizontalScrollMode, createColumn, shortMonthNames } from "@ezgrid/grid-core";
 
-export const createFiscalYearColumnGroup = (years: number[], options?: Partial<ColumnOptions>, dataFieldPrefix?: string, callback?: (c: ColumnOptions) => ColumnOptions, createQuarters?: boolean, createMonths?: boolean) => {
+export const createFiscalYearColumnGroup = <T=unknown>(years: number[], options?: Partial<ColumnOptions<T>>, dataFieldPrefix?: string, callback?: (c: ColumnOptions<T>) => ColumnOptions<T>, createQuarters?: boolean, createMonths?: boolean) => {
     const colDefaults = options || [];
     const prefix = dataFieldPrefix || "";
     const yearColumns = years.map((year) => {
         const yearColumn = {
-            ...createColumn(`${prefix}${year}`, "currency", `${year}`),
+            ...createColumn<T>(`${prefix}${year}`, "currency", `${year}`),
             children: [],
             ...colDefaults,
         };
@@ -14,7 +14,7 @@ export const createFiscalYearColumnGroup = (years: number[], options?: Partial<C
                 .map((_, i) => {
                     const quarterNum = i + 1;
                     return {
-                        ...createColumn(`${prefix}${year}_Q${quarterNum}`, "currency", `Q${quarterNum} ${year}`),
+                        ...createColumn<T>(`${prefix}${year}_Q${quarterNum}`, "currency", `Q${quarterNum} ${year}`),
                         children: [],
                         ...colDefaults,
                     };
@@ -27,7 +27,7 @@ export const createFiscalYearColumnGroup = (years: number[], options?: Partial<C
                         .map((_, i) => {
                             const month = shortMonthNames[monthIndex++];
                             return {
-                                ...createColumn(`${prefix}${year}_${month}`, "currency", `${month} ${year}`),
+                                ...createColumn<T>(`${prefix}${year}_${month}`, "currency", `${month} ${year}`),
                                 ...colDefaults,
                             };
                         });

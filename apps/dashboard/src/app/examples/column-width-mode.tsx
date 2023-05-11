@@ -1,14 +1,14 @@
-import { ApiContext, ColumnWidthMode, createColumn, getApi, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ApiContext, ColumnWidthMode, createColumn, getApi, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const ColumnWidthModes = () => {
-    const apiRef = useRef<ApiContext | null>(null);
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
     const [horizontalScrollMode, setHorizontalScrollMode] = useState<HorizontalScrollMode>(getScrollOffBelow());
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
+    const gridOptions = useMemo<GridOptions<Employee>>(()=> ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -98,5 +98,6 @@ export const ColumnWidthModes = () => {
             },
 
         ]
-    }}></ReactDataGrid>;
+    }), [data, horizontalScrollMode]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

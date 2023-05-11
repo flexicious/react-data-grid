@@ -1,13 +1,13 @@
-import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, getApi, HorizontalScrollMode, resolveExpression } from "@ezgrid/grid-core";
+import { ApiContext, ColumnWidthMode, GridOptions, createColumn, createFilterBehavior, getApi, resolveExpression } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 
 export const SortOptions = () => {
-    const apiRef = useRef<ApiContext | null>(null);
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
+    const gridOptions = useMemo<GridOptions<Employee>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -95,5 +95,6 @@ export const SortOptions = () => {
             },
 
         ]
-    }}></ReactDataGrid>;
+    }), [data]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

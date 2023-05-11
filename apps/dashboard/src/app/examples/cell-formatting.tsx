@@ -1,7 +1,7 @@
 
-import { ApiContext, createColumn, FilterOperation, FooterOperation, formatCurrency, GridOptions, GridSelectionMode, LockMode, NodeKeys, resolveExpression, RowType, VirtualTreeNode } from "@ezgrid/grid-core";
+import { ApiContext, createColumn, FilterOperation, FooterOperation, formatCurrency, GridOptions, GridSelectionMode, LockMode, NodeKeys, RowType } from "@ezgrid/grid-core";
 import { createTextInputFilterOptions } from "@ezgrid/grid-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
@@ -22,7 +22,8 @@ export const CellFormatting = () => {
         getOrgs();
     }, []);
 
-    const go:GridOptions<Organization> = {
+    const go:GridOptions<Organization> = useMemo<GridOptions<Organization>>(() => ({
+        isMemo: true,
         dataProvider,
         isLoading,
         enableFloatingHeaderRows: true,
@@ -40,7 +41,7 @@ export const CellFormatting = () => {
                 return { background: "#6666FF" };
             }
             if (node.columnPosition?.column.uniqueIdentifier === "annualRevenue") {
-                const annualRevenue = resolveExpression(node.rowPosition?.data, "annualRevenue");
+                const annualRevenue = node.rowPosition?.data?.annualRevenue;
                 if (annualRevenue > 25000) {
                     return { borderRight: "none", color: "green", background: "#afefef" };
                 } else {
@@ -104,7 +105,7 @@ export const CellFormatting = () => {
                 ]
             }
         ],
-    };
+    }  ), [dataProvider, isLoading]);
 
     return (<DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={go} />
     );

@@ -1,6 +1,6 @@
-import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, createGroupingBehavior, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import StyleEditor from "react-style-editor";
 
@@ -60,52 +60,53 @@ export const CssStyling = () => {
     }, [defaultCss]);
 
 
-    const apiRef = useRef<ApiContext | null>(null);
-    const [data,] = useState<Record<string, any>[]>(Employee.getAllEmployees());
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
+    const [data,] = useState<Employee[]>(Employee.getAllEmployees());
+    const gridOptions = useMemo<GridOptions<Employee>>(()=>({
+        dataProvider: data,
+        uniqueIdentifierOptions: {
+            useField: "employeeId"
+        },
+        horizontalScroll: HorizontalScrollMode.Off,
+        behaviors: [ 
+        createFilterBehavior({})
+        ],
+        toolbarOptions: {
+            enableGroupingDropzone: false,
+        },
+        enableFilters: false,
+        footerRowHeight: 75,
+        headerRowHeight: 75,
+        eventBus: {
+            onApiContextReady: (ctx) => {
+                apiRef.current = ctx;
+            }
+        }, columns: [
+            {
+                ...createColumn("employeeId", "string", "Id"),
+                textAlign: "right",
+                widthMode: ColumnWidthMode.Fixed,
+                width: 75,
+            }, {
+                ...createColumn("annualSalary", "currency", "Annual Salary"),
+            },
+            {
+                ...createColumn("hireDate", "date", "Hire Date"),
+            },
+            {
+                ...createColumn("department", "string", "Department"),
+            },
+
+            {
+                ...createColumn("phoneNumber", "string", "Phone Number"),
+
+            },
+        ]
+    }),[data]);
     return <div style={{ width: "100%", display: "flex" }}>
         <div style={{ flex: 1, flexShrink: 0 }}>
             <b>Small Sample of a few CSS classes you can use to fully customize the appearance of the Grid. Please see icons.css and styles.css for a full list.</b>
-            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
-                dataProvider: data,
-                uniqueIdentifierOptions: {
-                    useField: "employeeId"
-                },
-                horizontalScroll: HorizontalScrollMode.Off,
-                behaviors: [ 
-                createFilterBehavior({})
-                ],
-                toolbarOptions: {
-                    enableGroupingDropzone: false,
-                },
-                enableFilters: false,
-                footerRowHeight: 75,
-                headerRowHeight: 75,
-                eventBus: {
-                    onApiContextReady: (ctx) => {
-                        apiRef.current = ctx;
-                    }
-                }, columns: [
-                    {
-                        ...createColumn("employeeId", "string", "Id"),
-                        textAlign: "right",
-                        widthMode: ColumnWidthMode.Fixed,
-                        width: 75,
-                    }, {
-                        ...createColumn("annualSalary", "currency", "Annual Salary"),
-                    },
-                    {
-                        ...createColumn("hireDate", "date", "Hire Date"),
-                    },
-                    {
-                        ...createColumn("department", "string", "Department"),
-                    },
-
-                    {
-                        ...createColumn("phoneNumber", "string", "Phone Number"),
-
-                    },
-                ]
-            }}></ReactDataGrid>
+            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>
         </div>
         <div style={{ height: "600px", width: "300px" }}>
             <b>Uncheck items below to see how the effect of the custom css.</b>

@@ -1,6 +1,6 @@
 import { ApiContext, createColumn, createEditBehavior, FooterOperation, getApi, GridOptions, GridSelectionMode, LockMode, resolveExpression } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useMemo, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 import SystemConstants from "../mockdata/SystemConstants";
@@ -19,7 +19,7 @@ export const ItemRenderers = () => {
         };
         getLineItems();
     }, []);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={{
+    const gridOptions = useMemo<GridOptions<LineItem>>(() => ({
         dataProvider: data,
         isLoading,
         enableFilters: false,
@@ -44,7 +44,7 @@ export const ItemRenderers = () => {
         },
         cellTooltipFunction: (cellInfo) => {
             const lineItem: LineItem = cellInfo?.rowPosition?.data!;
-            if(cellInfo?.columnIdentifier === "invoice.hasPdf" && lineItem?.invoice.hasPdf){
+            if (cellInfo?.columnIdentifier === "invoice.hasPdf" && lineItem?.invoice?.hasPdf) {
                 return "Click to open PDF for invoice " + lineItem.lineItemDescription;
             }
             return "";
@@ -159,5 +159,6 @@ export const ItemRenderers = () => {
 
             },
         ]
-    } as GridOptions<LineItem>} />;
+    }), [data, isLoading])
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />;
 };

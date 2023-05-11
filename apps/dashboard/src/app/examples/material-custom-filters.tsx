@@ -1,13 +1,13 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, getApi, getDateRange, RendererProps, resolveExpression } from "@ezgrid/grid-core";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterBehavior, createSelectionColumn, DateRangeType, FilterOperation, getApi, getDateRange, GridOptions, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { Autocomplete, MenuItem, Select, Slider, TextField, useTheme } from "@mui/material";
-import { FC, ReactNode, useRef, useState } from "react";
+import { FC, ReactNode, useMemo, useRef, useState } from "react";
 import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
 import Employee from "../mockdata/Employee";
 import { MaterialWrapper } from "./material/material-wrapper";
 
 export const MaterialFilterDemo = () => <MaterialWrapper demo={<FilterOptions />} />;
-const PhoneNumberFilter: FC<RendererProps> = ({ node }) => {
+const PhoneNumberFilter: FC<RendererProps<Employee>> = ({ node }) => {
     const api = getApi(node);
     const filterValue = api.getFilterValue("phoneNumber") as string;
     const areaCodeRef = useRef<HTMLInputElement>(null);
@@ -36,12 +36,12 @@ const PhoneNumberFilter: FC<RendererProps> = ({ node }) => {
     </div >;
 };
 const FilterOptions = () => {
-    const apiRef = useRef<ApiContext | null>(null);
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
     const theme = useTheme();
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
     const anniversaryRef = useRef<string>("Select");
     const [useMaterialAdapter, setUseMaterialAdapter] = useState(true);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Employee>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -230,5 +230,6 @@ const FilterOptions = () => {
             }
 
         ]
-    }}></ReactDataGrid >;
+    }), [data, useMaterialAdapter, theme]);
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid >;
 };

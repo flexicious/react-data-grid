@@ -1,8 +1,8 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, EditInfo, EditStartMode, getApi, getRowColFromNode, GridSelectionMode, HorizontalScrollMode, itemToLabel, RendererProps } from "@ezgrid/grid-core";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, EditInfo, EditStartMode, getApi, getRowColFromNode, GridOptions, GridSelectionMode, HorizontalScrollMode, itemToLabel, RendererProps } from "@ezgrid/grid-core";
 import { CheckBoxEditor, DateEditor, ReactDataGrid, SelectEditor, TextInputEditor } from "@ezgrid/grid-react";
 import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
 import { TextField, useTheme } from "@mui/material";
-import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { FC, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 
@@ -46,14 +46,13 @@ const PhoneNumberEditor: FC<RendererProps> = ({ node }) => {
     </div>;
 };
 export const MaterialEditors = () => {
-    const apiRef = useRef<ApiContext | null>(null);
+    const apiRef = useRef<ApiContext<Employee> | null>(null);
     const theme = useTheme();
-    const [data] = useState<Record<string, any>[]>(Employee.getAllEmployees());
+    const [data] = useState<Employee[]>(Employee.getAllEmployees());
     const [editMode, setEditMode] = useState<boolean>(true);
     const [editStart, setEditStart] = useState<EditStartMode>(EditStartMode.Click);
     const [useMaterialAdapter, setUseMaterialAdapter] = useState(true);
-
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Employee>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -211,5 +210,7 @@ export const MaterialEditors = () => {
             }
 
         ]
-    }}></ReactDataGrid>;
+    }), [data, editMode, editStart, useMaterialAdapter, theme]);
+
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };

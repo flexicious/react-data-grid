@@ -1,6 +1,6 @@
 import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DeltaOptions, DeltaType, EditInfo, EditStartMode, getApi, getRowColFromNode, GridOptions, GridSelectionMode, itemToLabel, RendererProps, resolveExpression } from "@ezgrid/grid-core";
-import { CheckBoxEditor, createDeleteColumn, DateEditor, ReactDataGrid, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@ezgrid/grid-react";
-import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { CheckBoxEditor, createDeleteColumn, DateEditor, FormulaColumnEditor, ReactDataGrid, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@ezgrid/grid-react";
+import { FC, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 
 export const EditOptions = () => {
@@ -74,12 +74,9 @@ export const EditOptions = () => {
             setDataProviderPlaceHolder([...(newDp || [])]);
         }, 500);
     }
-
-
-    return <>
-
-        {loading && <div className="ezgrid-dg-loading-message">Saving...</div>}
-        <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const go:GridOptions<Employee> = useMemo(() => {
+        return ({
+            isMemo: true,
             dataProvider,
             uniqueIdentifierOptions: {
                 useField: "employeeId"
@@ -105,18 +102,15 @@ export const EditOptions = () => {
                         <label>Save Immediately:</label>
                         <input type="checkbox" checked={saveOnBlur} onChange={(e) => {
                             setSaveOnBlur(e.target.checked);
-                            api.propsUpdated();
                         }} />
                         <button onClick={() => {
                             setEditMode(!editMode);
                             setSelectionMode(editMode ? GridSelectionMode.MultipleRows:GridSelectionMode.MultipleCells);
                             api.clearSelection();
-                            api.propsUpdated();
                         }}>{editMode ? "Disable Edit" : "Enable Edit"}</button>
                         <label>Start Edit Mode:</label>
                         <select value={editStart} onChange={(e) => {
                             setEditStart(e.target.value as EditStartMode);
-                            api.propsUpdated();
                         }}>
                             <option value={EditStartMode.Click}>Click</option>
                             <option value={EditStartMode.DoubleClick}>Double Click</option>
@@ -155,7 +149,7 @@ export const EditOptions = () => {
                 }, {
                     ...createColumn("updatedBy", "string", "Updated By"),
                     width: 95,
-
+    
                 }, {
                     ...createColumn("updatedDate", "date", "Updated Date"),
                     width: 95,
@@ -173,7 +167,7 @@ export const EditOptions = () => {
                 },
                 {
                     ...createColumn("lastName", "string", "First Name - Text Input Editor"),
-
+    
                     sortOptions: {
                         sortCaseInsensitive: true,
                     },
@@ -209,7 +203,7 @@ export const EditOptions = () => {
                         editStartMode: editStart,
                         editorRenderer: DateEditor,
                     }
-
+    
                 },
                 {
                     ...createColumn("department", "string", "Department - Select Dropdown editor"),
@@ -248,7 +242,7 @@ export const EditOptions = () => {
                         },
                         editorRenderer: PhoneNumberEditor
                     }
-
+    
                 }, {
                     ...createColumn("isActive", "boolean", "Active - Checkbox Editor"),
                     widthMode: ColumnWidthMode.Fixed,
@@ -270,9 +264,14 @@ export const EditOptions = () => {
                         restrictValuesToOptions: true,
                     },
                 }
-
+    
             ].filter((c) => c) as ColumnOptions<Employee>[],
-        } as GridOptions<Employee>}></ReactDataGrid></>;
+        });
+    },[editMode, selectionMode, saveOnBlur, editStart, dataProvider]);
+
+
+    return <>{loading && <div className="ezgrid-dg-loading-message">Saving...</div>}
+        <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={go}></ReactDataGrid></>;
 };
 //this could come from the server
 const ALL_STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",

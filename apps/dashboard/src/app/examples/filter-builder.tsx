@@ -1,10 +1,11 @@
-import { ColumnWidthMode, createColumn, createFilterBehavior, HorizontalScrollMode } from "@ezgrid/grid-core";
+import { ColumnWidthMode, createColumn, createFilterBehavior, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { createMultiSelectFilterOptions, FilterBuilder, ReactDataGrid } from "@ezgrid/grid-react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
+import { useMemo } from "react";
 
 export const FilterBuilderDemo = () => {
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={{
+    const gridOptions = useMemo<GridOptions<Employee>>(()=>({
         dataProvider: Employee.getAllEmployees(),
         uniqueIdentifierOptions: {
             useField: "employeeId"
@@ -50,5 +51,6 @@ export const FilterBuilderDemo = () => {
             }
 
         ]
-    }}></ReactDataGrid>;
+    }),[])
+    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
 };
