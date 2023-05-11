@@ -18,7 +18,6 @@ const handler = async (
             response.pagination = {
                 ...pagination,
                 totalRecords,
-                totalPages: Math.ceil(totalRecords / pagination.pageSize || 100),
             }
         }
         if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged || reason === FilterPageSortChangeReason.SortChanged

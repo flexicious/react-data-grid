@@ -27,7 +27,6 @@ export const BusinessQuery = gql`query Query($args: FilterPageSortArguments) {
       totalRecords
       pageSize
       currentPage
-      totalPages
     }
     footerValues 
     filterDistinctValues

@@ -31,7 +31,6 @@ type Pagination{
   totalRecords: Int
   pageSize: Int
   currentPage: Int
-  totalPages: Int
 }
 
 

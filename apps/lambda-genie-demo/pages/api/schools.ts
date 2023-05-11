@@ -38,7 +38,6 @@ const handler = async (
             response.pagination = {
                 ...pagination,
                 totalRecords,
-                totalPages: Math.ceil(totalRecords / pagination.pageSize || 100),
             }
         }
         //get current page
