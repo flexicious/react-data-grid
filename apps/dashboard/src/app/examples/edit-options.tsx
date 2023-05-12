@@ -16,7 +16,7 @@ export const EditOptions = () => {
     }, []);
     const setDataProviderPlaceHolder = (data: Employee[]) => {
         const placeHolderData: Employee[] = [];
-        const numPlaceHolders = 1;
+        const numPlaceHolders = 0;//change this if you want to  allow place holders to add items
         if (!data.find((d: any) => d.placeHolder)) {
             for (let i = 0; i < numPlaceHolders; i++) {
                 const placeHolder = new Employee();

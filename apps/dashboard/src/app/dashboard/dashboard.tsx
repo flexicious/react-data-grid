@@ -86,7 +86,7 @@ function Dashboard() {
     { name: "Standalone Tree View" },
     { name: "Auto Sizing Grid" },
   ];
-  let [currentRoute, setCurrentRoute] = React.useState("Edit Options");
+  let [currentRoute, setCurrentRoute] = React.useState("Single Level");
   useEffect(() => {
     const route = window.location.search.split("=")[1];
     route && setCurrentRoute(route.replace(/_/g, " "));
