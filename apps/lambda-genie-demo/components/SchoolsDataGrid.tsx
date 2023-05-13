@@ -1,10 +1,12 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
-import { createMultiSelectFilterOptions, FilterBuilder, getFilterOptions } from "@ezgrid/grid-react";
+import { ColumnOptions, createEditBehavior, createFilterBehavior, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, FilterBuilder, getFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { DataGrid } from "./DataGrid";
 import { GridConfig } from "../shared/lambda-genie/config-bindings";
+import { createPdfBehavior, createExcelBehavior } from "@ezgrid/grid-export";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
+import { useTheme } from "@mui/material";
 export const distinctValueColumns = [
     "schools.CDSCode",
     "schools.StatusType",
@@ -26,7 +28,7 @@ export const distinctValueColumns = [
     "frpm_new.NSLPProvisionStatus",
     "frpm_new.CharterFundingType",
     "satscores.rtype",
-  ];
+];
 export interface SchoolsDataGridProps {
     gridConfig?: GridConfig;
     gridColumnConfig?: ColumnOptions[];
@@ -60,6 +62,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
             reason: FilterPageSortChangeReason.InitialLoad,
         });
     }, [initialLoadDistinctValueColumns, visibleColumns]);
+    const theme = useTheme();
     useEffect(() => {
         //When the request (filter, page, sort, filter distinct value request) changes, get the data from the server.
         if (!request) return;
@@ -87,6 +90,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         filterPageSortMode: FilterPageSortLoadMode.Server,
         enablePaging: true,
         selectionMode: GridSelectionMode.MultipleCells,
+        
         serverInfo: response,
         toolbarOptions: {
             filterBuilderRenderer: ({ node }) => <FilterBuilder node={node} />,
@@ -101,6 +105,15 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
                 return { backgroundColor: rowColor };
             return {};
         },
+
+        behaviors: [createFilterBehavior({}),
+        createPdfBehavior({}),
+        createExcelBehavior({}),
+        createEditBehavior({})
+        ],
+        adapter: materialAdapter,
+        nodePropsFunction: materialNodePropsFunction(theme),
+
         eventBus: {
             onFilterDistinctValuesRequested: (col: ColumnOptions) => {
                 setRequest({
@@ -125,9 +138,10 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         isLoading: loading,
         uniqueIdentifierOptions,
         columns: cols,
+
         ...gridConfig,
-    }), [cols, gridConfig, loading, response, request, uniqueIdentifierOptions]);
-    return (<DataGrid style={{ height: "100%", }}
+    }), [response, theme, loading, uniqueIdentifierOptions, cols, gridConfig, request]);
+    return (<ReactDataGrid style={{ height: "100%", }}
         gridOptions={gridOptions} />
     );
 };

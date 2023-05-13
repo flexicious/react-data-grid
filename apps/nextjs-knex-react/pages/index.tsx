@@ -2,6 +2,7 @@ import { Main } from '../components/Main'
 import { Box } from '@mui/material'
 import Head from 'next/head'
 
+
 export default function Home() {
 
   return (

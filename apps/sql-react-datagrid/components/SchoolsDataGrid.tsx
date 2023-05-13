@@ -1,9 +1,12 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo } from "@ezgrid/grid-core";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo, createEditBehavior, createFilterBehavior } from "@ezgrid/grid-core";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../../libs/grid-shared/src/lib/shared/types";
-import { DataGrid } from "./DataGrid";
+import { ReactDataGrid } from "@ezgrid/grid-react";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
+import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
+import { useTheme } from "@mui/material";
 
 
 export const SchoolsDataGrid = () => {
@@ -51,7 +54,7 @@ export const SchoolsDataGrid = () => {
         };
         getServerInfo(request);
     }, [request]);
-
+    const theme = useTheme();
     const gridOptions = useMemo<GridOptions>(() => ({
         dataProvider: response?.currentPageData,
         filterPageSortMode: FilterPageSortLoadMode.Server,
@@ -62,6 +65,15 @@ export const SchoolsDataGrid = () => {
             enableExcel: true,
             enablePdf: true,
         },
+
+        behaviors: [createFilterBehavior({}),
+            createPdfBehavior({}),
+            createExcelBehavior({}),
+            createEditBehavior({})
+            ],
+            adapter: materialAdapter,
+            nodePropsFunction: materialNodePropsFunction(theme),
+    
         eventBus: {
             onFilterDistinctValuesRequested: (col: ColumnOptions) => {
                 setRequest({
@@ -86,10 +98,10 @@ export const SchoolsDataGrid = () => {
         isLoading: loading,
         uniqueIdentifierOptions,
         columns,
-    }), [columns, loading, request, response, uniqueIdentifierOptions]);
+    }), [columns, loading, request, response, theme, uniqueIdentifierOptions]);
 
     return ( 
-        <DataGrid style={{ height: "100%", }}
+        <ReactDataGrid style={{ height: "100%", }}
             gridOptions={gridOptions} /> 
     );
 };

@@ -1,9 +1,11 @@
-import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo } from "@ezgrid/grid-core";
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions } from "@ezgrid/grid-react";
+import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo } from "@ezgrid/grid-core";
+import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useState } from "react";
 import { client } from "../graphql/client/apollo-client";
 import { BusinessQuery } from "../graphql/client/queries/business";
-import { DataGrid } from "./DataGrid";
+import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
+import { useTheme } from "@mui/material";
 
 
 export const RestaurantsDataGrid = () => {
@@ -56,11 +58,19 @@ export const RestaurantsDataGrid = () => {
         };
         getServerData(request);
     }, [request]);
-
+    const theme = useTheme();
     const gridOptions = useMemo<GridOptions>(() => ({
         dataProvider: response?.currentPageData,
         filterPageSortMode: FilterPageSortLoadMode.Server,
         enablePaging: true,
+
+      behaviors: [createFilterBehavior({}),
+        createPdfBehavior({}),
+        createExcelBehavior({}),
+        createEditBehavior({ })
+        ],
+        adapter: materialAdapter,
+        nodePropsFunction: materialNodePropsFunction(theme),
         serverInfo: response,
         toolbarOptions: {
             enableGlobalSearch: false,
@@ -162,10 +172,10 @@ export const RestaurantsDataGrid = () => {
                 filterOptions: createNumericRangeFilterOptions(),
             }
         ]
-    }), [response, loading, uniqueIdentifierOptions]);
+    }), [response, theme, loading, uniqueIdentifierOptions]);
 
     return (
-        <DataGrid style={{height:"100%", }}
+        <ReactDataGrid style={{height:"100%", }}
         gridOptions={gridOptions} />
     );
 };

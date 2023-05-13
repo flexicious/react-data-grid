@@ -1,9 +1,11 @@
-import { createColumn, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowPositionInfo, RowType, ServerInfo, VirtualTreeNode } from "@ezgrid/grid-core";
-import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS } from "@ezgrid/grid-react";
+import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowType, ServerInfo, VirtualTreeNode } from "@ezgrid/grid-core";
+import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
+import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS, ReactDataGrid } from "@ezgrid/grid-react";
+import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
+import { useTheme } from "@mui/material";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { Business, Inspection, Violation } from "../shared/types";
-import { DataGrid } from "./DataGrid";
 
 export const RestaurantsDataGrid = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -16,6 +18,7 @@ export const RestaurantsDataGrid = () => {
             return uniqueId.toString();
         }
     }), []);
+    const theme = useTheme();
     const initialLoadDistinctValueColumns = useMemo(() => ["name", "city","TaxCode"], []);
     useEffect(() => {
         //Initial load
@@ -65,6 +68,16 @@ export const RestaurantsDataGrid = () => {
             }
             return node.styles;
         },
+
+
+        behaviors: [createFilterBehavior({}),
+            createPdfBehavior({}),
+            createExcelBehavior({}),
+            createEditBehavior({})
+            ],
+            adapter: materialAdapter,
+            nodePropsFunction: materialNodePropsFunction(theme),
+    
         enableFloatingHeaderRows: true,
         dataProvider: response?.currentPageData,
         filterPageSortMode: FilterPageSortLoadMode.Server,
@@ -206,11 +219,11 @@ export const RestaurantsDataGrid = () => {
                 filterOptions: createNumericRangeFilterOptions(),
             }
         ]
-    } as GridOptions<Business|Violation|Inspection>), [response, loading, childLoading]);
+    } as GridOptions<Business|Violation|Inspection>), [response, loading, uniqueIdentifierOptions]);
 
     return (<>
         {childLoading && <div className="ezgrid-dg-loading-message">Loading...</div>}
-        <DataGrid style={{height:"100%", }}
+        <ReactDataGrid style={{height:"100%", }}
         gridOptions={gridOptions} /></>
     );
 };
