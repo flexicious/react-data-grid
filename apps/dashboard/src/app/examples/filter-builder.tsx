@@ -3,6 +3,7 @@ import { createMultiSelectFilterOptions, FilterBuilder, ReactDataGrid } from "@e
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
 import { useMemo } from "react";
+import { DataGrid } from "../components/DataGrid";
 
 export const FilterBuilderDemo = () => {
     const gridOptions = useMemo<GridOptions<Employee>>(()=>({
@@ -52,5 +53,5 @@ export const FilterBuilderDemo = () => {
 
         ]
     }),[])
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

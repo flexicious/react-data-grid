@@ -3,6 +3,7 @@ import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useMemo, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
+import { DataGrid } from "../components/DataGrid";
 
 export const ColumnLockModes = () => {
     const [data] = useState<Organization[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
@@ -71,5 +72,5 @@ export const ColumnLockModes = () => {
 
         ]
     }), [data, swapped]);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

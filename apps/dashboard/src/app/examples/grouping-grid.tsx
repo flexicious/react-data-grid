@@ -1,9 +1,8 @@
 
 import { ApiContext, ColumnOptions, createColumn, DateRangeType, FilterOperation, FooterOperation, GridOptions, GridSelectionMode, itemToLabel, LockMode, RendererProps, resolveExpression } from "@ezgrid/grid-core";
 import { createDateFilterOptions, createGroupingColumnFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
-import { materialAdapter } from "@ezgrid/grid-shared";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createBehaviors } from "../components/DataGrid";
+import { createBehaviors, DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 
 export const Grouping = () => {
@@ -51,7 +50,6 @@ export const Grouping = () => {
         uniqueIdentifierOptions: {
             useField: "id"
         },
-        adapter:  materialAdapter,
         eventBus: {
             onApiContextReady: (ctx) => {
                 apiContext.current = (ctx);
@@ -176,9 +174,9 @@ export const Grouping = () => {
                 filterOptions: createTextInputFilterOptions(FilterOperation.Contains)
             },
             {
-                ...createColumn("invoice.deal.dealDescription", "string", "7 Deal", "invoice.deal.dealDescription7"),
+                ...createColumn("invoice.deal.dealDescription", "string", "Deal", "invoice.deal.dealDescription7"),
             },
-            { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
+            { ...createColumn("invoice.dueDate", "date", "Due Date") },
             { ...createColumn("invoice.deal.dealDescription", "string", "10 Deal") },
             { ...createColumn("invoice.deal.dealStatus.name", "string", "11 Deal Status") },
             { ...createColumn("invoice.deal.customer.legalName", "string", "12 Customer") },
@@ -243,7 +241,7 @@ export const Grouping = () => {
                 }
             </div>
             {
-                <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />
+                <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />
             }
         </div>
     );

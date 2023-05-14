@@ -1,5 +1,5 @@
 import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridOptions, GridSelectionMode, LockMode } from "@ezgrid/grid-core";
-import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
+import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
@@ -97,14 +97,8 @@ export const SingleLevel = () => {
             },
 
             {
-                ...createColumn("invoice.deal.dealDescription", "string", "7 Deal", "invoice.deal.dealDescription7"),
+                ...createColumn("invoice.deal.dealDescription", "string", "Deal", "invoice.deal.dealDescription7"),
             },
-            { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
-            { ...createColumn("invoice.deal.dealDescription", "string", "10 Deal") },
-            { ...createColumn("invoice.deal.dealStatus.name", "string", "11 Deal Status") },
-            { ...createColumn("invoice.deal.customer.legalName", "string", "12 Customer") },
-            { ...createColumn("invoice.deal.customer.headquarterAddress.line1", "string", "13 Address Line 1") },
-            { ...createColumn("invoice.deal.customer.headquarterAddress.line2", "string", "14 Address Line 2") },
             {
                 ...createColumn("invoice.deal.customer.headquarterAddress.state.name", "string", "State"),
                 filterOptions: createMultiSelectFilterOptions()

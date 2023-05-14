@@ -2,6 +2,7 @@ import { ApiContext, createColumn, createFilterBehavior, FilterOperation, GridOp
 import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useMemo, useRef, useState } from "react";
 import SampleData from "../mockdata/SampleData";
+import { DataGrid } from "../components/DataGrid";
 
 export const HeaderRenderer = () => {
     const apiRef = useRef<ApiContext | null>(null);
@@ -76,5 +77,5 @@ export const HeaderRenderer = () => {
             createColumn("description", "string", "Description"),
         ]
     }),[])
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

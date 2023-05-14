@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import { materialAdapter } from "@ezgrid/grid-shared";
+import { muiAdapter } from "@ezgrid/grid-adapter-mui";
 import { CalculatedFieldEditorWrapper } from "../components/CalculatedFieldEditor";
 import Employee from "../mockdata/Employee";
 import SampleData from "../mockdata/SampleData";
@@ -193,49 +193,50 @@ export const GridBuilder = () => {
     import "@ezgrid/grid-core/icons.css"
     import * as React from "react"
     //import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export"; //only needed if you are using export. Please see https://reactdatagrid.com/docs/tutorial-basics/pdf-excel for more details  
-    //import { materialAdapter } from "../adapters/material-adapter"; //only needed if you are using material-ui              
+    //import { muiAdapter } from "../adapters/material-adapter"; //only needed if you are using material-ui              
     
     export default function App() {
+        const gridOptions = useMemo<GridOptions>(() => ({
+            dataProvider: [],//TODO - please replace this with your data provider
+            uniqueIdentifierOptions: {
+                useIndex: true,//TODO - please replace this with useField:"YOUR_UNIQUE_FIELD_NAME"
+            },
+            //adapter: muiAdapter, //only needed if you are using material-ui
+            behaviors: [
+                createFilterBehavior({}), //only needed if you are using filters
+                createEditBehavior({}), //only needed if you are using edit
+                //createPdfBehavior({}), //only needed if you are using export
+                //createExcelBehavior({}), //only needed if you are using export
+            ],
+            columns: [${columns.find((c: ColumnOptions) => c.uniqueIdentifier === SELECTION_COL_UNIQUE_ID) ? `createSelectionColumn({
+                    itemRenderer: SelectionCheckBoxRenderer,
+                    headerRenderer: SelectionCheckBoxHeaderRenderer,
+                }),` : ""}
+                ${columns.find((c: ColumnOptions) => c.uniqueIdentifier === DRAG_COLUMN_ID) ? "createDragColumn()," : ""}
+                ${columns.find((c: ColumnOptions) => c.uniqueIdentifier === DELETE_COL_UNIQUE_ID) ? `createDeleteColumn((data) => {
+                    //TODO - please replace this with your delete logic
+                }),` : ""}
+                ${columns.filter(c => [SELECTION_COL_UNIQUE_ID, DRAG_COLUMN_ID, DELETE_COL_UNIQUE_ID].indexOf(c.uniqueIdentifier) === -1).map((c: ColumnOptions) => {
+if (colPropOverrides[c.uniqueIdentifier]) {
+    return `{
+                            ...createColumn("${c.dataField}","${c.format}","${c.headerText}","${c.uniqueIdentifier}"),
+                            filterOptions: ${getFilterOptionsString(c)},
+                            ${writeProperty(colPropOverrides[c.uniqueIdentifier])}
+                        }`;
+} else {
+    return `
+                        {
+                            ...createColumn("${c.dataField}","${c.format}","${c.headerText}"),
+                            filterOptions: ${getFilterOptionsString(c)},
+                        }`;
+}
+}).join(",")}
+            ],${writeProperty(gridPropOverrides)}
+        }), []);
         return (
             <ReactDataGrid
                 style={{height:"600px"}}
-                gridOptions={{
-                    dataProvider: [],//TODO - please replace this with your data provider
-                    uniqueIdentifierOptions: {
-                        useIndex: true,//TODO - please replace this with useField:"YOUR_UNIQUE_FIELD_NAME"
-                    },
-                    //adapter: materialAdapter, //only needed if you are using material-ui
-                    behaviors: [
-                        createFilterBehavior({}), //only needed if you are using filters
-                        createEditBehavior({}), //only needed if you are using edit
-                        //createPdfBehavior({}), //only needed if you are using export
-                        //createExcelBehavior({}), //only needed if you are using export
-                    ],
-                    columns: [${columns.find((c: ColumnOptions) => c.uniqueIdentifier === SELECTION_COL_UNIQUE_ID) ? `createSelectionColumn({
-                            itemRenderer: SelectionCheckBoxRenderer,
-                            headerRenderer: SelectionCheckBoxHeaderRenderer,
-                        }),` : ""}
-                        ${columns.find((c: ColumnOptions) => c.uniqueIdentifier === DRAG_COLUMN_ID) ? "createDragColumn()," : ""}
-                        ${columns.find((c: ColumnOptions) => c.uniqueIdentifier === DELETE_COL_UNIQUE_ID) ? `createDeleteColumn((data) => {
-                            //TODO - please replace this with your delete logic
-                        }),` : ""}
-                        ${columns.filter(c => [SELECTION_COL_UNIQUE_ID, DRAG_COLUMN_ID, DELETE_COL_UNIQUE_ID].indexOf(c.uniqueIdentifier) === -1).map((c: ColumnOptions) => {
-        if (colPropOverrides[c.uniqueIdentifier]) {
-            return `{
-                                    ...createColumn("${c.dataField}","${c.format}","${c.headerText}","${c.uniqueIdentifier}"),
-                                    filterOptions: ${getFilterOptionsString(c)},
-                                    ${writeProperty(colPropOverrides[c.uniqueIdentifier])}
-                                }`;
-        } else {
-            return `
-                                {
-                                    ...createColumn("${c.dataField}","${c.format}","${c.headerText}"),
-                                    filterOptions: ${getFilterOptionsString(c)},
-                                }`;
-        }
-    }).join(",")}
-                    ],${writeProperty(gridPropOverrides)}
-                }}></ReactDataGrid>
+                gridOptions={gridOptions}/>
         )
     }
                                                 
@@ -245,7 +246,7 @@ export const GridBuilder = () => {
         <div style={{ width: "100%" }}>
             {
                 showFormulaEditor && <CalculatedFieldEditorWrapper  allFields={columns.map(d => resolveExpression(d,"dataField")).filter(f=> f.indexOf("json")==-1)} 
-                gridOptions={{adapter:materialAdapter}} />
+                gridOptions={{adapter:muiAdapter}} />
             }
             {step === 1 && (
                 <>
@@ -300,7 +301,7 @@ export const GridBuilder = () => {
                                             apiRef.current = ctx;
                                         },
                                     },
-                                    adapter: materialAdapter,
+                                    adapter: muiAdapter,
                                     behaviors: [
                                         createFilterBehavior({}),
                                         createEditBehavior({}),
@@ -330,7 +331,7 @@ export const GridBuilder = () => {
                                 gridOptions={
                                     {
                                         dataProvider: gridProps,
-                                        adapter: materialAdapter,
+                                        adapter: muiAdapter,
                                         selectionMode: GridSelectionMode.None,
                                         behaviors: [
                                             createEditBehavior({})
@@ -443,7 +444,7 @@ export const GridBuilder = () => {
                                 gridOptions={
                                     {
                                         dataProvider: columns,
-                                        adapter: materialAdapter,
+                                        adapter: muiAdapter,
                                         selectionMode: GridSelectionMode.None,
                                         behaviors: [
                                             createEditBehavior({})

@@ -1,10 +1,10 @@
 import { ApiContext, ColumnWidthMode, createColumn, createFilterBehavior, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
-import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import StyleEditor from "react-style-editor";
 
 import Employee from "../mockdata/Employee";
+import { DataGrid } from "../components/DataGrid";
 export const CssStyling = () => {
     const style = useRef<HTMLStyleElement | null>(null);
     const defaultCss = `
@@ -106,7 +106,7 @@ export const CssStyling = () => {
     return <div style={{ width: "100%", display: "flex" }}>
         <div style={{ flex: 1, flexShrink: 0 }}>
             <b>Small Sample of a few CSS classes you can use to fully customize the appearance of the Grid. Please see icons.css and styles.css for a full list.</b>
-            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>
+            <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>
         </div>
         <div style={{ height: "600px", width: "300px" }}>
             <b>Uncheck items below to see how the effect of the custom css.</b>

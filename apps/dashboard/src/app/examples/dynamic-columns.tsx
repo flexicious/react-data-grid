@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
 import Organization from "../mockdata/Organization";
+import { DataGrid } from "../components/DataGrid";
 
 export const DynamicColumns = () => {
     const [data] = useState<Organization[]>(FlexiciousMockGenerator.instance().getFlatOrgList());
@@ -45,5 +46,5 @@ export const DynamicColumns = () => {
 
         ]
     }),[fiscalYears,data,setFiscalYears])
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

@@ -1,6 +1,6 @@
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { createContext, ReactNode, useMemo, useState } from "react";
 
@@ -31,10 +31,11 @@ export const MaterialWrapper = ({ demo }: { demo: ReactNode }) => {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Box
+        <Stack
           sx={{
             bgcolor: "background.default",
             color: "text.primary",
+            display: "flex",
           }}
           style={{ height: "100%", width: "100%" }}
         >
@@ -60,7 +61,7 @@ export const MaterialWrapper = ({ demo }: { demo: ReactNode }) => {
             </IconButton>
           </div>
           {demo}
-        </Box>
+        </Stack>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

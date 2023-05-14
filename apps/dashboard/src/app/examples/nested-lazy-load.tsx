@@ -7,6 +7,7 @@ import { Spinner } from "../components/spinner/Spinner";
 import { getDealsForOrg, getOrganizations } from "../mockdata/MockService";
 import Organization from "../mockdata/Organization";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 export const NestedLazyLoadGrid = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -206,7 +207,7 @@ export const NestedLazyLoadGrid = () => {
     }), [isLoading, orgs, serverInfo]);
     return (
         <div style={{ height: "100%", width: "100%", position: "relative" }}>
-            {<ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />}
+            {<DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />}
             {customLoading && <div style={{ position: "absolute", top: "50%", left: "50%" }}><Spinner /></div>}
 
         </div>

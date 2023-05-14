@@ -1,8 +1,8 @@
 
 import { ApiContext, createColumn, FilterOperation, FooterOperation, formatCurrency, GridOptions, GridSelectionMode, LockMode, NodeKeys, RowType } from "@ezgrid/grid-core";
-import { createTextInputFilterOptions } from "@ezgrid/grid-react";
+import { createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DataGrid } from "../components/DataGrid";
+import { createBehaviors, DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
 
@@ -32,6 +32,7 @@ export const CellFormatting = () => {
                 apiContext.current = (ctx);
             }
         },
+        behaviors: createBehaviors(),
         cellStyleFunction: (node) => {
             //style the header, footer, filter, and group headers outside the body
             if (node.rowPosition?.uniqueIdentifier === RowType.Header

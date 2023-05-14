@@ -1,7 +1,6 @@
 import { GridOptions, GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
-import React, { useEffect, useMemo } from "react";
-import { AntDesignDemo } from "../examples/antd-demo";
+import React, { useEffect, useMemo, useState } from "react";
 import { AutoSizingGrid } from "../examples/auto-sizing-grid";
 import { CellFormatting } from "../examples/cell-formatting";
 import { ColumnLockModes } from "../examples/column-lock-modes";
@@ -41,6 +40,7 @@ import { StandAloneTreeView } from "../examples/standalone-tree-view";
 import { VariableRowHeight } from "../examples/variable-row-height";
 import {GridBuilder} from "../examples/grid-builder";
 import { PageScroll } from "../examples/page-scroll";
+import { ADAPTERS, AdapterType, ChartAdapterType } from "./adapter";
 import "./dashboard.css";
 
 function Dashboard() {
@@ -51,7 +51,6 @@ function Dashboard() {
     { name: "Page Scroll" },
     { name: "Level Renderer" },
     { name: "Level Renderer Locked" },
-    { name: "Ant Design Demo" },
     { name: "Material Demo" },
     { name: "Material Custom Filters" },
     { name: "Material Editors" },
@@ -86,7 +85,18 @@ function Dashboard() {
     { name: "Standalone Tree View" },
     { name: "Auto Sizing Grid" },
   ];
-  let [currentRoute, setCurrentRoute] = React.useState("Single Level");
+  let [currentRoute, setCurrentRoute] = useState("Edit Options");
+  const [adapter, setAdapterInternal] = useState<AdapterType>(AdapterType.MUI);
+  const [chartAdapter, setChartAdapterInternal] = useState<ChartAdapterType>(ChartAdapterType.HIGHCHARTS);
+  const setAdapter = (adapter:AdapterType) => {
+    setAdapterInternal(adapter);
+    ADAPTERS.grid = adapter;
+  };
+  const setChartAdapter = (adapter:ChartAdapterType) => {
+    setChartAdapterInternal(adapter);
+    ADAPTERS.chart = adapter;
+  };
+
   useEffect(() => {
     const route = window.location.search.split("=")[1];
     route && setCurrentRoute(route.replace(/_/g, " "));
@@ -128,10 +138,10 @@ function Dashboard() {
         <ReactDataGrid
           style={{ width: "100%", height: "100%" }}
           gridOptions={gridOptions}
-        ></ReactDataGrid>
+        />
       </nav>
       <div className="right-area">
-        <header>
+        <header className="ezgrid-dg-toolbar-section" style={{height:"30px", paddingLeft:"10px"}}>
           <h2>Welcome to React DataGrid!</h2>
           <select
             className="select-demo"
@@ -147,6 +157,17 @@ function Dashboard() {
             })}
           </select>
         </header>
+        <div className="ezgrid-dg-toolbar-section" style={{height:"30px", paddingLeft:"10px"}}>
+            Adapter Type: <select value={adapter} onChange={(e) => setAdapter(e.target.value as any)}>
+                <option value="mui">MUI</option>
+                <option value="ant">Ant</option>
+                <option value="none">None</option>
+            </select>
+            {/* Chart Adapter Type: <select value={chartAdapter} onChange={(e) => setChartAdapter(e.target.value as any)}>
+                <option value="highcharts">Highcharts</option>
+                <option value="none">None</option>
+            </select> */}
+        </div>
         <main className="display-area">
           {currentRoute === "Single Level" && <SingleLevel />}
           {currentRoute === "Nested Grid" && <NestedGrid />}
@@ -178,7 +199,6 @@ function Dashboard() {
           {currentRoute === "Drag Drop" && <DragDrop />}
           {currentRoute === "Standalone Tree View" && <StandAloneTreeView />}
           {currentRoute === "Auto Sizing Grid" && <AutoSizingGrid />}
-          {currentRoute === "Ant Design Demo" && <AntDesignDemo />}
           {currentRoute === "Material Demo" && <MaterialDemo />}
           {currentRoute === "Material Custom Filters" && <MaterialFilterDemo />}
           {currentRoute === "Custom Toolbar" && <CustomToolbar />}

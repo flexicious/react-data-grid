@@ -3,6 +3,7 @@ import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRender
 import { useMemo, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 export const SelectionModes = () => {
     const [data] = useState<Employee[]>(Employee.getAllEmployees());
@@ -22,6 +23,7 @@ export const SelectionModes = () => {
         },
         toolbarOptions: {
             enableGroupingDropzone: false,
+            enableGlobalSearch: false,
             rightToolbarRenderer: ({ node }) => {
                 const api = getApi(node);
                 return <div>
@@ -94,5 +96,5 @@ export const SelectionModes = () => {
 
         ].filter(c=>c != undefined) as ColumnOptions<Employee>[]
     }), [data, selectionMode, useExcelLikeShiftAndCtrlKeys]);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

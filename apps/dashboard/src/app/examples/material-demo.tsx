@@ -12,6 +12,7 @@ import {
   createSelectionColumn
 } from "@ezgrid/grid-core";
 import {
+  ReactDataGrid,
   SelectionCheckBoxHeaderRenderer,
   SelectionCheckBoxRenderer,
   createDateFilterOptions,
@@ -22,13 +23,13 @@ import {
   createTriStateCheckBoxFilterOptions
 } from "@ezgrid/grid-react";
 import {
-  materialAdapter,
-  materialNodePropsFunction,
-} from "@ezgrid/grid-shared";
+  muiAdapter,
+  muiNodePropsFunction,
+} from "@ezgrid/grid-adapter-mui";
 import Expand from "@mui/icons-material/Expand";
 import { IconButton, useTheme } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DataGrid } from "../components/DataGrid";
+import { DataGrid, createBehaviors } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 import { MaterialWrapper } from "./material/material-wrapper";
@@ -38,7 +39,7 @@ export const Demo = () => {
   const apiRef = useRef<ApiContext<LineItem> | null>(null);
   const [dataProvider, setDataProvider] = useState<LineItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [useMaterialAdapter, setUseMaterialAdapter] = useState(true);
+  const [usemuiAdapter, setUsemuiAdapter] = useState(true);
   useEffect(() => {
     setLoading(true);
     const getLineItems = async () => {
@@ -60,6 +61,7 @@ export const Demo = () => {
     apiRef.current?.api?.propsUpdated();
   };
   const gridOptions = useMemo<GridOptions<LineItem>>(() => ({
+    behaviors: createBehaviors(),
     dataProvider,
     isLoading: loading,
     uniqueIdentifierOptions: {
@@ -74,9 +76,9 @@ export const Demo = () => {
       pageSize: 1000,
     },
     rowHeight,
-    adapter: useMaterialAdapter ? materialAdapter : undefined,
-    nodePropsFunction: useMaterialAdapter
-      ? materialNodePropsFunction(theme)
+    adapter: usemuiAdapter ? muiAdapter : undefined,
+    nodePropsFunction: usemuiAdapter
+      ? muiNodePropsFunction(theme)
       : undefined,
     enablePaging: true,
     selectionMode: GridSelectionMode.MultipleRows,
@@ -87,7 +89,7 @@ export const Demo = () => {
         <div className="ezgrid-dg-toolbar-section">
           <button
             onClick={() => {
-              setUseMaterialAdapter(!useMaterialAdapter);
+              setUsemuiAdapter(!usemuiAdapter);
             }}
           >
             Toggle MUI Adapter
@@ -219,11 +221,11 @@ export const Demo = () => {
         ...createColumn(
           "invoice.deal.dealDescription",
           "string",
-          "7 Deal",
+          "Deal",
           "invoice.deal.dealDescription7"
         ),
       },
-      { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
+      { ...createColumn("invoice.dueDate", "date", "Due Date") },
       {
         ...createColumn(
           "invoice.deal.dealDescription",
@@ -299,7 +301,7 @@ export const Demo = () => {
         ],
       },
     ],
-  }), [dataProvider, loading, rowHeight, theme, useMaterialAdapter]);
+  }), [dataProvider, loading, rowHeight, theme, usemuiAdapter]);
   return (
     <DataGrid
       style={{ height: "100%", width: "100%" }}

@@ -2,6 +2,7 @@ import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBeh
 import { CheckBoxEditor, createDeleteColumn, DateEditor, FormulaColumnEditor, ReactDataGrid, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@ezgrid/grid-react";
 import { FC, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
+import { DataGrid } from "../components/DataGrid";
 
 export const EditOptions = () => {
     const [loading, setLoading] = useState(false);
@@ -271,7 +272,7 @@ export const EditOptions = () => {
 
 
     return <>{loading && <div className="ezgrid-dg-loading-message">Saving...</div>}
-        <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={go}></ReactDataGrid></>;
+        <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={go}/></>;
 };
 //this could come from the server
 const ALL_STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",

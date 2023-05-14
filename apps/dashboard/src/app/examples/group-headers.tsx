@@ -2,6 +2,7 @@ import { ApiContext, createColumn, GridOptions, HorizontalScrollMode } from "@ez
 import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useMemo, useRef } from "react";
 import SampleData from "../mockdata/SampleData";
+import { DataGrid } from "../components/DataGrid";
 
 export const GroupHeaders = () => {
     const apiRef = useRef<ApiContext | null>(null);
@@ -49,5 +50,5 @@ export const GroupHeaders = () => {
             createColumn("iconClass", "string", "Icon Class"),
         ]
     }),[])
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

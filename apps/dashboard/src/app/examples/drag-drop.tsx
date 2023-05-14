@@ -1,8 +1,8 @@
 import { createColumn, createDragColumn, GridOptions, HorizontalScrollMode } from "@ezgrid/grid-core";
-import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useMemo, useState } from "react";
 import SampleData from "../mockdata/SampleData";
 import { getScrollOffBelow } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 export const DragDrop = () => {
     const [leftBooks, setLeftBooks] = useState<Record<string, any>[]>(SampleData.bookData.slice(0, 5));
@@ -52,10 +52,10 @@ export const DragDrop = () => {
     const rightOptions = useMemo<GridOptions>(()=>getOptions(rightBooks),[getOptions,rightBooks]);
     return <div style={{ display: "flex", gap: 20 }}>
         <div style={{ flex: 1 }}>
-            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={leftOptions}></ReactDataGrid>
+            <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={leftOptions}/>
         </div>
         <div style={{ flex: 1 }}>
-            <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={rightOptions}></ReactDataGrid>
+            <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={rightOptions}/>
         </div>
     </div>;
 };

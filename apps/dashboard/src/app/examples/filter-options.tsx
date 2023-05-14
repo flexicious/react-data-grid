@@ -3,6 +3,7 @@ import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInpu
 import { useRef, useState, FC, useMemo } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 const PhoneNumberFilter: FC<RendererProps<Employee>> = ({ node }) => {
     const api = getApi(node);
@@ -180,5 +181,5 @@ export const FilterOptions = () => {
             }
         ]
     }), [data]);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

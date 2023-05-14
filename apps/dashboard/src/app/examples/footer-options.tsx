@@ -3,6 +3,7 @@ import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useMemo, useRef, useState } from "react";
 import Employee from "../mockdata/Employee";
 import { getScrollOffBelow } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 export const FooterOptions = () => {
     const apiRef = useRef<ApiContext<Employee> | null>(null);
@@ -101,5 +102,5 @@ export const FooterOptions = () => {
 
         ]
     }),[]);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

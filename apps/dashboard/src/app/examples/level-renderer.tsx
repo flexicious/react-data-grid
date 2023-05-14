@@ -2,7 +2,7 @@
 import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridOptions, GridSelectionMode, HorizontalScrollMode } from "@ezgrid/grid-core";
 import { createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DataGrid } from "../components/DataGrid";
+import { createBehaviors, DataGrid } from "../components/DataGrid";
 import CustomerOrganization from "../mockdata/CustomerOrganization";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 
@@ -29,6 +29,7 @@ export const LevelRenderer = () => {
     const gridOptions = useMemo<GridOptions>(()=>({
         dataProvider: data,
         isLoading,
+        behaviors: createBehaviors(),
         uniqueIdentifierOptions: {
             useField: "id"
         },
@@ -118,7 +119,7 @@ export const LevelRenderer = () => {
                                     ]
                                 }
                             }
-                        ></ReactDataGrid>
+                        />
                     </div>;
                 },
             }

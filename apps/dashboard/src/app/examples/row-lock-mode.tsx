@@ -3,6 +3,7 @@ import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 export const LockedRows = () => {
     const apiContext = useRef<ApiContext | null>(null);
@@ -71,5 +72,5 @@ export const LockedRows = () => {
 
         ]
     }), [data, median]);
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

@@ -1,6 +1,6 @@
 import { ApiContext, createColumn, FilterOperation, GridOptions, GridSelectionMode, LockMode, TreeNodeType } from "@ezgrid/grid-core";
-import { createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, Expander, Exporter, FilterChips, Paginator, ReactDataGrid, Selection, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, SettingsMenu, ToolbarRight } from "@ezgrid/grid-react";
-import React, { useMemo, useRef, useState } from "react";
+import { createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, Expander, Exporter, FilterChips, Paginator, Selection, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, SettingsMenu, ToolbarRight } from "@ezgrid/grid-react";
+import { useMemo, useRef, useState } from "react";
 import { createBehaviors, DataGrid } from "../components/DataGrid";
 import SampleData from "../mockdata/SampleData";
 
@@ -93,35 +93,35 @@ export const CustomToolbar = () => {
     }),[])
     return <div style={{ display: "flex", flexDirection: "column", height: "600px", width: "100%" }}>
         <div>Make a responsive toolbar outside the grid:</div>
-        {gridOptions.contextInfo &&
+        {apiRef.current?.context &&
             <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
                 <div style={{ background: "aqua", borderRadius: 5, padding: 5 }}>
                     Settings:
-                    <SettingsMenu node={createNode(gridOptions)} />
+                    <SettingsMenu node={createNode(apiRef.current?.context.gridOptions)} />
                 </div>
                 {<div style={{ background: "gold", borderRadius: 5, padding: 5 }}>
                     Export:
-                    <Exporter node={createNode(gridOptions)} />
+                    <Exporter node={createNode(apiRef.current?.context.gridOptions)} />
                 </div> }
                 <div style={{ background: "lightblue", borderRadius: 5, padding: 5 }}>
-                    Expansion:   <Expander node={createNode(gridOptions)} />
+                    Expansion:   <Expander node={createNode(apiRef.current?.context.gridOptions)} />
                 </div>
                 <div style={{ background: "lightpink", borderRadius: 5, padding: 5 }}>
                     Filter/Find:
-                    <ToolbarRight node={createNode(gridOptions)} />
+                    <ToolbarRight node={createNode(apiRef.current?.context.gridOptions)} />
                 </div>
                 <div style={{ background: "orange", borderRadius: 5, padding: 5 }}>
                     Pagination:
-                    <Paginator node={createNode(gridOptions)} />
+                    <Paginator node={createNode(apiRef.current?.context.gridOptions)} />
                 </div>
                 <div style={{ background: "lightgreen", borderRadius: 5, padding: 5 }}>
-                    Filters: <FilterChips node={createNode(gridOptions)} />
+                    Filters: <FilterChips node={createNode(apiRef.current?.context.gridOptions)} />
                 </div>
                 <div style={{ background: "peachpuff", borderRadius: 5, padding: 5 }}>
-                    Selection:  <Selection node={createNode(gridOptions)} />
+                    Selection:  <Selection node={createNode(apiRef.current?.context.gridOptions)} />
                 </div>
             </div>
         }
-        <ReactDataGrid style={{ flex: 1 }} gridOptions={gridOptions}/>
+        <DataGrid style={{ flex: 1 }} gridOptions={gridOptions}/>
     </div >;
 };

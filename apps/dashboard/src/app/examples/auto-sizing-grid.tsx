@@ -1,6 +1,7 @@
 import { GridOptions, createColumn } from "@ezgrid/grid-core";
 import { ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useState } from "react";
+import { DataGrid } from "../components/DataGrid";
 
 export const AutoSizingGrid = () => {
     const [data, setData] = useState<any[]>([]);
@@ -42,5 +43,5 @@ export const AutoSizingGrid = () => {
         ]
     }), [data]);
 
-    return <ReactDataGrid style={{ width: "500px" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ width: "500px" }} gridOptions={gridOptions}/>;
 };

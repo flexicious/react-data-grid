@@ -4,6 +4,7 @@ import { createRef, useEffect, useMemo, useRef, useState } from "react";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 import SystemConstants from "../mockdata/SystemConstants";
+import { DataGrid } from "../components/DataGrid";
 
 export const ItemRenderers = () => {
     const apiRef = useRef<ApiContext<LineItem> | null>(null);
@@ -132,9 +133,9 @@ export const ItemRenderers = () => {
             },
 
             {
-                ...createColumn("invoice.deal.dealDescription", "string", "7 Deal", "invoice.deal.dealDescription7"),
+                ...createColumn("invoice.deal.dealDescription", "string", "Deal", "invoice.deal.dealDescription7"),
             },
-            { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
+            { ...createColumn("invoice.dueDate", "date", "Due Date") },
             { ...createColumn("invoice.deal.dealDescription", "string", "10 Deal") },
             { ...createColumn("invoice.deal.dealStatus.name", "string", "11 Deal Status") },
             { ...createColumn("invoice.deal.customer.headquarterAddress.line1", "string", "13 Address Line 1") },
@@ -160,5 +161,5 @@ export const ItemRenderers = () => {
             },
         ]
     }), [data, isLoading])
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />;
+    return <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />;
 };

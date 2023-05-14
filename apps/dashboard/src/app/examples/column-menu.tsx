@@ -5,6 +5,7 @@ import SampleData from "../mockdata/SampleData";
 import { getApi, gridCSSPrefix } from "@ezgrid/grid-core";
 import { MouseEvent, useRef, useState, FC, ReactNode, useMemo } from "react";
 import { getScrollOffBelow } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 export const ColumnMenu = () => {
     const columnMenuGridOptions = useMemo<GridOptions>(() => ({
@@ -71,15 +72,15 @@ export const ColumnMenu = () => {
     return <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", gap: 10 }}>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu Enabled</b>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={columnMenuGridOptions}></ReactDataGrid>
+            <DataGrid style={{ height: "600px", width: "100%" }} gridOptions={columnMenuGridOptions}/>
         </div>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu With CustomItems</b>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={columnMenuWithCustotmItemsGridOptions}></ReactDataGrid>
+            <DataGrid style={{ height: "600px", width: "100%" }} gridOptions={columnMenuWithCustotmItemsGridOptions}/>
         </div>
         <div style={{ flex: 1, flexDirection: "column" }}>
             <b>Column Menu With Custom Renderer</b>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={customColumnMenu}></ReactDataGrid>
+            <DataGrid style={{ height: "600px", width: "100%" }} gridOptions={customColumnMenu}/>
         </div>
 
 

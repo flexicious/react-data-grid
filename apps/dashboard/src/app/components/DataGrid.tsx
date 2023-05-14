@@ -7,6 +7,10 @@ import autoTable from "jspdf-autotable";
 import { ReactDataGridOptions, ReactDataGrid, getEditOptions, getFilterOptions, createMultiSelectFilterOptions, createSelectEditorOptions } from "@ezgrid/grid-react";
 import { createFilterBehavior, createEditBehavior, GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions, createColumn, resolveExpression } from "@ezgrid/grid-core";
 import { useMemo } from "react";
+import {ADAPTERS, AdapterType, ChartAdapterType} from "../dashboard/adapter";
+import { muiAdapter, muiNodePropsFunction } from "@ezgrid/grid-adapter-mui";
+import { antAdapter } from "@ezgrid/grid-adapter-ant";
+import {highchartsAdapter} from "@ezgrid/grid-adapter-highcharts";
 const { saveAs } = pkg;
 
 
@@ -17,33 +21,27 @@ In non venenatis tellus, vitae accumsan neque. Aenean a libero lacus. Aenean a l
 Nullam aliquam hendrerit enim. In ultrices efficitur sem. Ut malesuada leo et tellus porttitor gravida. In elementum turpis sit amet ornare ultrices. Nam turpis massa, fringilla rhoncus maximus in, consequat sed orci. Phasellus rutrum sapien id facilisis auctor. Integer venenatis sem et urna condimentum ultrices. In nec ligula ut justo pellentesque pulvinar. Curabitur eleifend egestas dolor, eu aliquet risus eleifend vel.
 Nullam venenatis purus sit amet tempus vehicula. Morbi orci mauris, egestas eu iaculis viverra, rhoncus sed libero. Praesent in felis vitae risus eleifend vehicula. In finibus elit vitae purus hendrerit faucibus. In varius, quam ac tristique dapibus, est risus luctus tellus, dapibus iaculis metus lorem nec nisl. Morbi et dictum orci. Pellentesque et libero metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam blandit cursus risus, vel aliquam lorem varius vel. Proin ullamcorper nibh eros, in blandit ipsum rutrum eu. Sed sit amet neque at mi sagittis pellentesque luctus ut ipsum. Fusce ullamcorper quam sit amet tincidunt imperdiet. Mauris diam lorem, vulputate a dapibus sed, dictum rhoncus sem. Fusce congue volutpat sapien vitae lacinia.
 `]];
-export const getGridOptions = ()=> ({
-    behaviors: [
-        createFilterBehavior({}),
-        createPdfBehavior({ cellsBeforeBody, cellsAfterBody }),
-        createExcelBehavior({ cellsBeforeBody, cellsAfterBody }),
-        createEditBehavior({  })
-    ]
-})
     
 export const createBehaviors = ()=> [createFilterBehavior({}),
     createPdfBehavior({ cellsBeforeBody, cellsAfterBody }),
     createExcelBehavior({ cellsBeforeBody, cellsAfterBody }),
     createEditBehavior({  })
 ]
-
 export const DataGrid = <T=unknown>(props: ReactDataGridOptions<T>) => {
     const theme = useTheme();
-
     const { gridOptions, style, ref,  ...rest } = props;
     const newProps = useMemo(() => ({
         ...rest,
         gridOptions: {
             ...gridOptions,
-            behaviors: createBehaviors()
+            behaviors: createBehaviors(),
+            adapter: ADAPTERS.grid === AdapterType.MUI? muiAdapter : ADAPTERS.grid === AdapterType.ANT? antAdapter : undefined,
+            nodePropsFunction: ADAPTERS.grid === AdapterType.MUI? muiNodePropsFunction(theme) : undefined,
+            chartLibraryAdapter : ADAPTERS.chart === ChartAdapterType.HIGHCHARTS? highchartsAdapter : undefined,
         },
         style: { ...style, minHeight: "500px" },
-    }), [gridOptions, theme]);
+
+    }), [gridOptions, theme,ADAPTERS.grid,ADAPTERS.chart]);
     return <ReactDataGrid {...newProps} ref={ref as any} />;
 };
 

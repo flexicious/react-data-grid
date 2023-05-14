@@ -3,6 +3,7 @@ import { ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRender
 import { useMemo, useRef } from "react";
 import Employee from "../mockdata/Employee";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
+import { DataGrid } from "../components/DataGrid";
 
 interface CarData {
     make:string;
@@ -147,5 +148,5 @@ export const LargeDynamicGrid = () => {
             ...fiscalYears
         ]
     }),[dp,])
-    return <ReactDataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };

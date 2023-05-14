@@ -3,6 +3,7 @@ import { createMultiSelectFilterOptions, createSelectFilterOptions, createTextIn
 import { useEffect, useMemo, useRef, useState } from "react";
 import CustomerOrganization from "../mockdata/CustomerOrganization";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
+import { DataGrid } from "../components/DataGrid";
 
 export const SaveAsYouGo = () => {
     const apiContext = useRef<ApiContext | null>(null);
@@ -77,7 +78,7 @@ export const SaveAsYouGo = () => {
     return <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
         <b>For this grid, as you filter, sort, resize, move, show or hide columns, the view will be saved in saved settings and the grid will revert to that view on page refresh</b>
         <div style={{ display: "flex" }}> <div style={{ flex: 1 }}>
-            <ReactDataGrid style={{ height: "600px", width: "100%" }} gridOptions={gridOptions}></ReactDataGrid>
+            <DataGrid style={{ height: "600px", width: "100%" }} gridOptions={gridOptions}/>
 
         </div>
             <div style={{ flex: 1 }}>

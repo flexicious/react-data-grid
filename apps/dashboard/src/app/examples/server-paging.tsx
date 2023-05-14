@@ -4,6 +4,7 @@ import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
 import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getPagedData } from "../mockdata/MockService";
+import { DataGrid } from "../components/DataGrid";
 export const ServerPaging = () => {
     const apiContext = useRef<ApiContext | null>(null);
     const [serverInfo, setServerInfo] = useState<ServerInfo>();
@@ -125,7 +126,7 @@ export const ServerPaging = () => {
                 width: 300,
                 filterOptions: createTextInputFilterOptions(FilterOperation.Contains)
             },
-            { ...createColumn("invoice.dueDate", "date", "9 Due Date") },
+            { ...createColumn("invoice.dueDate", "date", "Due Date") },
             { ...createColumn("invoice.deal.dealDescription", "string", "10 Deal") },
             { ...createColumn("invoice.deal.dealStatus.name", "string", "11 Deal Status") },
             { ...createColumn("invoice.deal.customer.legalName", "string", "12 Customer") },
@@ -189,7 +190,7 @@ export const ServerPaging = () => {
         ]
     }), [isLoading, serverInfo]);
     return (
-        <ReactDataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />
+        <DataGrid style={{ height: "100%", width: "100%" }} id="bigGrid" gridOptions={gridOptions} />
     );
 };
 

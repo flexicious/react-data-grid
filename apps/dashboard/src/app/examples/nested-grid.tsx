@@ -1,8 +1,8 @@
 
 import { ApiContext, ColumnWidthMode, createColumn, FilterOperation, FooterOperation, GridOptions, GridSelectionMode, LockMode, NodeKeys, RowType, VirtualTreeNode } from "@ezgrid/grid-core";
-import { createTextInputFilterOptions } from "@ezgrid/grid-react";
+import { createTextInputFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DataGrid } from "../components/DataGrid";
+import { createBehaviors, DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import Organization from "../mockdata/Organization";
 import { createFiscalYearColumnGroup } from "../utils/column-utils";
@@ -29,6 +29,8 @@ export const NestedGrid = () => {
     }, [dataProvider]);
 
     const gridOptions = useMemo<GridOptions>(() => ({
+
+        behaviors: createBehaviors(),
         dataProvider,
         isLoading,
         enableFloatingHeaderRows: true,

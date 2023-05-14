@@ -2,6 +2,7 @@ import { ApiContext, createColumn, createFilterBehavior, FilterOperation, GridOp
 import { createTextInputFilterOptions, Expander, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useMemo, useRef } from "react";
 import SampleData from "../mockdata/SampleData";
+import { DataGrid } from "../components/DataGrid";
 
 export const StandAloneTreeView = () => {
     const apiRef = useRef<ApiContext | null>(null);
@@ -57,5 +58,5 @@ export const StandAloneTreeView = () => {
             },
         ]
     }), []);
-    return <ReactDataGrid style={{ width: "250px" }} gridOptions={gridOptions}></ReactDataGrid>;
+    return <DataGrid style={{ width: "250px" }} gridOptions={gridOptions}/>;
 };
