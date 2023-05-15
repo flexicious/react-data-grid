@@ -85,7 +85,7 @@ function Dashboard() {
     { name: "Standalone Tree View" },
     { name: "Auto Sizing Grid" },
   ];
-  let [currentRoute, setCurrentRoute] = useState("Edit Options");
+  let [currentRoute, setCurrentRoute] = useState("Single Level");
   const [adapter, setAdapterInternal] = useState<AdapterType>(AdapterType.MUI);
   const [chartAdapter, setChartAdapterInternal] = useState<ChartAdapterType>(ChartAdapterType.HIGHCHARTS);
   const setAdapter = (adapter:AdapterType) => {
