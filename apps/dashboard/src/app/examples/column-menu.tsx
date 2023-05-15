@@ -65,7 +65,7 @@ export const ColumnMenu = () => {
             columnMenuRenderer: (props: RendererProps) => <ColumnOptionsMenu {...props} />
         },
         columns: [
-            { ...createColumn("id", "number"), width: 50, widthMode: ColumnWidthMode.Fixed },
+            { ...createColumn("id", "string"), width: 50, widthMode: ColumnWidthMode.Fixed },
             { ...createColumn("description", "string"), variableRowHeightOptions: { enabled: true, heightAdjustment: 10 } },
         ]
     }),[])

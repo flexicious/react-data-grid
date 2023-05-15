@@ -83,9 +83,9 @@ export const LevelRenderer = () => {
             nextLevelRendererOptions: {
                 nextLevelRendererHeightFunction: () => 200,
                 nextLevelRenderer: ({ node }) => {
-                    return <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                    return <div style={{ width: "100%", display: "flex", justifyContent: "center", padding:"20px" }}>
                         <ReactDataGrid
-                            style={{ width: "500px", height: "150px", padding: "20px" }}
+                            style={{ width: "500px", height:"150px", minHeight:"150px"}}
                             gridOptions={
                                 {
                                     enableToolbar: false,

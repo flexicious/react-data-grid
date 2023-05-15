@@ -12,12 +12,6 @@ export const PersistentSettings = () => {
         uniqueIdentifierOptions: {
             useField: "id"
         },
-        nodeStyleFunction: (node) => {
-            if (node.type === TreeNodeType.VDivider) {
-                return { width: "3px" };
-            }
-            return {};
-        },
         toolbarOptions: {
             enableGlobalSearch: false,
             enableQuickFind: false,

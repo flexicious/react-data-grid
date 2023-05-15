@@ -147,8 +147,9 @@ export const LevelRendererLocked = () => {
                     </div>;
                 },
                 nextLevelRenderer: ({ node }) => {
-                    return <ReactDataGrid
-                        style={{ width: "500px", height: "150px", padding: "20px" }}
+                    return <div style={{ width: "100%", display: "flex",  padding:"20px" }}>
+                        <ReactDataGrid
+                            style={{ width: "500px", height:"150px", minHeight:"150px"}}
                         gridOptions={
                             {
                                 enableToolbar: false,
@@ -182,7 +183,8 @@ export const LevelRendererLocked = () => {
                                 ]
                             }
                         }
-                    />;
+                    />
+                    </div>;
                 },
             }
         }

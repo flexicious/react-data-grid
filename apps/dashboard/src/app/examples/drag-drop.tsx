@@ -52,10 +52,10 @@ export const DragDrop = () => {
     const rightOptions = useMemo<GridOptions>(()=>getOptions(rightBooks),[getOptions,rightBooks]);
     return <div style={{ display: "flex", gap: 20 }}>
         <div style={{ flex: 1 }}>
-            <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={leftOptions}/>
+            <DataGrid style={{  width: "100%" }} gridOptions={leftOptions}/>
         </div>
         <div style={{ flex: 1 }}>
-            <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={rightOptions}/>
+            <DataGrid style={{  width: "100%" }} gridOptions={rightOptions}/>
         </div>
     </div>;
 };

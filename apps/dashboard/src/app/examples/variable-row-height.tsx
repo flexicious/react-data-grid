@@ -24,5 +24,7 @@ export const VariableRowHeight = () => {
             createColumn("publish_date", "date", "Publish Date"),
         ]
     }), []);
-    return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
+    return <>
+    <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>
+    </>;
 };
