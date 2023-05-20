@@ -6,8 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import { muiAdapter } from "@ezgrid/grid-adapter-mui";
 import { CalculatedFieldEditorWrapper } from "../components/CalculatedFieldEditor";
+import { getMuiAdapter } from "../components/DataGrid";
 import Employee from "../mockdata/Employee";
 import SampleData from "../mockdata/SampleData";
 import { colProps, ConfigRenderer, getFilterOptionsString, GRID_PROPS, TabPanel } from "./live-editor-utils";
@@ -28,6 +28,7 @@ export const GridBuilder = () => {
     const [gridPropOverrides, setGridPropOverridesInner] = useState<any>({});
     const [colPropOverrides, setColPropOverrides] = useState<Record<string, Record<string, any>>>({}); // { [colId]: { [prop]: value } }
     const apiRef = useRef<ApiContext | null>(null);
+    const muiAdapter = getMuiAdapter();
 
     const setTabIndex = (idx: number) => {
         setTabIndexInner(idx);

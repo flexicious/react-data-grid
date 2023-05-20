@@ -21,11 +21,7 @@ import {
   createSelectFilterOptions,
   createTextInputFilterOptions,
   createTriStateCheckBoxFilterOptions
-} from "@ezgrid/grid-react";
-import {
-  muiAdapter,
-  muiNodePropsFunction,
-} from "@ezgrid/grid-adapter-mui";
+} from "@ezgrid/grid-react"; 
 import Expand from "@mui/icons-material/Expand";
 import { IconButton, useTheme } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -39,7 +35,6 @@ export const Demo = () => {
   const apiRef = useRef<ApiContext<LineItem> | null>(null);
   const [dataProvider, setDataProvider] = useState<LineItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [usemuiAdapter, setUsemuiAdapter] = useState(true);
   useEffect(() => {
     setLoading(true);
     const getLineItems = async () => {
@@ -76,10 +71,6 @@ export const Demo = () => {
       pageSize: 1000,
     },
     rowHeight,
-    adapter: usemuiAdapter ? muiAdapter : undefined,
-    nodePropsFunction: usemuiAdapter
-      ? muiNodePropsFunction(theme)
-      : undefined,
     enablePaging: true,
     selectionMode: GridSelectionMode.MultipleRows,
     toolbarOptions: {
@@ -87,13 +78,6 @@ export const Demo = () => {
       enableExcel: true,
       rightToolbarRenderer: () => (
         <div className="ezgrid-dg-toolbar-section">
-          <button
-            onClick={() => {
-              setUsemuiAdapter(!usemuiAdapter);
-            }}
-          >
-            Toggle MUI Adapter
-          </button>
           <IconButton
             sx={{ ml: 1 }}
             onClick={toggleRowHeights}
@@ -301,7 +285,7 @@ export const Demo = () => {
         ],
       },
     ],
-  }), [dataProvider, loading, rowHeight, theme, usemuiAdapter]);
+  }), [dataProvider, loading, rowHeight, theme]);
   return (
     <DataGrid
       style={{ height: "100%", width: "100%" }}

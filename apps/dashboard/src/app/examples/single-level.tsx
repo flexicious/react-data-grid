@@ -1,5 +1,5 @@
-import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridOptions, GridSelectionMode, LockMode } from "@ezgrid/grid-core";
-import { createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
+import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridOptions, GridSelectionMode, LockMode, VirtualTreeNode } from "@ezgrid/grid-core";
+import { ChartBuilder, createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, FilterBuilder, FormulaColumnEditor, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { useEffect, useMemo, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
@@ -30,6 +30,9 @@ export const SingleLevel = () => {
         toolbarOptions: {
             enablePdf: true,
             enableExcel: true,
+            filterBuilderRenderer: ({ node } : {node:VirtualTreeNode}) => <FilterBuilder node={node} />,
+            chartBuilderRenderer: ({ node } : {node:VirtualTreeNode}) => <ChartBuilder node={node} />,
+            addFormulaColumnRenderer: ({ node } : {node:VirtualTreeNode}) => <FormulaColumnEditor node={node} />,
         },
         settingsOptions: {
             settingsStorageKey: "line-items-grid"

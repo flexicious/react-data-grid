@@ -1,8 +1,8 @@
-import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DeltaOptions, DeltaType, EditInfo, EditStartMode, getApi, getRowColFromNode, GridOptions, GridSelectionMode, itemToLabel, RendererProps, resolveExpression } from "@ezgrid/grid-core";
-import { CheckBoxEditor, createDeleteColumn, DateEditor, FormulaColumnEditor, ReactDataGrid, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@ezgrid/grid-react";
+import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createEditBehavior, createFilterBehavior, createSelectionColumn, DeltaOptions, DeltaType, EditInfo, EditStartMode, getApi, getRowColFromNode, GridOptions, GridSelectionMode, itemToLabel, RendererProps, resolveExpression, VirtualTreeNode } from "@ezgrid/grid-core";
+import { ChartBuilder, CheckBoxEditor, createDeleteColumn, DateEditor, FilterBuilder, FormulaColumnEditor, SelectEditor, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer, TextInputEditor } from "@ezgrid/grid-react";
 import { FC, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
-import Employee from "../mockdata/Employee";
 import { DataGrid } from "../components/DataGrid";
+import Employee from "../mockdata/Employee";
 
 export const EditOptions = () => {
     const [loading, setLoading] = useState(false);
@@ -97,6 +97,9 @@ export const EditOptions = () => {
             toolbarOptions: {
                 enableGlobalSearch: false,
                 enableQuickFind: false,
+                filterBuilderRenderer: ({ node } : {node:VirtualTreeNode}) => <FilterBuilder node={node} />,
+                chartBuilderRenderer: ({ node } : {node:VirtualTreeNode}) => <ChartBuilder node={node} />,
+                addFormulaColumnRenderer: ({ node } : {node:VirtualTreeNode}) => <FormulaColumnEditor node={node} />,
                 rightToolbarRenderer: ({ node }) => {
                     const api = getApi(node);
                     return <div className="ezgrid-dg-toolbar-section">
@@ -164,10 +167,11 @@ export const EditOptions = () => {
                         enableEdit: editMode,
                         editStartMode: editStart,
                         editorRenderer: TextInputEditor,
+                        enableAutoComplete: true,
                     },
                 },
                 {
-                    ...createColumn("lastName", "string", "First Name - Text Input Editor"),
+                    ...createColumn("lastName", "string", "Last Name - Text Input Editor"),
     
                     sortOptions: {
                         sortCaseInsensitive: true,

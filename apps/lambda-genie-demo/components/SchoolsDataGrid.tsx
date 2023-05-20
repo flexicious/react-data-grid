@@ -5,12 +5,31 @@ import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { GridConfig } from "../shared/lambda-genie/config-bindings";
 import { createPdfBehavior, createExcelBehavior } from "@ezgrid/grid-export";
-// import { muiAdapter, muiNodePropsFunction } from "@ezgrid/grid-adapter-mui";
+import { muiNodePropsFunction } from "@ezgrid/grid-adapter-mui";
 import { rechartsAdapter } from "@ezgrid/grid-adapter-recharts";
 import { useTheme } from "@mui/material";
-import { materialAdapter , 
-    materialNodePropsFunction  } from "@ezgrid/grid-shared";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TextField } from "@mui/material";
+import { muiAdapter } from "@ezgrid/grid-adapter-mui";
+import React from "react";
+import { GridDateInputElementProps } from "@ezgrid/grid-core";
 
+export const getMuiAdapter = () => muiAdapter(
+    {
+        createDateField: ({value, onChange}:GridDateInputElementProps) => <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                value={value}
+                onChange={(newValue) => {
+                    const oDate = resolveExpression(newValue, "$d");
+                    onChange?.(oDate || newValue);
+                }}
+                renderInput={(params) => <TextField autoFocus {...params} variant="standard" />}
+            />
+        </LocalizationProvider>
+    }
+)
 export const distinctValueColumns = [
     "schools.CDSCode",
     "schools.StatusType",
@@ -117,9 +136,9 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         createExcelBehavior({}),
         createEditBehavior({})
         ],
-        chartLibraryAdapter: rechartsAdapter,
-        adapter:materialAdapter,
-        nodePropsFunction:materialNodePropsFunction(theme),
+        chartLibraryAdapter: rechartsAdapter({}),
+        adapter:getMuiAdapter(),
+        nodePropsFunction:muiNodePropsFunction(theme),
 
         eventBus: {
             onFilterDistinctValuesRequested: (col: ColumnOptions) => {

@@ -163,9 +163,9 @@ function Dashboard() {
                 <option value="ant">Ant</option>
                 <option value="none">None</option>
             </select>
-            {/* Chart Adapter Type: <select value={chartAdapter} onChange={(e) => setChartAdapter(e.target.value as any)}>
+             {/* Chart Adapter Type: <select value={chartAdapter} onChange={(e) => setChartAdapter(e.target.value as any)}>
                 <option value="highcharts">Highcharts</option>
-                <option value="none">None</option>
+                <option value="recharts">Recharts</option>
             </select> */}
         </div>
         <main className="display-area">

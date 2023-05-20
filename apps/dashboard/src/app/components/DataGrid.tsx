@@ -1,16 +1,21 @@
 
-import { useTheme } from "@mui/material";
+import { TextField, useTheme } from "@mui/material";
 import * as ExcelJS from "exceljs";
 import pkg from 'file-saver';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { ReactDataGridOptions, ReactDataGrid, getEditOptions, getFilterOptions, createMultiSelectFilterOptions, createSelectEditorOptions } from "@ezgrid/grid-react";
-import { createFilterBehavior, createEditBehavior, GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions, createColumn, resolveExpression } from "@ezgrid/grid-core";
+import { ReactDataGridOptions, ReactDataGrid, getEditOptions, getFilterOptions, createMultiSelectFilterOptions, createSelectEditorOptions, FilterBuilder, ChartBuilder, FormulaColumnEditor } from "@ezgrid/grid-react";
+import { createFilterBehavior, createEditBehavior, GridOptions, ColumnOptions, PdfBehavior, PdfBehaviorOptions, itemToLabel, Behaviors, ExcelBehavior, ExcelBehaviorOptions, createColumn, resolveExpression, VirtualTreeNode } from "@ezgrid/grid-core";
 import { useMemo } from "react";
 import {ADAPTERS, AdapterType, ChartAdapterType} from "../dashboard/adapter";
 import { muiAdapter, muiNodePropsFunction } from "@ezgrid/grid-adapter-mui";
 import { antAdapter } from "@ezgrid/grid-adapter-ant";
 import {highchartsAdapter} from "@ezgrid/grid-adapter-highcharts";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { rechartsAdapter } from "@ezgrid/grid-adapter-recharts";
 const { saveAs } = pkg;
 
 
@@ -27,6 +32,20 @@ export const createBehaviors = ()=> [createFilterBehavior({}),
     createExcelBehavior({ cellsBeforeBody, cellsAfterBody }),
     createEditBehavior({  })
 ]
+export const getMuiAdapter = () => muiAdapter(
+    {
+        createDateField: ({value, onChange}) => <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                value={value}
+                onChange={(newValue) => {
+                    const oDate = resolveExpression(newValue, "$d");
+                    onChange?.(oDate || newValue);
+                }}
+                renderInput={(params) => <TextField autoFocus {...params} variant="standard" />}
+            />
+        </LocalizationProvider>
+    }
+)
 export const DataGrid = <T=unknown>(props: ReactDataGridOptions<T>) => {
     const theme = useTheme();
     const { gridOptions, style, ref,  ...rest } = props;
@@ -35,11 +54,11 @@ export const DataGrid = <T=unknown>(props: ReactDataGridOptions<T>) => {
         gridOptions: {
             ...gridOptions,
             behaviors: createBehaviors(),
-            adapter: ADAPTERS.grid === AdapterType.MUI? muiAdapter : ADAPTERS.grid === AdapterType.ANT? antAdapter : undefined,
+            adapter: ADAPTERS.grid === AdapterType.MUI? getMuiAdapter() : ADAPTERS.grid === AdapterType.ANT? antAdapter({}) : undefined,
             nodePropsFunction: ADAPTERS.grid === AdapterType.MUI? muiNodePropsFunction(theme) : undefined,
-            chartLibraryAdapter : ADAPTERS.chart === ChartAdapterType.HIGHCHARTS? highchartsAdapter : undefined,
+            chartLibraryAdapter : /*ADAPTERS.chart === ChartAdapterType.HIGHCHARTS? highchartsAdapter({}) : */rechartsAdapter({}),
         },
-        style: { ...style, minHeight: "500px" },
+        style: { ...style, minHeight: "200px" },
 
     }), [gridOptions, theme,ADAPTERS.grid,ADAPTERS.chart]);
     return <ReactDataGrid {...newProps} ref={ref as any} />;

@@ -2,10 +2,10 @@ import { ApiContext, ColumnOptions, ColumnWidthMode, createColumn, createFilterB
 import { createDateFilterOptions, createMultiSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
 import { Autocomplete, MenuItem, Select, Slider, TextField, useTheme } from "@mui/material";
 import { FC, ReactNode, useMemo, useRef, useState } from "react";
-import { muiAdapter, muiNodePropsFunction } from "@ezgrid/grid-adapter-mui";
 import Employee from "../mockdata/Employee";
 import { MaterialWrapper } from "./material/material-wrapper";
-import { DataGrid } from "../components/DataGrid";
+import { DataGrid, getMuiAdapter } from "../components/DataGrid";
+import { muiAdapter } from "@ezgrid/grid-adapter-mui";
 
 export const MaterialFilterDemo = () => <MaterialWrapper demo={<FilterOptions />} />;
 const PhoneNumberFilter: FC<RendererProps<Employee>> = ({ node }) => {
@@ -14,6 +14,7 @@ const PhoneNumberFilter: FC<RendererProps<Employee>> = ({ node }) => {
     const areaCodeRef = useRef<HTMLInputElement>(null);
     const prefixRef = useRef<HTMLInputElement>(null);
     const suffixRef = useRef<HTMLInputElement>(null);
+    const adapter = getMuiAdapter();
 
     let areaCode = "", prefix = "", suffix = "";
     if (filterValue) {
@@ -30,9 +31,9 @@ const PhoneNumberFilter: FC<RendererProps<Employee>> = ({ node }) => {
         }
     };
     return <div className="ezgrid-dg-toolbar-section" style={{ width: "100%", }}>
-        <div>{muiAdapter.createTextField({ placeholder: "Area Code", ref: areaCodeRef, defaultValue: areaCode, onChange: handleChange }) as ReactNode}</div>
-        <div>{muiAdapter.createTextField({ placeholder: "Prefix", ref: prefixRef, defaultValue: prefix, onChange: handleChange }) as ReactNode}</div>
-        <div>{muiAdapter.createTextField({ placeholder: "Suffix", ref: suffixRef, defaultValue: suffix, onChange: handleChange }) as ReactNode}</div>
+        <div>{adapter.createTextField({ placeholder: "Area Code", ref: areaCodeRef, defaultValue: areaCode, onChange: handleChange }) as ReactNode}</div>
+        <div>{adapter.createTextField({ placeholder: "Prefix", ref: prefixRef, defaultValue: prefix, onChange: handleChange }) as ReactNode}</div>
+        <div>{adapter.createTextField({ placeholder: "Suffix", ref: suffixRef, defaultValue: suffix, onChange: handleChange }) as ReactNode}</div>
     </div >;
 };
 const FilterOptions = () => {
@@ -40,14 +41,11 @@ const FilterOptions = () => {
     const theme = useTheme();
     const [data] = useState<Employee[]>(Employee.getAllEmployees());
     const anniversaryRef = useRef<string>("Select");
-    const [usemuiAdapter, setUsemuiAdapter] = useState(true);
     const gridOptions = useMemo<GridOptions<Employee>>(() => ({
         dataProvider: data,
         uniqueIdentifierOptions: {
             useField: "employeeId"
         },
-        adapter: usemuiAdapter ? muiAdapter : undefined,
-        nodePropsFunction: usemuiAdapter ? muiNodePropsFunction(theme): undefined,
         headerRowHeight: 100,
         filterRowHeight: 100,
         toolbarHeight: 100,
@@ -70,21 +68,6 @@ const FilterOptions = () => {
         toolbarOptions: {
             enableGlobalSearch: false,
             enableQuickFind: false,
-
-            leftToolbarRenderer: () => (
-                <div className="ezgrid-dg-toolbar-section">
-                  <button
-                    onClick={() => {
-                      setUsemuiAdapter(!usemuiAdapter);
-                    }}
-                  >
-                    Toggle MUI Adapter
-                  </button>
-                </div>
-              ),
-            
-
-
             rightToolbarRenderer: ({ node }) => {
                 const options = [DateRangeType.Today, DateRangeType.ThisWeek, DateRangeType.ThisMonth,
                 DateRangeType.NextWeek, DateRangeType.NextMonth, DateRangeType.LastWeek,
@@ -230,6 +213,6 @@ const FilterOptions = () => {
             }
 
         ]
-    }), [data, usemuiAdapter, theme]);
+    }), [data, theme]);
     return <DataGrid style={{ height: "100%", width: "100%" }} gridOptions={gridOptions}/>;
 };
