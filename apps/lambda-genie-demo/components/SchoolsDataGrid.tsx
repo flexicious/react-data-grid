@@ -1,12 +1,16 @@
 
 import { ColumnOptions, createEditBehavior, createFilterBehavior, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
-import { createMultiSelectFilterOptions, FilterBuilder, getFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
+import { ChartBuilder, createMultiSelectFilterOptions, FilterBuilder, FormulaColumnEditor, getFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { GridConfig } from "../shared/lambda-genie/config-bindings";
 import { createPdfBehavior, createExcelBehavior } from "@ezgrid/grid-export";
-import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
+// import { muiAdapter, muiNodePropsFunction } from "@ezgrid/grid-adapter-mui";
+import { rechartsAdapter } from "@ezgrid/grid-adapter-recharts";
 import { useTheme } from "@mui/material";
+import { materialAdapter , 
+    materialNodePropsFunction  } from "@ezgrid/grid-shared";
+
 export const distinctValueColumns = [
     "schools.CDSCode",
     "schools.StatusType",
@@ -94,6 +98,8 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         serverInfo: response,
         toolbarOptions: {
             filterBuilderRenderer: ({ node }) => <FilterBuilder node={node} />,
+            chartBuilderRenderer: ({ node }) => <ChartBuilder node={node} />,
+            addFormulaColumnRenderer: ({ node }) => <FormulaColumnEditor node={node} />,
             enableGlobalSearch: false,
             enableExcel: true,
             enablePdf: true,
@@ -111,8 +117,9 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         createExcelBehavior({}),
         createEditBehavior({})
         ],
-        adapter: materialAdapter,
-        nodePropsFunction: materialNodePropsFunction(theme),
+        chartLibraryAdapter: rechartsAdapter,
+        adapter:materialAdapter,
+        nodePropsFunction:materialNodePropsFunction(theme),
 
         eventBus: {
             onFilterDistinctValuesRequested: (col: ColumnOptions) => {

@@ -1,7 +1,7 @@
 import { CheckBoxState, ElementProps, GridCheckBoxProps, GridIconButton, GridMenuProps, LibraryAdapter, resolveExpression, TreeNodeType, VirtualTreeNode } from "@ezgrid/grid-core";
 import {
     AddCircle, ArrowBack, ArrowForward, Cancel, ChevronRight, ContentPaste, CopyAll, DeleteOutline, DoneOutline, Edit, ExpandLess, ExpandMore, FileDownload, FilterAlt, FilterList, FirstPage, GridView, LastPage, PictureAsPdf, RemoveCircle, RestartAlt, Save, Settings,
-    UnfoldLess, UnfoldMore, Addchart, EditRoad
+    UnfoldLess, UnfoldMore, Addchart, EditRoad, AddRoad
 } from "@mui/icons-material";
 import { Button, Checkbox, Divider, IconButton, List, MenuItem, Select, TextField, Theme } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -209,6 +209,8 @@ export const materialAdapter: LibraryAdapter = {
             return generateIcon(<CopyAll />, props, textAndIcon);
         } else if (icon === GridIconButton.Paste) {
             return generateIcon(<ContentPaste />, props, textAndIcon);
+        } else if (icon === GridIconButton.FormulaColumn) {
+            return generateIcon(<AddRoad />, props, textAndIcon);
         }
 
         return { props };
