@@ -1,13 +1,13 @@
-import { createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridOptions, GridSelectionMode, LockMode, VirtualTreeNode } from "@ezgrid/grid-core";
+import { ApiContext, ColumnOptions, createColumn, createDragColumn, createSelectionColumn, DateRangeType, FilterOperation, FooterOperation, GRID_CONSTANTS, GridOptions, GridSelectionMode, LockMode, VirtualTreeNode } from "@ezgrid/grid-core";
 import { ChartBuilder, createDateFilterOptions, createMultiSelectFilterOptions, createNumericRangeFilterOptions, createSelectFilterOptions, createTextInputFilterOptions, createTriStateCheckBoxFilterOptions, FilterBuilder, FormulaColumnEditor, ReactDataGrid, SelectionCheckBoxHeaderRenderer, SelectionCheckBoxRenderer } from "@ezgrid/grid-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DataGrid } from "../components/DataGrid";
 import FlexiciousMockGenerator from "../mockdata/FlexiciousMockGenerator";
 import LineItem from "../mockdata/LineItem";
 
 export const SingleLevel = () => {
-
     const [isLoading, setIsLoading] = useState(false);
+    const apiRef = useRef<ApiContext<LineItem> | null>(null);
     const [data, setData] = useState<LineItem[]>([]);
     useEffect(() => {
         setIsLoading(true);
@@ -25,6 +25,11 @@ export const SingleLevel = () => {
         uniqueIdentifierOptions: {
             useField: "id"
         },
+        eventBus: {
+            onApiContextReady: (ctx) => {
+                apiRef.current = ctx;
+            },
+        },
         enablePaging: true,
         selectionMode: GridSelectionMode.MultipleRows,
         toolbarOptions: {
@@ -38,6 +43,8 @@ export const SingleLevel = () => {
             settingsStorageKey: "line-items-grid"
         },
         columns: [
+            ...(apiRef.current?.api?.getFormulaColumns()  || []) as ColumnOptions<LineItem>[],
+
             {
                 ...createDragColumn(),
                 lockMode: LockMode.Left,
@@ -56,7 +63,11 @@ export const SingleLevel = () => {
                 },
                 width: 125,
                 textAlign: "center",
-                filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith)
+                filterOptions: {
+                    ...createTextInputFilterOptions(FilterOperation.BeginsWith),
+                    enableAutoComplete: true,
+                    filterTriggerEvent: "onEnterKey",
+                }
             },
             {
                 ...createColumn("invoice.hasPdf", "boolean", "Pdf?"),
