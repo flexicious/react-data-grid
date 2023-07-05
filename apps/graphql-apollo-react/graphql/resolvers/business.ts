@@ -51,9 +51,9 @@ export const BusinessResolver = {
 
         const filterDistinctValues: Record<string, NameValue[]> = {};
         for (const column of distinctValueColumns || []) {
-          const values = `select distinct ${column} from businesses ${noPagingWhereClause}`;
+          const values = `select distinct ${column.dataField} from businesses ${noPagingWhereClause}`;
           const dbValues = await getRowsFromSqlite(getDb(), values, noPagingParams);
-          filterDistinctValues[column] = dbValues.map((value: unknown) => ({ name: (value as any)[column], value: (value as any)[column] }));
+          filterDistinctValues[column.dataField] = dbValues.map((value: unknown) => ({ name: (value as any)[column.dataField], value: (value as any)[column.dataField] })).filter(nv=>nv.name);
         }
         response.filterDistinctValues = filterDistinctValues;
       }

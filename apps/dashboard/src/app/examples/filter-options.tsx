@@ -109,6 +109,7 @@ export const FilterOptions = () => {
             }
             , {
                 ...createColumn("annualSalary", "currency", "Annual Salary - Custom Filter"),
+                width:150,
                 filterOptions: {
                     filterOperation: FilterOperation.Between,
                     filterRenderer: ({ node }) => {

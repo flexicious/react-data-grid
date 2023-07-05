@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
+    "configurations": [
+      {
+        "name": "nextjs-knex-react",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "npx",
+        "runtimeArgs": [
+          "nx",
+          "run",
+          "nextjs-knex-react:serve",
+          "-r",
+          "ts-node/register",
+          "-r",
+          "tsconfig-paths/register"
+        ],
+        "protocol": "inspector",
+        "outputCapture": "std",
+        "internalConsoleOptions": "openOnSessionStart",
+        "console": "internalConsole",
+        "env": {
+          "TS_NODE_IGNORE": "false",
+          "TS_NODE_PROJECT": "${workspaceFolder}/apps/nextjs-knex-react/tsconfig.json"
+        },
+        "cwd": "${workspaceFolder}/apps/nextjs-knex-react/"
+      }
+    ]
+  }

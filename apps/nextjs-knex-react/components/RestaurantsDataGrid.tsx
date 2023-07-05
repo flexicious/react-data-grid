@@ -1,4 +1,4 @@
-import { createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowType, ServerInfo, VirtualTreeNode } from "@ezgrid/grid-core";
+import { ColumnOptions, createColumn, createEditBehavior, createFilterBehavior, FilterOperation, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, FooterOperation, GridOptions, NodeKeys, RowType, ServerInfo, VirtualTreeNode } from "@ezgrid/grid-core";
 import { createExcelBehavior, createPdfBehavior } from "@ezgrid/grid-export";
 import { createMultiSelectFilterOptions, createNumericRangeFilterOptions, createTextInputFilterOptions, EMPTY_COL_PROPS, ReactDataGrid } from "@ezgrid/grid-react";
 import { materialAdapter, materialNodePropsFunction } from "@ezgrid/grid-shared";
@@ -8,6 +8,82 @@ import { useEffect, useMemo, useState } from "react";
 import { Business, Inspection, Violation } from "../shared/types";
 
 export const RestaurantsDataGrid = () => {
+    const columns:ColumnOptions[] =[
+        {
+            ...createColumn("name", "string", "Name"),
+            filterOptions: createMultiSelectFilterOptions(),
+            enableHierarchy:true,
+        },
+        {
+            ...createColumn("business_id", "number", "Business_id", "business_id"),
+            filterOptions: createTextInputFilterOptions(FilterOperation.Equals),
+            formatterPrecision: 0,
+            width: 100,
+            textAlign: "right"
+        },
+        {
+            ...createColumn("TaxCode", "string", "Tax Code"),
+            filterOptions: createMultiSelectFilterOptions()
+        },
+        {
+            ...createColumn("inspection_count", "number", "Inspection Count"),
+            width: 100,
+            footerOptions:{footerLabel: "Total: "},
+            formatterPrecision: 0,
+            textAlign: "right"
+        },
+        {
+            ...createColumn("violation_count", "number", "Violation Count"),
+            footerOptions:{footerLabel: "Total: "},
+            width: 100,
+            formatterPrecision: 0,
+            textAlign: "right"
+        },
+        {
+            ...createColumn("address", "string", "Address"),
+            filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
+        },
+        {
+            ...createColumn("city", "string", "City"),
+            filterOptions: createMultiSelectFilterOptions()
+        },
+        {
+            ...createColumn("postal_code", "number", "Postal_code"),
+            filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
+        },
+        {
+            ...createColumn("latitude", "number", "Latitude"),
+            filterOptions: createNumericRangeFilterOptions(),
+        },
+        {
+            ...createColumn("longitude", "number", "Longitude"),
+            filterOptions: createNumericRangeFilterOptions(),
+        },
+        {
+            ...createColumn("business_certificate", "number", "Business_certificate"),
+            filterOptions: createNumericRangeFilterOptions(),
+        },
+        {
+            ...createColumn("owner_name", "string", "Owner_name"),
+            filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
+        },
+        {
+            ...createColumn("owner_address", "number", "Owner_address"),
+            filterOptions: createNumericRangeFilterOptions(),
+        },
+        {
+            ...createColumn("owner_city", "string", "Owner_city"),
+            filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
+        },
+        {
+            ...createColumn("owner_state", "string", "Owner_state"),
+            filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
+        },
+        {
+            ...createColumn("owner_zip", "number", "Owner_zip"),
+            filterOptions: createNumericRangeFilterOptions(),
+        }
+    ]
     const [loading, setLoading] = useState<boolean>(true);
     const [childLoading, setChildLoading] = useState<boolean>(false);
     const [request, setRequest] = useState<FilterPageSortArguments>();
@@ -23,9 +99,9 @@ export const RestaurantsDataGrid = () => {
     useEffect(() => {
         //Initial load
         setRequest({
-            distinctValueColumns: initialLoadDistinctValueColumns,
+            distinctValueColumns: columns.filter(c=>initialLoadDistinctValueColumns.indexOf(c.uniqueIdentifier)>-1) || [],
             filter: { children: [] },
-            pagination: { pageSize: 100, currentPage: 1 },
+            pagination: { pageSize: 50, currentPage: 1 },
             reason: FilterPageSortChangeReason.InitialLoad,
         });
     }, [initialLoadDistinctValueColumns]);
@@ -143,82 +219,7 @@ export const RestaurantsDataGrid = () => {
         },
         isLoading: loading,
         uniqueIdentifierOptions,
-        columns: [
-            {
-                ...createColumn("name", "string", "Name"),
-                filterOptions: createMultiSelectFilterOptions(),
-                enableHierarchy:true,
-            },
-            {
-                ...createColumn("business_id", "number", "Business_id", "business_id"),
-                filterOptions: createTextInputFilterOptions(FilterOperation.Equals),
-                formatterPrecision: 0,
-                width: 100,
-                textAlign: "right"
-            },
-            {
-                ...createColumn("TaxCode", "string", "Tax Code"),
-                filterOptions: createMultiSelectFilterOptions()
-            },
-            {
-                ...createColumn("inspection_count", "number", "Inspection Count"),
-                width: 100,
-                footerOptions:{footerLabel: "Total: "},
-                formatterPrecision: 0,
-                textAlign: "right"
-            },
-            {
-                ...createColumn("violation_count", "number", "Violation Count"),
-                footerOptions:{footerLabel: "Total: "},
-                width: 100,
-                formatterPrecision: 0,
-                textAlign: "right"
-            },
-            {
-                ...createColumn("address", "string", "Address"),
-                filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
-            },
-            {
-                ...createColumn("city", "string", "City"),
-                filterOptions: createMultiSelectFilterOptions()
-            },
-            {
-                ...createColumn("postal_code", "number", "Postal_code"),
-                filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
-            },
-            {
-                ...createColumn("latitude", "number", "Latitude"),
-                filterOptions: createNumericRangeFilterOptions(),
-            },
-            {
-                ...createColumn("longitude", "number", "Longitude"),
-                filterOptions: createNumericRangeFilterOptions(),
-            },
-            {
-                ...createColumn("business_certificate", "number", "Business_certificate"),
-                filterOptions: createNumericRangeFilterOptions(),
-            },
-            {
-                ...createColumn("owner_name", "string", "Owner_name"),
-                filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
-            },
-            {
-                ...createColumn("owner_address", "number", "Owner_address"),
-                filterOptions: createNumericRangeFilterOptions(),
-            },
-            {
-                ...createColumn("owner_city", "string", "Owner_city"),
-                filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
-            },
-            {
-                ...createColumn("owner_state", "string", "Owner_state"),
-                filterOptions: createTextInputFilterOptions(FilterOperation.Wildcard),
-            },
-            {
-                ...createColumn("owner_zip", "number", "Owner_zip"),
-                filterOptions: createNumericRangeFilterOptions(),
-            }
-        ]
+        columns
     } as GridOptions<Business|Violation|Inspection>), [response, loading, uniqueIdentifierOptions]);
 
     return (<>

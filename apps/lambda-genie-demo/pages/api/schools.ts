@@ -64,14 +64,14 @@ const handler = async (
         //get footer values
         if ((reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) && (visibleColumns?.length || 0)) {
             const footerValues: Record<string, string> = {};
-            const visibleNumericColumns = visibleColumns.filter((column) => numericColumns.find((col) => col.dataField === column));
-            const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column}) as "${column}"`).join(",")}`;
+            const visibleNumericColumns = visibleColumns.filter((column) => numericColumns.find((col) => col.dataField === column.dataField));
+            const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column.dataField}) as "${column.dataField}"`).join(",")}`;
             // console.log("selectClause", params);
             const footerResult = await getDataFromPostgres(`${selectClause} ${fromClause} ${noPagingWhereClause}`, params);
             for (const column of visibleNumericColumns || []) {
-                const result = footerResult[0][column] || footerResult[0][column.toLowerCase()];
+                const result = footerResult[0][column.dataField] || footerResult[0][column.dataField.toLowerCase()];
                 if (result)
-                    footerValues[column] = `Avg: ${formatCurrency(result)}`;
+                    footerValues[column.dataField] = `Avg: ${formatCurrency(result)}`;
             }
             response.footerValues = footerValues;
         }
@@ -79,11 +79,11 @@ const handler = async (
         if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterDistinctValuesRequested) {
             const filterDistinctValues: Record<string, NameValue[]> = {};
             for (const column of distinctValueColumns || []) {
-                const table = column.split(".")[0];
-                const col = column.split(".")[1];
+                const table = column.dataField.split(".")[0];
+                const col = column.dataField.split(".")[1];
                 const values = `select distinct ${col} from ${table} `;
                 const dbValues = await getDataFromPostgres(values, []);
-                filterDistinctValues[column] = dbValues.map((value: unknown) => ({ name: (value as any)[col] || (value as any)[col.toLowerCase()], value: (value as any)[col] || (value as any)[col.toLowerCase()] }));
+                filterDistinctValues[column.dataField] = dbValues.map((value: unknown) => ({ name: (value as any)[col] || (value as any)[col.toLowerCase()], value: (value as any)[col] || (value as any)[col.toLowerCase()] }));
             }
             response.filterDistinctValues = filterDistinctValues;
         }

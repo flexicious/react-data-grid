@@ -1,5 +1,5 @@
 
-import { ColumnOptions, createEditBehavior, createFilterBehavior, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, GridSelectionMode, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
+import { ColumnOptions, createEditBehavior, createFilterBehavior, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, GridSelectionMode, nullifyParent, resolveExpression, ServerInfo } from "@ezgrid/grid-core";
 import { ChartBuilder, createMultiSelectFilterOptions, FilterBuilder, FormulaColumnEditor, getFilterOptions, ReactDataGrid } from "@ezgrid/grid-react";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
@@ -65,7 +65,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         useField: "schools.CDSCode",
     }), []);
     const initialLoadDistinctValueColumns = useMemo(() => [], []);//Which distinct values preload, and which are loaded on demand.
-    const visibleColumns = useMemo(() => (gridColumnConfig || []).filter((c) => !c.hidden).map((c) => c.dataField), [gridColumnConfig]);
+    const visibleColumns = useMemo(() => (gridColumnConfig || []).filter((c) => !c.hidden).map((c) => c), [gridColumnConfig]);
     const cols = useMemo(() => gridColumnConfig?.map(c => {
         if (typeof c.format === "string") {
             c.filterOptions = getFilterOptions({ type: c.format });
@@ -79,8 +79,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         //Initial load
         setRequest({
             distinctValueColumns: initialLoadDistinctValueColumns,
-            filter: { children: [] },
-            pagination: { pageSize: 100, currentPage: 1 },
+            pagination: { pageSize: 50, currentPage: 1 },
             visibleColumns,
             reason: FilterPageSortChangeReason.InitialLoad,
         });
@@ -92,6 +91,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
         const getServerInfo = async (request: FilterPageSortArguments) => {
             if (request.reason !== FilterPageSortChangeReason.FilterDistinctValuesRequested)
                 setLoading(true);
+            nullifyParent(request.visibleColumns)
             const response = await axios.post<ServerInfo>("/api/schools", request);
             const newResponse = response.data;
             setResponse(s => {
@@ -144,7 +144,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
             onFilterDistinctValuesRequested: (col: ColumnOptions) => {
                 setRequest({
                     ...request,
-                    distinctValueColumns: [col.dataField],
+                    distinctValueColumns: [col],
                     reason: FilterPageSortChangeReason.FilterDistinctValuesRequested
                 });
                 return true;

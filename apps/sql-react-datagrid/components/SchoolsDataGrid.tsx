@@ -21,13 +21,13 @@ export const SchoolsDataGrid = () => {
         useField: "schools.CDSCode",
     }), []);
     const initialLoadDistinctValueColumns = useMemo(() => [], []);//Which distinct values preload, and which are loaded on demand.
-    const visibleColumns = useMemo(() => columns.filter((c) => !c.hidden).map((c) => c.dataField), [columns]);
+    const visibleColumns = useMemo(() => columns.filter((c) => !c.hidden).map((c) => c), [columns]);
     useEffect(() => {
         //Initial load
         setRequest({
             distinctValueColumns: initialLoadDistinctValueColumns,
             filter: { children: [] },
-            pagination: { pageSize: 100, currentPage: 1 },
+            pagination: { pageSize: 50, currentPage: 1 },
             visibleColumns,
             reason: FilterPageSortChangeReason.InitialLoad,
         });
@@ -78,7 +78,7 @@ export const SchoolsDataGrid = () => {
             onFilterDistinctValuesRequested: (col: ColumnOptions) => {
                 setRequest({
                     ...request,
-                    distinctValueColumns: [col.dataField],
+                    distinctValueColumns: [col],
                     reason: FilterPageSortChangeReason.FilterDistinctValuesRequested
                 });
                 return true;

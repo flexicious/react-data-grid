@@ -47,14 +47,14 @@ const handler = async (
         //get footer values
         if ((reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterChanged) && (visibleColumns?.length || 0)) {
             const footerValues: Record<string, string> = {};
-            const visibleNumericColumns = visibleColumns.filter((column) => numericColumns.find((col) => col.dataField === column));
-            const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column}) as '${column}'`).join(",")}`;
+            const visibleNumericColumns = visibleColumns.filter((column) => numericColumns.find((col) => col.dataField === column.dataField));
+            const selectClause = `select ${visibleNumericColumns.map((column) => `avg(${column.dataField}) as '${column.dataField}'`).join(",")}`;
             console.log("selectClause", params);
             const footerResult = await getRowsFromSqlite(getDb(), `${selectClause} ${fromClause} ${noPagingWhereClause}`, params);
             for (const column of visibleNumericColumns || []) {
-                const result  = footerResult[0][column];
+                const result  = footerResult[0][column.dataField];
                 if(result)
-                footerValues[column] = `Avg: ${formatCurrency(footerResult[0][column])}`;
+                footerValues[column.dataField] = `Avg: ${formatCurrency(footerResult[0][column.dataField])}`;
             }
             response.footerValues = footerValues;
         }
@@ -62,11 +62,11 @@ const handler = async (
         if (reason === FilterPageSortChangeReason.InitialLoad || reason === FilterPageSortChangeReason.FilterDistinctValuesRequested) {
             const filterDistinctValues: Record<string, NameValue[]> = {};
             for (const column of distinctValueColumns || []) {
-                const table = column.split(".")[0];
-                const col = column.split(".")[1];
+                const table = column.dataField.split(".")[0];
+                const col = column.dataField.split(".")[1];
                 const values = `select distinct ${col} from ${table} `;
                 const dbValues = await getRowsFromSqlite(getDb(), values, []);
-                filterDistinctValues[column] = dbValues.map((value: unknown) => ({ name: (value as any)[col], value: (value as any)[col] }));
+                filterDistinctValues[column.dataField] = dbValues.map((value: unknown) => ({ name: (value as any)[col], value: (value as any)[col] }));
             }
             response.filterDistinctValues = filterDistinctValues;
         }

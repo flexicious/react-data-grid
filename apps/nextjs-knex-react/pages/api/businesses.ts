@@ -51,15 +51,15 @@ const handler = async (
         }
         if (reason === FilterPageSortChangeReason.InitialLoad) {
             const distinctValues: [column: string, values: NameValue[]][] = await Promise.all((distinctValueColumns || []).map(async (column) => {
-                const values = await buildKnexQuery(knex("businesses").distinct(column).select(column), { filter });
+                const values = await buildKnexQuery(knex("businesses").distinct(column.dataField).select(column.dataField), { filter });
                 return [
-                    column,
+                    column.dataField,
                     values.map((value: unknown) => {
                         return {
-                            name: resolveExpression(value, column),
-                            value: resolveExpression(value, column)
+                            name: resolveExpression(value, column.dataField),
+                            value: resolveExpression(value, column.dataField)
                         }
-                    })
+                    }).filter(nv => nv.name)
                 ]
             }));
             response.filterDistinctValues = keyValueArrayToObject(distinctValues);

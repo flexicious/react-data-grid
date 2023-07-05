@@ -97,8 +97,9 @@ input ExpansionInput {
 }
 
 input FilterPageSortArguments {
-  distinctValueColumns: [String!]
-  visibleColumns: [String!]
+  distinctValueColumns: [JSON!]
+  visibleColumns: [JSON!]
+  groupFields: [JSON!]
   filter: FilterInput
   pagination: PaginationRequestInput
   sorts: [SortInfoInput!]

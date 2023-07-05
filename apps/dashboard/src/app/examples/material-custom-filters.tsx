@@ -132,6 +132,7 @@ const FilterOptions = () => {
                 filterOptions: createTextInputFilterOptions(FilterOperation.BeginsWith),
             }, {
                 ...createColumn("annualSalary", "currency", "Annual Salary - Custom Filter"),
+                width:150,
                 filterOptions: {
                     filterOperation: FilterOperation.Between,
                     filterRenderer: ({ node }) => {
