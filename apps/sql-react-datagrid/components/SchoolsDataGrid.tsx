@@ -1,5 +1,5 @@
 
-import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo, createEditBehavior, createFilterBehavior } from "@ezgrid/grid-core";
+import { ColumnOptions, FilterPageSortArguments, FilterPageSortChangeReason, FilterPageSortLoadMode, GridOptions, ServerInfo, createEditBehavior, createFilterBehavior, nullifyParent } from "@ezgrid/grid-core";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { frpmNewColumns, initialVisibleColumnsFields, satScoreColumns, schoolColumns } from "../../../libs/grid-shared/src/lib/shared/types";
@@ -91,6 +91,7 @@ export const SchoolsDataGrid = () => {
                 });
             },
             onExportPageRequested: async (args) => {
+                nullifyParent(args.visibleColumns);
                 const result = await axios.post<ServerInfo>("/api/schools", args);
                 return result.data.currentPageData || [];
             },

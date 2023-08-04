@@ -157,6 +157,7 @@ export const SchoolsDataGrid = (props: SchoolsDataGridProps) => {
                 });
             },
             onExportPageRequested: async (args) => {
+                nullifyParent(args.visibleColumns);
                 const result = await axios.post<ServerInfo>("/api/schools", args);
                 return result.data.currentPageData || [];
             },
