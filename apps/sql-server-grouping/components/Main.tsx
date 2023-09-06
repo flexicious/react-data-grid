@@ -18,7 +18,7 @@ export const Main = () => {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            California School SAT Performance and Poverty Data Sample with NextJS, Raw SQL, React, and Material-UI
+            Sample datagrid with Server grouping - built with NextJS, SQLite, EZGrid. 
           </Typography>
         </Toolbar>
       </AppBar>
